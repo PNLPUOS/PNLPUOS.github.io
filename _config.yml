@@ -1,3 +1,13 @@
 theme: jekyll-theme-cayman
 title: Practical NLP with deepsight GmbH
 description: Documentation for the study project 'Practical NLP' at Universität Osnabrück
+docs:
+
+- title: Introduction
+  url: introduction.html
+
+- title: Configuration
+  url: configuration.html
+
+- title: Deployment
+  url: deployment.html
