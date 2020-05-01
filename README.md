@@ -1,5 +1,4 @@
-# Project Overview
-Documentation for the project 'Practical NLP'
+# Sections
 
 - [Project Overview](https://pnlpuos.github.io/overview)
 - [Data Preparation](https://pnlpuos.github.io/data-preparation)
