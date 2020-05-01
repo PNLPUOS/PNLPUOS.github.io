@@ -1,9 +1,7 @@
 <p align="center">
-  vjcjckjkfkdj
+  <a href="https://pnlpuos.github.io/overview">Overview</a><br>
+  <a href="https://pnlpuos.github.io/data-preparation">Data Preparation</a><br>
+  <a href="https://pnlpuos.github.io/topic-modeling">Topic Modeling</a><br>
+  <a href="https://pnlpuos.github.io/sentiment-analysis">Sentiment Analysis</a><br>
+  <a href="https://pnlpuos.github.io/outcome">Outcome and Reflection</a><br>
 </p>
-
-- [Project Overview](https://pnlpuos.github.io/overview)
-- [Data Preparation](https://pnlpuos.github.io/data-preparation)
-- [Topic Modeling](https://pnlpuos.github.io/topic-modeling)
-- [Sentiment Analysis](https://pnlpuos.github.io/sentiment-analysis)
-- [Outcome and Reflection](https://pnlpuos.github.io/outcome)
