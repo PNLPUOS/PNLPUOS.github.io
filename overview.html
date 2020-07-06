@@ -20,7 +20,83 @@ permalink: overview
 
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/UOS%2Bdeepsight.png" alt="...">
-  <h3>A Joint Venture</h3>
+  <h3>Foreword</h3>
   This project began as a cooperative study project between students at the University of Osnabrück and deepsight GmbH.
-  The goals of the project ...
+  The goals of the project were to implement a natural language processing pipeline optimized to the analysis of short,
+  open comments such as those found in employee survey data. It is common to include open-response questions with employee surveys
+  as these questions provide additional incentive for employees to express their satisfaction relevant to topics 
+  of concern which may not be known to the surveying department. However, these questions pose an additional challenge
+  to analysis given that the responses are necessarily unstructured. In this project, we develop an end-to-end solution
+  for analysis of short texts via document clustering and sentiment analysis of clustered documents.
+</p>
+<p>
+  <h3>Approach</h3>
+  To provide focused reporting on employee satisfaction relevant to topics of recurrent interest, we employ a 
+  document clustering approach to identify topics of interest, and then analyse the sentiment distribution within
+  each topic via sentiment classification. Document clustering is a common NLP task for information retrieval and
+  text classification, and as such there exist a variety of available algorithms and tuning methods for achieving
+  interpretable clusters of documents. (*) Further information on our document clustering approach can be found
+  in the <a href="https://pnlpuos.github.io/topic-modeling">Topic Modeling</a><a>&emsp;</a> section of this
+  report. 
+<p>
+  Sentiment classification is a common NLP task which poses sufficient difficulty given our domain and the brevity
+  of comments for which we aim to identify sentiment. Given these challenges, approaches such as keyword identification
+  do not produce consistently satisfactory results. In the end, our approach to sentiment classification involves a 
+  custom-trained recursive neural network model trained on twitter data. Further information on our sentiment classification
+  approach can be found in the <a href="https://pnlpuos.github.io/sentiment-analysis">Sentiment Analysis</a><a>&emsp;</a>
+  section of this report.
+</p>
+<p>
+  Our document clustering and sentiment analysis methods depend on the features extracted from pretrained word embeddings, which 
+  are sensitive to spelling errors and unnecessary characters. Because of this, we employ several preprocessing stages to 
+  render the original data, while also filtering for undesired tokens such as stop words and highly-frequent words. Further 
+  information on the preprocessing methods we employ can be found in the <a href="https://pnlpuos.github.io/data-preparation">Data Preparation</a><a>&emsp;</a>
+  section of this report.
+</p>
+  The end-to-end open-comment analysis pipeline are summarized by the following diagram.<br> (insert diagram here)
+</p>
+<p>
+  <h3>Organization</h3>
+  The project was organized into two main phases: an initial, exploratory phase in which we employed a modified agile methodology
+  to manage the initial testing of available approaches, and subsequently a less-structured development and integration period
+  which saw us implement, optimize, and integrate the various steps of the aforementioned pipeline. 
+</p>
+<p>
+  During the exploratory phase of the project, we followed a modified agile project management methodology with condensed sprint
+  reviews and retrospectives. Further information on the exact methods employed can be found in the ... This exploratory phase was
+  important to identify unsuccessful approaches and refine the end goals of the project before beginning development proper. In the 
+  subsequent development phase, the project group was reorganized into three sub-groups each responsible for one of the three main
+  sections of the analysis pipeline represented in this report. Through a series of sub-group-led workshops, the project group
+  coordinated on the continued development and integration of the pipeline components, culminating in the finished deliverable. 
+  Further information on sub-group presentations can be found below. 
+</p>
+<p>
+  The project timeline and main phases are summarized by the following diagram. <br> (insert diagram here) 
+</p>
+<p>
+  <h3>Pitfalls</h3>
+  As mentioned, the exploratory project phase was important to identify approaches which proved unsuccessful for our dataset
+  or otherwise infeasible given computational resource constraints or other limitations. For example, given that the document
+  clustering approach depends on the quality of pretrained word embeddings it was critical to evaluate the available word
+  embedding models before continuing with the approach. We tested several pretrained embeddings computed via several algorithms, 
+  including those from Word2Vec and FastText. Further information on the embeddings tested and the final model employed can
+  be found in the <a href="https://pnlpuos.github.io/topic-modeling">Topic Modeling</a><a>&emsp;</a> section of the report.
+  Likewise, we first implemented a custom-trained transformer model for sentiment classification, but found this approach to be
+  too computationally costly. Finally, for spell correction we originally implemented a wrapper for the string-matching algorithm
+  developed by Peter Norvig, but found this approach to be too destructive, leading us to develop a proprietary spell correction
+  algorithm based on pretrained word embeddings. Additional information on the outcome of successful methods is found in the
+  <a href="https://pnlpuos.github.io/outcome">Outcome and Reflection</a><a>&emsp;</a> section of this report.
+</p>
+<p>
+  <h3>Presentations</h3>
+  - link to sections of relevance
+  - pictures for slides and then we link to the presentations
+</p>
+
+<p>
+    <h3>References</h3>
+  - Steinbach, Michael, George Karypis, and Vipin Kumar. "A comparison of document clustering techniques." 2000.
+  - Word2Vec
+  - FastText
+  - pyspellcheck
 </p>
