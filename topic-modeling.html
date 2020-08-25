@@ -165,7 +165,74 @@ permalink: topic-modeling
 
 <p>
   <h3>Grid Search</h3>
-  ...
+    <h4>The algorithm</h4>
+      <body>
+        In general a grid searach is nothing else then successively trying out
+        different function input parameter configurations then measure the
+        performance for each configuration with a predefined score and
+        maximizing this score to get the best possible setting for the undelying
+        problem. The name grid search comes from the visualization in which each
+        of the configurations can be seen as a node of a grid in a high
+        dimensional vector space (e.g. a cube in a 3-dimensional parameter
+        space).
+      </body>
+
+      <h4>Our approach</h4>
+      <body>
+        The general definition of grid search is scanning the data to configure the
+        optimal parameters for a model. In our topic model approach this means
+        something slightly different namely finding the best parameters for the
+        different components occuring in the topic modeling pipeline
+        (e.g. normalization, dimensionality reduction, clustering).<br><br>
+        To implement a smooth and dynamic grid search process we had to adjust
+        our undelying pipeline architecture in a very standardized but also
+        flexible way. This means we gave ever component function the fixed
+        structure which requires the data, the name of the used algorithm and the
+        parameter configuration. With this structure it is very easy to switch
+        drop out specific components or for our case it was very easy to call the
+        functions in sequence for the grid search.<br>
+        For the actual process we implemented a <b> pipeline </b> variable (Image 1)
+        which is basicly a python dictionary which contains all information about the
+        grid search components. So it is built up with all different functions
+        and a bunch of input parameters which then make the grid: <br><br>
+        <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/pipeline.png" alt="...">
+        <br>
+        Image 1: Add normalization, dimensionality reduction and clustering
+        algorithm to the pipeline.
+        <br><br>
+        The acutal grid search was implemented in a very dynamic way fitting the
+        pipeline structure. Therefore, it is very easy to a pipeline component
+        by adding it to the pipeline variable with the required information.
+        This process is possible due to providing the python function for example
+        for the clustering algorithm as a kind of object variable so it can just be
+        iterated through these successive components. Surely, they have to be
+        designed in a way that previous functions output suits the input of the
+        upcoming one.<br>
+        The score we tried to optimize by our grid search is the so called
+        <b>silhouette score</b> which tries to measure how close the points of
+        one cluster are compared to the distance between the different clusters.
+        By optimizing this score we found the best parameter configuration which
+        we could set as default for out topic modeling pipeline. Additionally,
+        only for a cross check we also took the number of outliars into account.
+      </body>
+
+      <h4>Logging</h4>
+        <body>
+          Running a grid search without logging the information you get during
+          the process is abolutely pointless. Therefore, we paired up each
+          configuration with the associated scores and saved them. To make these
+          information accessable for everyone and guarantee saving at least a
+          partition of the outcome even the grid search fails at any point we
+          decided to sent the found pairs to our Mongo data base. With the help
+          of the pyhton library <b>pymongo</b> it was extremely easy to set up
+          a connection to the data base, creating a python dictionary with all
+          important information and then store it in grid search collection.
+          The library automatically converts the python dictionary to a MongoDB
+          object. Additionally, we implement some sort of wrapper for a smoother
+          handling of the information in the data base. This wrapper allowed us
+          to write, delete and search for data base objects so that we can
+          extract the information about the best configurations again.
+        </body>
 <p>
   ...
 </p>
