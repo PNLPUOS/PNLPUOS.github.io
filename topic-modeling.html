@@ -264,9 +264,132 @@ permalink: topic-modeling
 </p>
 </p>
 
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
 <p>
-  <h3>Analysis of Grid Search Logs</h3>
-  ...
+	<h3>Analysis of the Grid Search Logs</h3>
+	<h4>Our Approach</h4>
+	In addition to figuring out the best configurations from the grid search descriptively we analyzed the grid search logs by means of a multiple regression analysis in order to assess how much the different parameters  contribute to the silhouette score. The six predictors entered in the regression were parameters of the grid search defining the functioning of the UMAP dimensionality reduction algorithm and the hdbscan clustering algorithm. For both algorithms their metric (canberra/cosine/euclidean and canberra/euclidean, respectively) was entered as a predictor. Additionally, for UMAP the number of neighbours and the spread were taken into account and for hdbscan the minimum cluster size as well as the minimum number of samples. All predictors are treated as categorical data as only a few distinct values of the normally continuous parameters could be taken into account during the grid search because of the limited computational power available. <br>
+As the grid search was run twice, once for the pipeline based on Fasttext embeddings and the other time based on BERT embeddings, two analyses were conducted and are presented separately. Our goal with both analyses was to find a straightforward solution employing only predictors with a high contribution to the explained variance while nevertheless explaining as much variance as possible. The dependent variable is the silhouette score, the outliers were not included as a dependent variable. However, in order to reduce noise in the data, we excluded results with more than 10% outliers from the analyses. Additionally, results presenting more than 375 clusters were also excluded, as such a high number of clusters seemed unreasonable given our input data.
+</p>
+<p>
+        <h4>Results with Fasttext embeddings</h4>
+        We identified a model employing the ordinary least squares (OLS) technique with four predictors and no interactions, all entered as fixed effects, that accounts for 67.24% of the variance in our data (<I>F</I>(5, 624) = 259.9, <I>p</I> < 0.001, R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729). The results suggest that a combination of the cosine metric for UMAP, a higher number of neighbors for UMAP and a higher cluster size as well as a smaller number of samples for the hdbscan clustering algorithm are advisable in order to get a high silhouette score (<I>Table 1</I>).
+	<br><br>
+	<I>Table 1: Results of the multiple regression analysis.<br>
+	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01 &nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+	R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729 <br>
+	AIC = -2532.875 </I><br>
+        <table>    
+  		<tr>
+    			<th> </th>
+    			<th>Estimate</th> 
+    			<th>Std.Error</th>
+			<th>t-value</th>
+  		</tr>
+  		<tr>
+   			<td>Intercept</td>
+    			<td>-0.19768</td>
+    			<td>0.00463</td>
+			<td>-42.731 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: metric cosine</td>
+    			<td>0.08805</td>
+    			<td>0.00314</td>
+			<td>28.080 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: metric euclidean</td>
+    			<td>0.02838</td>
+    			<td>0.00314</td>
+			<td>9.050 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: number of neighbors</td>
+    			<td>0.00105</td>
+    			<td> 0.00010 </td>
+			<td>10.267 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>hdbscan: min cluster size</td>
+    			<td>0.00068</td>
+    			<td>0.00004</td>
+			<td>17.929 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>hdbscan: min number of samples</td>
+    			<td>-0.00102</td>
+    			<td>0.00033</td>
+			<td>-3.085 &nbsp&nbsp**</td>
+  		</tr>
+	</table>
+</p>
+<p>
+	<h4>Results with BERT embeddings</h4>
+	For the grid search logs that were generated using the pipeline with BERT embeddings the results look different. As the precondition of homoscedasticity was not satisfied, we employed a regression with the generalised least squares technique (GLS). The best model here comprises three predictors and one interaction, all entered as fixes effects. The implied advice here is to use the euclidean metric for both algorithms and additionally have a higher minimum cluster size for the hdbscan algorithm (<I>Table 2</I>).
+	<br><br>
+	<I>Table 2: Results of the multiple regression analysis.<br>
+	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01 &nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+	AIC = -1186.359 BIC = -1147.218 logLik = 601.1795 </I><br>
+        <table>
+  		<tr>
+    			<th> </th>
+    			<th>Value</th> 
+    			<th>Std.Error</th>
+			<th>t-value</th>
+  		</tr>
+  		<tr>
+   			<td>Intercept</td>
+    			<td>-0.10262</td>
+    			<td>0.01211</td>
+			<td>-8.474 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: metric cosine</td>
+    			<td>0.00123</td>
+    			<td>0.01415</td>
+			<td>0.087 &nbsp&nbsp n.s.</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: metric euclidean</td>
+    			<td>0.04785</td>
+    			<td>0.014146</td>
+			<td>3.383 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>hdbscan: metric euclidean</td>
+    			<td>0.05686</td>
+    			<td>0.01412</td>
+			<td>4.026 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>hdbscan: min cluster size</td>
+    			<td>0.00163</td>
+    			<td>0.00012</td>
+			<td>14.117 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>Interaction: UMAP metric cosine x hdbscan metric euclidean</td>
+    			<td>-0.02125</td>
+    			<td>0.01999</td>
+			<td>-1.063 &nbsp&nbsp n.s.</td>
+  		</tr>
+  		<tr>
+    			<td>Interaction: UMAP metric euclidean x hdbscan metric euclidean</td>
+    			<td>0.16369</td>
+    			<td>0.01997</td>
+			<td>8.195 &nbsp&nbsp***</td>
+  		</tr>
+	</table>
+</p>
+<p>
+	<h4>Conclusion</h4>
+	Both regressions imply simple advice on how to optimize the configurations in the pipeline, nevertheless there are limitations to these results. Most importantly, as from a theoretical point of view only a certain range of the number of clusters was to be expected, the results of a grid search where the possible number of clusters would be limited to the sensible range could add more insights. Furthermore, the regression models do not fit the data perfectly, which can partly be explained by the noise in the original data.
 <p>
   ...
 </p>
