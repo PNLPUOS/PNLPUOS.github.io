@@ -10,7 +10,7 @@ Sentiment analysis is a text classification task, in which the goal is to analyz
 As described in the <a href="https://pnlpuos.github.io/data-preparation">Data Preparation</a> section, our dataset contains open answers to an employee survey about what goes well and not so well at a company. Looking at the comments we could derive a set of criteria that was necessary for the approach we chose:
 <ul>
 
-<li><b>scalability</b> - while the current dataset only contained x comments, we want our approach to be able to handle much larger amounts of data as well</li>
+<li><b>scalability</b> - while the current dataset only contained 17,672 comments, we want our approach to be able to handle much larger amounts of data as well</li>
 <li><b>transferability</b> - we want to be able to perform sentiment analysis on various topics and types of text</li>
 <li><b>achieve best performance</b> with minimal labeled data</li>
 </ul>
@@ -29,7 +29,7 @@ Support Vector Machines (SVM) is one non-neural-network approach that we conside
 
 <p>
     
-When it comes to neural-network approaches, there are many to choose from: for the task of SA the most popular ones are Recurrent Neural Networks (RNN), regular and hybrid Convolutional Neural Networks (CNN) (Wang et. al, 2016), Transformers [add paper], as well as many combinations of the previously mentioned ones and lexicon-based techniques. [cite] 
+When it comes to neural-network approaches, there are many to choose from: for the task of SA the most popular ones are Recurrent Neural Networks (RNN) (Zhang et al, 2018), regular and hybrid Convolutional Neural Networks (CNN) (Wang et al, 2016), Transformers, as well as many combinations of the previously mentioned ones and lexicon-based techniques. 
 </p>
 <p>
     We had two specific goals in mind: one was to implement and fine-tune a NN ourselves, and the second one to use an out-of-the-box approach and see how they compare in performance. For these reasons we settled on two architectures: an LSTM which incorporates lexical features, and the BERT approach (Bidirectional Encoder Representations) as a way of experimenting with transfer learning. 
@@ -60,7 +60,7 @@ The manual labeling was performed by three of the group members, who annotated 3
 This bias is obvious in the data as well: the answers are highly contextual, and the sentiment can hardly be identified without considering the question. For examask into sentiment recognition (identifying a set of emotion tags in a text e.g. sadness, angeple, an answer like “customer support“ could be either positive if given to question 1(<i></i>“What is working well?”</i>), or negative if given to question 2 (<i>“What needs to be improved?</i>”). 
 </p>
 <figure>
-  <img src="label_dist.png" alt="Label distribution" style="width:100%">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/label_dist.png" alt="Label distribution" style="width:100%">
   <figcaption>Fig.1 - The distribution of the three labels in our dataset</figcaption>
 </figure>
 <p>
@@ -99,31 +99,42 @@ LSTMs contain a memory cell that can store information for longer periods of tim
 As a result, they have been used as state-of-the-art models in numerous sequence learning tasks, such as time series prediction, but also part of speech-tagging and text classification.
 </p>
 <figure>
-  <img src="pic_trulli.jpg" alt="LSTM cell" style="width:100%">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_cell.png" alt="LSTM cell" style="width:100%">
   <figcaption>Fig.1 - the structure of an LSTM cell</figcaption>
 </figure>
 
 <p>
 However, one issue with the typical LSTM structure is that it considers all input data to be sequential. In order to to retain the option of including non-sequential features, such as numerical or lexical features, we opted for a hybrid approach which takes two inputs (fig. 2)
 </p>
+
+<figure>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/architecture.png" alt="LSTM architecture" style="width:100%">
+  <figcaption>Fig.2 - the model architecture </figcaption>
+</figure>
+
 <p>
 The left-hand side takes the processed text input and uses an embedding matrix to generate word embeddings which are then passed to the LSTM cell.
 The right-hand side is a simple neural network architecture with a couple of dense layers that deals with the numerical features. After the LSTM adjusts the weights of our sequential data the output is concatenated with the remaining features.
 </p>
 
 
-
-<h4>Word Embeddings</h4>
-Word Embeddings are a language modeling tool where words are mapped to vectors of real numbers. They are excellent building blocks for a neural network, because unlike, for example, an ngram-based language model, they can represent text without losing important sequential information.
-[incomplete]
-
+<h4>Sentiment Lexicon</h4> 
+<p>
+The most promising numerical feature we implemented was based on a sentiment lexicon. We mention lexicon-based approaches previously, as we point out that they lag behind machine learning approaches in perfomance by themselves. However, we found lexicon-driven features to be an excellent way to augment our model. 
+</p>
+<p>
+    Our features are based on the SentiWords sentiment lexicon (Gatti et. al, 2016), which contains approximately 155.000 words, along with a sentiment score ranging from -1 to 1. These scores were used to create cumulative positive and negative ratings of each comment. Additionally we included the number of both positive and negative words contained in the comment. Because the dataset we had is generally very opinionated, this proved to be a good way to gauge the overall disposition of the text.
+   </p> 
 <h3>Discussion</h3>
 <p>
 In this section we will summarize the performance of both approaches we used, as well as discuss some obstacles we encountered in the process of performing Sentiment Analysis. 
 
 The accuracy of the models generated for each approach can be found in the table below (note: the models that were trained for only one question were evaluated on their performance on that question only).
 </p>
-[table]
+<figure>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/classification_accuracy.png" alt="Results" style="width:100%">
+  <figcaption>Table 1 - The classification accuracy of both architectures </figcaption>
+</figure>
 <p>
 Looking at the accuracy of both architectures, the LSTM performed marginally better on the given dataset. However, while the results were more or less similar, the difference in computation speed between BERT and LSTM were considerable. 
 Even when using the smallest available model at the time, the classification process of the whole dataset using the BERT approach was so computationally expensive it took multiple hours. In contrast, the LSTM can classify the entire dataset in less than 15 minutes.
@@ -144,6 +155,7 @@ In addition, more training data is always better. However, labeling data with se
 
 R. Liu, Y. Shi, C. Ji and M. Jia, "A Survey of Sentiment Analysis Based on Transfer Learning," in IEEE Access, vol. 7, pp. 85401-85412, 2019, doi: 10.1109/ACCESS.2019.2925059. <br>
 Chen, Long-Sheng & Liu, Cheng-Hsiang & Chiu, Hui-Ju, 2011. "A neural network based approach for sentiment classification in the blogosphere," Journal of Informetrics, Elsevier, vol. 5(2), pages 313-322. <br>
+Zhang, L., Zhou, Y., Duan, X., & Chen, R. (2018). A Hierarchical multi-input and output Bi-GRU Model for Sentiment Analysis on Customer Reviews. <br>
 Wang, Jin & Yu, Liang-Chih & Lai, K. & Zhang, Xuejie. (2016). Dimensional Sentiment Analysis Using a Regional CNN-LSTM Model. 225-230. 10.18653/v1/P16-2037. <br> 
 E. Cambria, "Affective Computing and Sentiment Analysis," in IEEE Intelligent Systems, vol. 31, no. 2, pp. 102-107, Mar.-Apr. 2016, doi: 10.1109/MIS.2016.31. <br>
 Sanh, V., Debut, L., Chaumond, J., & Wolf, T. (2019). DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter. ArXiv, abs/1910.01108. <br>
@@ -154,3 +166,4 @@ Devlin, Jacob & Chang, Ming-Wei & Lee, Kenton & Toutanova, Kristina. (2018). BER
 aswani, Ashish & Shazeer, Noam & Parmar, Niki & Uszkoreit, Jakob & Jones, Llion & Gomez, Aidan N. & Kaiser, Lukasz & Polosukhin, Illioa. (2017). Attention is all you need. <br>
 Munikar, Manish & Shakya, Sushil & Shrestha, Aakash. (2019). Fine-grained Sentiment Classification using BERT.
 Hochreiter, Sepp & Schmidhuber, Jürgen. (1997). Long Short-term Memory. Neural computation. 9. 1735-80. 10.1162/neco.1997.9.8.1735. 
+Gatti, L., Guerini, M., & Turchi, M. (2016). SentiWords: Deriving a high precision and high coverage lexicon for sentiment analysis. IEEE Transactions on Affective Computing, 7(4), 409-421
