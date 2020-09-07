@@ -5,6 +5,10 @@ permalink: topic-modeling
 <head>
   <style>
     h4 {text-align: center;}
+    img.center {
+    display: block;
+    margin: 0 auto;
+    }
   </style>
 </head>
 
@@ -92,7 +96,7 @@ permalink: topic-modeling
   document vectors. Clearly, the clusters are not clearly separable.
 </p>
 <p>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-badclusters.png" alt="..." width="500">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-badclusters.png" alt="..." width="500", class="center">
 </p>
 <p>
   It has been shown that weighting embeddings via smoothed term frequency can
@@ -102,7 +106,7 @@ permalink: topic-modeling
   The SIF weighting equation for a single word is demonstrated below:
 </p>
 <p>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-sif.png" alt="..." width="50">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-sif.png" alt="..." width="200" class="center">
 </p>
 <p>
   where <i>a</i> denotes an arbitrary normalization constant of approximately 1e-5, and <i>p(w)</i>
@@ -119,13 +123,13 @@ permalink: topic-modeling
   With this modification, the weighting equation for single words in our
   averaged document vectors becomes <br>
 <p>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-siftfidf.png" alt="..." width="50">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-siftfidf.png" alt="..." width="200" class="center">
 </p>
 <p>
   where <i>w</i> for a term <i>i</i> in document <i>j</i> denotes<br>
 </p>
 <p>
-  <img src="https://www.link-assistant.com/images/news/tf-idf-tool-for-seo/screen-03.png" alt="...">
+  <img src="https://www.link-assistant.com/images/news/tf-idf-tool-for-seo/screen-03.png" alt="..." class="center" width="200">
 </p>
 <p>
   The resulting weighting scheme produces satisfactory clusterings when qualitatively
@@ -135,7 +139,7 @@ permalink: topic-modeling
   to generate more meaningfully-distinct document vector representations.
 </p>
 <p>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-goodclusters.png" alt="..." width="50">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-goodclusters.png" alt="..." width="500" class="center">
 </p>
 <p>
   <h3>Dimensionality Reduction</h3>
