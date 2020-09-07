@@ -29,31 +29,35 @@ permalink: topic-modeling
   Analysis</a>. However, it must be admitted that this approach is not the
   most-common method for achieving the task of topic modeling, and we below
   provide an overview of the task of topic modeling to contextualize the
-  subsequent deep-dive into our methodology. <br>
-
-  <a>&emsp;</a>Topic modeling is the natural language processing (NLP) task of identifying
+  subsequent deep-dive into our methodology.
+</p>
+<p>
+  Topic modeling is the natural language processing (NLP) task of identifying
   representative groups of topics in a text dataset. In other words, when
   provided a set of documents, an effective topic modeling will demonstrate
   'what the documents are about.' Given that we implement a topic modeling
   pipeline for reporting on open employee survey comments, reasonable topics
   identified by a successful modeling may include topics such as <i>salary</i>,
-  <i>teamwork</i>, etc. <br>
-
-  <a>&emsp;</a>There exist two main approaches to the topic modeling task: statistical
+  <i>teamwork</i>, etc.
+</p>
+<p>
+  There exist two main approaches to the topic modeling task: statistical
   topic model approaches and document clustering approaches. We briefly
   describe the statistical approach before investigating our methods.
+</p>
 
 <p>[SUBIR]</p>
 
 <p>
-  <a>&emsp;</a>We employ a document clustering approach given our academic interest in
+  We employ a document clustering approach given our academic interest in
   exploring the applications of pretrained word embeddings coupled with
   traditional cluster analyses. Furthermore, we ignore supervised approaches
   such as document classification because these are unsuitable for our task
   given the requirement that the pipeline be able to dynamically-identify
-  new topics potentially unrepresented in a training set. <br>
-
-  <a>&emsp;</a>The document clustering approach requires that we first transform the
+  new topics potentially unrepresented in a training set.
+</p>
+<p>
+  The document clustering approach requires that we first transform the
   unstructured comment data into numerical features before
   performing a cluster analysis on the feature-engineered documents. After
   feature-engineering we obtain document vectors for which we perform a
@@ -62,71 +66,67 @@ permalink: topic-modeling
   image summarizes the topic modeling pipeline as implemented in our
   codebase.
 </p>
-
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/pipeline-topics.png" alt="...">
 </p>
-</p>
-
 <p>
   <h3>Document Vectorization</h3>
   While it is a trivial task to obtain word vectors from pretrained neural word embedding models
   such as word2vec or FastText, it is challenging to devise a methodology for converting these
   word-level vectors into a normalized document representation which still encodes the
-  semantic information of the document's concatenated tokens. <br>
-
-  <a>&emsp;</a>Many solutions to the problem of document vectorization leverage the
+  semantic information of the document's concatenated tokens.
+</p>
+<p>
+  Many solutions to the problem of document vectorization leverage the
   demonstrated <i>compositionality</i> of obtained word embeddings, i.e. the behavior that
   larger blocks of information such as phrases can be represented by the vector manipulation of
   embedding constituents. [1] Due to this property of trained word embeddings, one can negotiate
   vector operations such as addition to superficially 'combine' the semantic information
-  encoded in individual tokens into a document representation. <br>
-
-  <a>&emsp;</a>A naïve solution for obtaining a document vector is the simple average of
+  encoded in individual tokens into a document representation.
+</p>
+<p>
+  A naïve solution for obtaining a document vector is the simple average of
   embedding vectors constituting a document. As an initial approach, we employed this method
   for obtaining document vectors, but the resulting clusterings did not yield optimal results.
   The figure below demonstrates a sample clustering on FastText vectors averaged to obtain
-  document vectors. Clearly, the clusters are not clearly separable. <br>
+  document vectors. Clearly, the clusters are not clearly separable.
 </p>
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-badclusters.png" alt="...">
 </p>
-
 <p>
-  <a>&emsp;</a>It has been shown that weighting embeddings via smoothed term frequency can
+  It has been shown that weighting embeddings via smoothed term frequency can
   improve performance on text similarity tasks without the need for additional training data. [3]
   Because of these findings, we opted to implement additional functionality for computing the
   smooth-inverse-frequency (SIF) weighted average of word embeddings as a document representation.
-  The SIF weighting equation for a single word is demonstrated below: <br>
+  The SIF weighting equation for a single word is demonstrated below:
 </p>
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-sif.png" alt="...">
 </p>
-
 <p>
   where <i>a</i> denotes an arbitrary normalization constant of approximately 1e-5, and <i>p(w)</i>
   denotes the word's frequency. Nevertheless, preliminary evaluations showed that this baseline,
   although effective for text similarity, did not generalize well to the creation of document
-  vectors which performed effectively for document clustering. <br>
-  <a>&emsp;</a>Inspired by reserch into effective document representations for twitter sentiment
+  vectors which performed effectively for document clustering.
+</p>
+<p>
+  Inspired by reserch into effective document representations for twitter sentiment
   analysis, a domain which is somewhat comparable to ours given similarities between twitter
   texts and our short, focused comments, we opted to integrate into the SIF weighted average the
   Term-Frequency-Inverse-Document-Frequency (TFIDF) measure as a replacement for the value <i>p(w)</i>,
-  as was found to be itself effective as a weighting schema for document vectors. [4, 5] <br>
-  <a>&emsp;</a>With this modification, the weighting equation for single words in our
+  as was found to be itself effective as a weighting schema for document vectors [4, 5].
+  With this modification, the weighting equation for single words in our
   averaged document vectors becomes <br>
-</p>
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-siftfidf.png" alt="...">
 </p>
-
 <p>
   where <i>w</i> for a term <i>i</i> in document <i>j</i> denotes<br>
 </p>
 <p>
   <img src="https://www.link-assistant.com/images/news/tf-idf-tool-for-seo/screen-03.png" alt="...">
 </p>
-
 <p>
   The resulting weighting scheme produces satisfactory clusterings when qualitatively
   compared with other approaches. Seen below, a sample clustering with increased
@@ -137,8 +137,6 @@ permalink: topic-modeling
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-goodclusters.png" alt="...">
 </p>
-</p>
-
 <p>
   <h3>Dimensionality Reduction</h3>
   ...
@@ -152,11 +150,11 @@ permalink: topic-modeling
 	<h4>Introduction<h4>
 		<p>
 			Clustering is a method where similar or similar properties of data points are group together
-			Given a set of dataset points, we can just use a clustering algorithm to search for pattern in the 
-			given scenario, finding similarities within the data and group them together. 
+			Given a set of dataset points, we can just use a clustering algorithm to search for pattern in the
+			given scenario, finding similarities within the data and group them together.
 			<br>
 			<br>
-			Clustering Algorithm can be divided into Four types : 
+			Clustering Algorithm can be divided into Four types :
 			<ul>
 			  <li>Flat and Centroid based</li>
 			  <li>Flat and Density based</li>
@@ -166,17 +164,17 @@ permalink: topic-modeling
 			<br>
 			<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/clustering_types.png" alt="...">
 			<br>
-			
+
 			The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
 		</p>
 	<h4>HDBSCAN</h4>
 		<p>
 		HDBSCAN works on DBSCAN, DBSCAN has two parameters that are : epsilon and min-points. epsilon is radius of a circle, which enclose data points, and if data points inside 'eps'(epsilon) radius are above K(min-points) then the circle considered as Dense Circle. In HDBSCAN, the parameter min-points are passed and fixed for DBSCAN, and different epsilon radius circle are drawn, and then HDBSCAN algorithm looks for the smaller eps value which accomodate min-points. And that eps value considered as dense. The circles get merged using Probability density function and using distance metrics <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#transform-the-space"> Mutual Rechability Distance </a> components get connected forming <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#build-the-minimum-spanning-tree">minimum spanning tree</a>. Next step in HDBSCAN is to convert MST into the hierarchy of connected components, using sorting of edges of MST which is also converted in Dendogram. HDBSCAN takes a parameter minimum cluster size, to eradicate clusters that has lower data points than minimum cluster size. Afterwards, HDBSCAN takes another parameter which acts as threshold which cut out the condensed dendogram, the maximum points in the hierarchy considered as clusters. For more info see here <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#extract-the-clusters">Cluster Extraction </a>
-		
-		
+
+
 		</p>
-	
-		
+
+
   ...
 </p>
 </p>
@@ -284,10 +282,10 @@ As the grid search was run twice, once for the pipeline based on Fasttext embedd
 	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01 &nbsp;&nbsp;&nbsp;'*' 0.05 <br>
 	R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729 <br>
 	AIC = -2532.875 </I><br>
-        <table>    
+        <table>
   		<tr>
     			<th> </th>
-    			<th>Estimate</th> 
+    			<th>Estimate</th>
     			<th>Std.Error</th>
 			<th>t-value</th>
   		</tr>
@@ -339,7 +337,7 @@ As the grid search was run twice, once for the pipeline based on Fasttext embedd
         <table>
   		<tr>
     			<th> </th>
-    			<th>Value</th> 
+    			<th>Value</th>
     			<th>Std.Error</th>
 			<th>t-value</th>
   		</tr>
