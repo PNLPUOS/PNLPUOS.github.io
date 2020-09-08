@@ -141,12 +141,51 @@ permalink: topic-modeling
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-goodclusters.png" alt="..." width="500" class="center">
 </p>
+
 <p>
-  <h3>Dimensionality Reduction</h3>
-  ...
-<p>
-  ...
-</p>
+<h3> Dimensionality Reduction </h3>
+<h4> Dealing with High Dimensional Datasets </h4>
+
+When we work with natural language, we often have to deal with a large amount of data. If such a dataset also contains many different variables, we speak of a so-called high dimensional dataset. For a lot of scientific tasks such high dimensional datasets are a welcome basis, but as Spiderman's uncle might say <i>„with high dimensional datasets comes the great curse of dimensionality"</I>. Working with large data sets entails problems, such that it requires a lot of time and space complexity, it often leads to overfitting, not all the features in the given data set might be relevant to our problem and, due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomena that occurs when working with high dimensional data. With the curse of dimensionality we’re facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
+
+<ul>
+<li><b>Data Sparsity </b><br>
+the volume of the represented space grows quicker than the data and thus becomes sparse
+<br> —> this is a problem if we want to derive some statistical significance from the data <br><br>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..."><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small></li><br>
+
+<li><b>Closeness of the data </b><br>
+in low dimensional spaces, data may seem very close but the higher the dimension the further these data points may seem to be
+<br> —> distances of objects seem to be different when changing perspectives </li>
+<br>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Closeness_Data.png" alt="..."><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small><br></li>
+</ul>
+
+In other words: when the number of features or dimensions grow, the amount of data we need to generalize accurately grows exponentially. That makes common data organization strategies become inefficient. <br><br>
+
+<h4> Dimensionality Reduction Techniques </h4>
+There is a trick that helps us to organize, reduce and visualize such large amounts of data: it’s called dimensionality reduction. Dimensionality reduction is about discovering non-linear and non-local relationship in a given high dimensional data set. By reducing the dimensions we can reduce noise in the data which in turn makes it easier to apply simple learning algorithms. In our project, we are applying the following two dimensionality reduction techniques:
+
+<ul>
+<li><b> Principle Component Analysis (PCA) </b><br>
+PCA is the most tried linear dimensionality reduction technique. It transforms existing variables into a new set of variables, which are a linear combination of the original variables and finally converts the correlations among all of the features into a 2D-Graph. What we can see after applying PCA is that features that are highly correlated cluster together whereas the differences along the first principal component axis are more important than the differences along the second principal component.  <br><br></li>
+
+<li><b> Uniform - Manifold Approximation and Projection (UMAP)</b><br>
+UMAP is a non-linear dimensionality reduction technique with a solid mathematical background. Its algorithm balances between emphasizing local versus global structure. After first modeling a blurry topological structure of the high dimensional set it is searching for a low dimensional projection that is closest to it.  <br></li>
+</ul><br>
+
+
+<h4> Results </h4>
+In our pipeline we are applying both dimensionality reduction techniques: first PCA and following UMAP. Doing so we expected to get an improved computation time and to obtain a less noisy dataset.
+
+<ul>
+<li><i> running dimensionality reduction only with UMAP (without PCA)</I> <br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_Reduction.png" alt="..."><br><br></li>
+
+<li> <i>running dimensionality reduction with UMAP and PCA</I>
+<br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_without_PCA" alt="..."><br><br></li>
+
+
+Our expectation in obtaining a less noisy dataset by applying both algorithms has been fulfilled. We can see the difference by looking at the first picture which is a plot of the dataset after only applying UMAP, in contrast to the second picture where we can see a plot of the dataset after applying PCA and UMAP in combination. The output is more precise and structured. These results supported our approach.
 </p>
 
 <p>
