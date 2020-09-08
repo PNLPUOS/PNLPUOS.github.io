@@ -152,13 +152,13 @@ When we work with natural language, we often have to deal with a large amount of
 <li><b>Data Sparsity </b><br>
 the volume of the represented space grows quicker than the data and thus becomes sparse
 <br> —> this is a problem if we want to derive some statistical significance from the data <br><br>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..."><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small></li><br>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small></li><br>
 
 <li><b>Closeness of the data </b><br>
 in low dimensional spaces, data may seem very close but the higher the dimension the further these data points may seem to be
 <br> —> distances of objects seem to be different when changing perspectives </li>
 <br>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Closeness_Data.png" alt="..."><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small><br></li>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Closeness_Data.png" alt="..." width="300" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small><br></li>
 </ul>
 
 In other words: when the number of features or dimensions grow, the amount of data we need to generalize accurately grows exponentially. That makes common data organization strategies become inefficient. <br><br>
@@ -179,10 +179,10 @@ UMAP is a non-linear dimensionality reduction technique with a solid mathematica
 In our pipeline we are applying both dimensionality reduction techniques: first PCA and following UMAP. Doing so we expected to get an improved computation time and to obtain a less noisy dataset.
 
 <ul>
-<li><i> running dimensionality reduction only with UMAP (without PCA)</I> <br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_Reduction.png" alt="..."><br><br></li>
+<li><i> running dimensionality reduction only with UMAP (without PCA)</I> <br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_Reduction.png" alt="..." width="300" class="center"><br><br></li>
 
 <li> <i>running dimensionality reduction with UMAP and PCA</I>
-<br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_without_PCA" alt="..."><br><br></li>
+<br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_without_PCA.png" alt="..." width="300" class="center"><br><br></li>
 
 
 Our expectation in obtaining a less noisy dataset by applying both algorithms has been fulfilled. We can see the difference by looking at the first picture which is a plot of the dataset after only applying UMAP, in contrast to the second picture where we can see a plot of the dataset after applying PCA and UMAP in combination. The output is more precise and structured. These results supported our approach.
