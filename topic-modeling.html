@@ -235,71 +235,68 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
   <h3>Grid Search</h3>
     <h4>The algorithm</h4>
       <body>
-        In general a grid searach is nothing else then successively trying out
-        different function input parameter configurations then measure the
-        performance for each configuration with a predefined score and
-        maximizing this score to get the best possible setting for the undelying
-        problem. The name grid search comes from the visualization in which each
-        of the configurations can be seen as a node of a grid in a high
-        dimensional vector space (e.g. a cube in a 3-dimensional parameter
-        space).
+        In general, a grid search is nothing else than successively trying out 
+	different function input parameter configurations, then measuring the 
+	performance for each configuration with a predefined score. The ultimate 
+	goal is to maximize this score to get the best possible setting for the 
+	underlying problem. The name grid search comes from the visualization in 
+	which each of the configurations can be seen as a node of a grid in a high 
+	dimensional vector space (e.g., a cube in a 3-dimensional parameter space).
       </body>
 
       <h4>Our approach</h4>
       <body>
         The general definition of grid search is scanning the data to configure the
-        optimal parameters for a model. In our topic model approach this means
-        something slightly different namely finding the best parameters for the
-        different components occuring in the topic modeling pipeline
-        (e.g. normalization, dimensionality reduction, clustering).<br><br>
-        To implement a smooth and dynamic grid search process we had to adjust
-        our undelying pipeline architecture in a very standardized but also
-        flexible way. This means we gave ever component function the fixed
-        structure which requires the data, the name of the used algorithm and the
-        parameter configuration. With this structure it is very easy to switch
-        drop out specific components or for our case it was very easy to call the
-        functions in sequence for the grid search.<br>
-        For the actual process we implemented a <b> pipeline </b> variable (Image 1)
-        which is basicly a python dictionary which contains all information about the
-        grid search components. So it is built up with all different functions
-        and a bunch of input parameters which then make the grid: <br><br>
+	optimal parameters for a model. In our topic model approach, this means 
+	something slightly different, namely finding the best parameters for the 
+	different components of the topic modeling pipeline (e.g., 
+	normalization, dimensionality reduction, clustering).<br><br>
+        To implement a smooth and dynamic grid search process, we had to adjust our 
+	underlying pipeline architecture in a very standardized but also flexible 
+	way. To this end, we gave every component function a fixed structure, which 
+	requires as input the data, the name of the used algorithm, and the parameter 
+	configuration. With this structure, it is easy to switch or drop out specific 
+	components, or for our case, it was straightforward to call the functions in 
+	sequence for the grid search.<br>
+        We implemented a <b> pipeline </b> variable (Image 1) for the actual process, 
+        which is basically a python dictionary that contains all information about the 
+	grid search components. So it is built with all different functions and a 
+	bunch of input parameters, which then make the grid: <br><br>
         <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/pipeline.png" alt="...">
         <br>
-        Image 1: Add normalization, dimensionality reduction and clustering
+        Image 1: Adding normalization, dimensionality reduction and clustering
         algorithm to the pipeline.
         <br><br>
-        The acutal grid search was implemented in a very dynamic way fitting the
-        pipeline structure. Therefore, it is very easy to a pipeline component
-        by adding it to the pipeline variable with the required information.
-        This process is possible due to providing the python function for example
-        for the clustering algorithm as a kind of object variable so it can just be
-        iterated through these successive components. Surely, they have to be
-        designed in a way that previous functions output suits the input of the
-        upcoming one.<br>
-        The score we tried to optimize by our grid search is the so called
-        <b>silhouette score</b> which tries to measure how close the points of
-        one cluster are compared to the distance between the different clusters.
-        By optimizing this score we found the best parameter configuration which
-        we could set as default for out topic modeling pipeline. Additionally,
-        only for a cross check we also took the number of outliars into account.
+        The actual grid search was implemented in a highly dynamic way fitting the 
+	pipeline structure. This allows a component to be integrated into the 
+	pipeline by merely adding it to the pipeline variable with the required 
+	information. This process is possible due to providing the python function, for 
+	example, for the clustering algorithm as a kind of object variable in order to 
+	enable simple iterating through these successive components. Surely, they have 
+	to be designed in a way that the previous functions' output suits the input of 
+	the upcoming one.<br>
+        Our grid search aims to optimize the so-called <b>silhouette score</b>, which 
+	measures how close the points of one cluster are compared to the distance 
+	between the different clusters. We found the best parameter configuration by 
+	optimizing this score, which we then set as default for our topic modeling 
+	pipeline. Additionally, for a cross-check, we also took the number of 
+	outliers into account.
       </body>
 
       <h4>Logging</h4>
-        <body>
-          Running a grid search without logging the information you get during
-          the process is abolutely pointless. Therefore, we paired up each
-          configuration with the associated scores and saved them. To make these
-          information accessable for everyone and guarantee saving at least a
-          partition of the outcome even the grid search fails at any point we
-          decided to sent the found pairs to our Mongo data base. With the help
-          of the pyhton library <b>pymongo</b> it was extremely easy to set up
-          a connection to the data base, creating a python dictionary with all
-          important information and then store it in grid search collection.
-          The library automatically converts the python dictionary to a MongoDB
-          object. Additionally, we implement some sort of wrapper for a smoother
-          handling of the information in the data base. This wrapper allowed us
-          to write, delete and search for data base objects so that we can
-          extract the information about the best configurations again.
+      <body>
+        Running a grid search without logging the information you get during the 
+	process is pointless. Therefore, we paired each configuration with the 
+	associated scores. The pairs were sent to our Mongo database to ensure saving 
+	even if the grid search stopped prematurely. Simultaneously, this step 
+	enabled access from remote working stations. With the python library 
+	<b>pymongo</b>, a connection to the database was set up by creating a python 
+	dictionary with all critical information and storing it in a grid search 
+	collection. The library automatically converts the python dictionary to a 
+	MongoDB object. Additionally, we implemented some sort of wrapper for smoother 
+	handling of the information in the database. This wrapper allowed us to write, 
+	delete, and search for database objects so that the best configurations' 
+	information remains accessible at any point.
         </body>
 <p>
   ...
@@ -315,17 +312,45 @@ table, th, td {
 <p>
 	<h3>Analysis of the Grid Search Logs</h3>
 	<h4>Our Approach</h4>
-	In addition to figuring out the best configurations from the grid search descriptively we analyzed the grid search logs by means of a multiple regression analysis in order to assess how much the different parameters  contribute to the silhouette score. The six predictors entered in the regression were parameters of the grid search defining the functioning of the UMAP dimensionality reduction algorithm and the hdbscan clustering algorithm. For both algorithms their metric (canberra/cosine/euclidean and canberra/euclidean, respectively) was entered as a predictor. Additionally, for UMAP the number of neighbours and the spread were taken into account and for hdbscan the minimum cluster size as well as the minimum number of samples. All predictors are treated as categorical data as only a few distinct values of the normally continuous parameters could be taken into account during the grid search because of the limited computational power available. <br>
-As the grid search was run twice, once for the pipeline based on Fasttext embeddings and the other time based on BERT embeddings, two analyses were conducted and are presented separately. Our goal with both analyses was to find a straightforward solution employing only predictors with a high contribution to the explained variance while nevertheless explaining as much variance as possible. The dependent variable is the silhouette score, the outliers were not included as a dependent variable. However, in order to reduce noise in the data, we excluded results with more than 10% outliers from the analyses. Additionally, results presenting more than 375 clusters were also excluded, as such a high number of clusters seemed unreasonable given our input data.
+	In addition to figuring out the best configurations from the grid search 
+	descriptively, we analyzed the grid search logs by means of a multiple 
+	regression analysis to assess how much the different parameters contribute to 
+	the silhouette score. The six predictors entered in the regression were the 
+	grid search parameters defining the functioning of the UMAP dimensionality 
+	reduction algorithm and the hdbscan clustering algorithm. Their metric 
+	(Canberra/Cosine/Euclidean and Canberra/Euclidean, respectively) was entered as 
+	a predictor for both algorithms. Additionally, for UMAP the number of neighbors 
+	and the spread were taken into account, and for hdbscan, the minimum cluster 
+	size and the minimum number of samples. All predictors were treated as 
+	categorical data because only a few distinct values of the usually continuous 
+	parameters could be entered into the grid search due to the limited 
+	computational power available.<br>
+	As the grid search was run twice, once for the pipeline based on Fasttext 
+	embeddings and once based on BERT embeddings, two analyses were conducted and 
+	are presented separately. Our goal with both analyses was to find a 
+	straightforward solution employing only predictors that contribute 
+	substantially to the explained variance while accounting for as much variance 
+	as possible. The dependent variable is the silhouette score; the outliers were 
+	not included as a dependent variable. However, to reduce noise in the data, we 
+	excluded results with more than 10% outliers from the analyses. Additionally, 
+	results presenting more than 375 clusters were also excluded, as such a high 
+	number of clusters seemed unreasonable given our input data.
 </p>
 <p>
         <h4>Results with Fasttext embeddings</h4>
-        We identified a model employing the ordinary least squares (OLS) technique with four predictors and no interactions, all entered as fixed effects, that accounts for 67.24% of the variance in our data (<I>F</I>(5, 624) = 259.9, <I>p</I> < 0.001, R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729). The results suggest that a combination of the cosine metric for UMAP, a higher number of neighbors for UMAP and a higher cluster size as well as a smaller number of samples for the hdbscan clustering algorithm are advisable in order to get a high silhouette score (<I>Table 1</I>).
-	<br><br>
-	<I>Table 1: Results of the multiple regression analysis.<br>
-	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01 &nbsp;&nbsp;&nbsp;'*' 0.05 <br>
-	R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729 <br>
-	AIC = -2532.875 </I><br>
+        We identified a linear model employing the ordinary least squares (OLS) 
+	technique with four predictors and no interactions, that accounts for 67.24% 
+	of the variance in our data (F(5, 624) = 259.9, p < 0.001, R² = 0.6755, 
+	Adjusted R² = 0.6729). According to these results, the best parameter 
+	combination is the Cosine metric, an increased number of neighbors, and larger 
+	cluster size for UMAP, as well as a smaller number of samples for 
+	hdbscan (<I>Table 1</I>). 
+<br><br>
+	<I>Table 1: Results of the multiple regression analysis of the grid search
+	logs based on fasttext embeddings.<br>
+	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01 
+	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+	R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729, AIC = -2532.875 </I><br>
         <table>
   		<tr>
     			<th> </th>
@@ -373,10 +398,18 @@ As the grid search was run twice, once for the pipeline based on Fasttext embedd
 </p>
 <p>
 	<h4>Results with BERT embeddings</h4>
-	For the grid search logs that were generated using the pipeline with BERT embeddings the results look different. As the precondition of homoscedasticity was not satisfied, we employed a regression with the generalised least squares technique (GLS). The best model here comprises three predictors and one interaction, all entered as fixes effects. The implied advice here is to use the euclidean metric for both algorithms and additionally have a higher minimum cluster size for the hdbscan algorithm (<I>Table 2</I>).
+	The results look different for the grid search logs generated using the 
+	pipeline with BERT embeddings. As the precondition of homoscedasticity was not 
+	satisfied, we employed a regression with the generalized least squares 
+	technique (GLS). The best model here comprises three predictors and one 
+	interaction. The implied advice here is to use the Euclidean metric for both 
+	algorithms and increase the minimum cluster size for the hdbscan algorithm 
+	(<I>Table 2</I>).
 	<br><br>
-	<I>Table 2: Results of the multiple regression analysis.<br>
-	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01 &nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+	<I>Table 2: Results of the multiple regression analysis of the grid search logs 
+	based on BERT embeddings.<br>
+	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01 
+	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
 	AIC = -1186.359 BIC = -1147.218 logLik = 601.1795 </I><br>
         <table>
   		<tr>
@@ -431,7 +464,18 @@ As the grid search was run twice, once for the pipeline based on Fasttext embedd
 </p>
 <p>
 	<h4>Conclusion</h4>
-	Both regressions imply simple advice on how to optimize the configurations in the pipeline, nevertheless there are limitations to these results. Most importantly, as from a theoretical point of view only a certain range of the number of clusters was to be expected, the results of a grid search where the possible number of clusters would be limited to the sensible range could add more insights. Furthermore, the regression models do not fit the data perfectly, which can partly be explained by the noise in the original data.
+	Following the results of the regressions, straightforward advice on optimizing 
+	the pipeline can be given; however, this advice's limitations should be 
+	considered in the process. Most importantly, since a reasonable number of 
+	clusters is limited from a theoretical point of view, the results of a 
+	correspondingly limited grid search would likely provide more accurate 
+	insights. Furthermore, the regression models do not fit the data perfectly, 
+	thereby possibly limiting the validity and generalizability of the results. The 
+	noise in the original data can at least partly explain the reduced fit. 
+	To sum, the regression helps to shed light on the parameters that most 
+	decisively contribute to the score; nevertheless they should not lead to the 
+	omission of a close inspection of the configurations.
+ 
 <p>
   ...
 </p>
