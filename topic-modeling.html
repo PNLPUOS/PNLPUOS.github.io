@@ -50,7 +50,106 @@ permalink: topic-modeling
   describe the statistical approach before investigating our methods.
 </p>
 
-<p>[SUBIR]</p>
+<p>Topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core 
+“latent topics” of a large volume of documents. There are 3 types of model typically employed: Latent Semantic 
+Analysis (LSA),  Probabilistic Latent Semantic Analysis (PLSA) and Latent Dirichlet allocation (LDA). LDA proposed 
+by J. K. Pritchard, M. Stephens, and P. Donnelly, generates topics based on word frequency from a set of given documents. 
+It is based upon two assumptions: First, documents with similar words belong to the same topic. Second, documents with groups 
+of words together appear in different documents belongs to the same topic. LDA generalizes well to other documents because of 
+its general approach.
+</p>
+
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:200px;" src='C:/Users/Subir/Desktop/lda_model.png'> </div>
+    <div style="float:left; width:40%;">
+		<p>Figure is known as a plate diagram of an LDA model where:</p>
+		<ul>
+			<li>α is the per-document topic distributions</li>
+			<li>β is the per-topic word distribution</li>
+			<li>θ is the topic distribution for document m</li>
+			<li>φ is the word distribution for topic k</li>
+			<li>z is the topic for the n-th word in document m</li>
+			<li>w is the specific word</li>
+		</ul>
+	</div>
+</div>
+
+<p>The dataset consists of xxx documents with xxxx words where 20% are used as test data and 80 % as training data. 
+Data preprocessing is the most important aspect needed to ensure a good result of the LDA topic modeling. Below, 
+the preprocessing steps taken to prepare the dataset are explained. </p>
+		<ul>
+			<li>Tokenization: Split the text into sentences and the sentences into words.</li>
+			<li>Lowercase the words and remove punctuation.</li>
+			<li>Words that have fewer than 3 characters are removed.</li>
+			<li>All stopwords are removed.</li>
+			<li>Words are lemmatized</li>
+		</ul>
+<p>For LDA topic modeling, we created a dictionary and a corpus using  the Gensim library. Gensim assigns a unique id  
+to each word (i.e.. (0,1) means word id 0 occurs 1 in the first document).  Then we trained the LDA model. </p>	
+
+<p>After getting an LDA trained model, we don’t know for how many topics the trained model will perform best. 
+So topic coherence is one of the main techniques used to estimate the number of topics. We used UMass and c_v 
+measures to get the coherence score where c_v best fit for our dataset.  Figure 1 shows the coherence score 
+in relation to the number of topics. We choose 8 topics (coherence score 0.37) as optimal for our purposes. 
+Then we label each  topic numerically (i.e 0, 1, 2 ...). 
+</p>	
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:auto;" src='C:/Users/Subir/Desktop/optimal_topic_plot.png'> </div>
+    <div style="float:left; width:40%;">
+		<img align='right' style="width: 70%; height:auto;" src='C:/Users/Subir/Desktop/topic_list.png'>
+	</div>
+</div>
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Metrices</th>
+      <th>Coherence Score</th>
+      <th>Number of topics</th>
+    </tr>
+    <tr>
+      <td>c_v (0 < x < 1)</td>
+      <td>0.37</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>u_mass (-14 < x < 14)</td>
+      <td>-5.84</td>
+      <td>8</td>
+    </tr>
+  </table>
+  <p>Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.</p> 
+</div>
+
+<p>LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.
+ LSTMs are designed to solve traditional RNNs vanishing gradient problems and allow them to retain information for long periods. In addition,
+ LSTM maintains a constant error to continue the learning process over the time and backpropagate through time and layers. Applications
+ of LSTM’s is text generation, handwriting generation, image captioning, translating languages etc.
+</p>
+
+<img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='C:/Users/Subir/Desktop/lstm_architecture.png'> 
+<p>Fig : LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
+</p>
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:auto;" src='C:/Users/Subir/Desktop/lstm_model.png'> </div>
+    <div style="float:left; width:40%;">
+		<p>LSTM Parameters:</p>
+		<ul>
+			<li>Vocabulary size = 50000</li>
+			<li>Max sequence length = 100</li>
+			<li>Embedding dimension = 100</li>
+			<li>Number of epochs = 5</li>
+			<li>Batch size = 64</li>
+			<li>Learning Rate = 0.001</li>
+			<li>w is the specific word</li>
+			<li>Accuracy rate = 64%</li>
+		</ul>
+	</div>
+</div>
+
+<p>Finally, topic modeling using LDA generates same keyword in diffirent topics. And the LSTM model does not perform well on our dataset, which is likely due to overfitting on a small dataset. 
+Having access to more data may help in this situation, but running more epochs using the current data would not solve this problem.
+</p>
 
 <p>
   We employ a document clustering approach given our academic interest in
