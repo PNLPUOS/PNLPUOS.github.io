@@ -93,5 +93,113 @@ permalink: data-preparation
 
   <h2>6. Discussion</h2>
 
+
+<h1>Classification Model for NER detection </h1>
+<h2>Introduction</h2>
+<p>
+Classification models are supervised learning models. Where the model learns from a pre-existing dataset. We have an input and a set output. The output are   finite or discrete variables making them a class. So, for every input the model learns to have an output class. We have a multi class output in the NER detection. For every given word input its output is a class output. The class output are categories of NER like person, location, organization.  
+</p>
+<h2>Aim and Objective</h2>
+<p>
+The aim of creating a pipeline was to try to classify words to labeled entities. The objective were: </p>
+<ul>
+<li>To have a model to identify entities from the data provided to us. </li>
+<li>To have a classification model with pre-defined labels. </li>
+<li>A model functional for multiple classifications labels. </li>
+</ul>
+<h2>The Dataset</h2> 
+<p> 
+Taking an already existing GMB(Groningen Meaning Bank) corpus for entity classification which is pre annotated for NER. The dataset is tokenized at white spacing basically making it one-word token. Except for labels where multiple words are essential for an entity like organizations. Let’s take a list of entities in the training data with their corresponding description: </p>
+
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+
+<h2>NER Labels</h2>
+
+<table>
+  <tr>
+    <th>Labels</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>O</td>
+    <td>All Tokens that are not an Entity</td>
+  </tr>
+  <tr>
+    <td>geo</td>
+    <td>Geographical Entity</td>
+  </tr>
+  <tr>
+    <td>org</td>
+    <td>Organization</td>
+  </tr>
+  <tr>
+    <td>per</td>
+    <td>Person</td>
+  </tr>
+  <tr>
+    <td>gpe</td>
+    <td>Geopolitical Entity</td>
+  </tr>
+  <tr>
+    <td>tim</td>
+    <td>time indicator</td>
+  </tr>
+  <tr>
+    <td>art</td>
+    <td>Artifact</td>
+  </tr>
+  <tr>
+    <td>nat</td>
+    <td>Natural Phenomenon</td>
+  </tr>
+  <tr>
+    <td>eve</td>
+    <td>Event</td>
+  </tr>
+</table>
+
+<h2>The Packages </h2> 
+<p>The major two packages used for the classification model were Keras and Scikit-learn. Scikit learn is a machine learning library for the Python programming language. We used functions like count vectorizer, tf-idf and data splitting functions. Count vectorizer and tf-idf are basically used to convert the words to a numeric vector which can be fed to a neural network for processing. Data splitting function basically helps in splitting the data into a training, testing and blind dataset. Keras is a neural network package in Python. We use it to create a sequential dense model. “A Sequential model is appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor.” </p>
+
+<h2>The Model </h2>
+<ul>
+<li>We create a basic sequential model of Recurrent Neural Network Layers. </li>
+<li>We run all the Labels into the learning together. </li>
+<li>The model predicts the probability of the word for each label trained. </li>
+<li>The label with the highest probability is taken to be the classified label for the token. </li>
+</ul>
+
+<h2> Results and Output. </h2>
+<p>
+The following image shows the partial output accuracy of 3 classes number 0,1 and 2. Where 0 stands for geo, 1 for org and 2 for per. </p>
+<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/master/images/NERoutput1.png" alt="Accuracy" width="460" height="345">
+<p>The second image shows how the output looks like and the corresponding pre-annotated correct labels </p>
+<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/master/images/NERoutput2.png" alt="Output" width="460" height="345">
+
+<h2>Discussion</h2>
+<p>Seeing the results and the code one can see that the classification model works better in terms of accuracy compared to the NLTK and the spacy model. However, we ran into a problem which we couldn’t solve. Once we used the pre existing annotated dataset we could test that data. But when we wanted to test the data on our dataset which is a blind dataset we weren’t able to run the model. The model is compatible to a certain input matrix. The blind data when vectorized using word vector or tf-idf has a different input matrix which is not compatible with the trained model. </p>
+
   <h2>Sources</h2>
+
+<p> https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/data?select=ner_dataset.csv
+https://keras.io/guides/sequential_model/ </p>
+
 
