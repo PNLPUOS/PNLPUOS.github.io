@@ -23,113 +23,166 @@ permalink: data-preparation
   In the modern world everyone is associated with data. We have most access to the data than ever before. If in 1640s a latin word called “data”[1] was not recorded then no one would have known the term. Data is a collection of facts, such as numbers, words, measurements, observations or just descriptions of things. Nowadays, data scientists are always collecting data from different sources like social media, news portal, forum etc and extracting information. These massive amounts of data are not in the same shape or structure which could be suitable for any type of work. In natural language processing(NLP) and artificial neural network(ANN), data preprocessing is essential before training or testing to facilitate the process by removing required outliers and scaling the dataset.
 </p>
 <h1>Spelling Correction</h1>
-  <h2>1. Introduction and Problem Definition</h2>
-  <p>
-    When working on non-quality-controlled, human-generated text data, lexical errors can be problematic for automatic analysis. Automatically correcting these errors is a non-trivial task, however. The task itself can be split into two sub-tasks - error detection (1) and error correction (2) - with their own sets of challenges.
-  </p>
-  <p>
-    <strong>Error detection</strong> is the task of finding incorrect words in a given sentence. Errors can be categorized in two major categories: non-word errors and word errors. Non-word errors consitute errors that are not real words, e.g. when someone writes &quot;thre&quot; instead of &quot;three&quot;. Word errors, on the other hand, are errors that are correct words used in the incorrect context, e.g. when someone writes &quot;tree&quot; instead of &quot;three&quot;. Word error detection is even more complex to solve than non-word errors, which are difficult to automatically detect in their own right.
-  </p>
-  <p>
-    <strong>Error correction</strong> is the task of finding the correct word for a given sentence, given a (non-)word error. Like error detection, this task can also be done with or without contextual information. An example for non-contextual error correction would be the spelling algorithm introduced by Peter Norvig [include source]. The downside of these solutions, however, becomes apparent in the example of the typo &quot;thre&quot;. Did the author mean to write &quot;there&quot; or did they mean to write &quot;three&quot;? This information can only be obtained through the context, i.e. the words surrounding the text error.
-  </p>
-  <p>
-    TransSpell is an attempt to solve the problem of contextual text error correction. It is the successor to <a href="https://github.com/Broconuts/FastSpell/">FastSpell</a>, a different spelling correction approach that was developed for this Study Project; it was abandoned due to performance issues. It is, however, well-documented and offers some interesting insights into some more specific issues of spelling correction.
-  </p>
-
-  <h2>2. Approach</h2>
-  <p>
-    Bidirectional Encoder Representations from Transformers (BERT) models [reference] provide a workflow for using models that were pre-trained in a masking task on large amounts of data. Simply put, in masking tasks random tokens of a sequence are "masked" and the model is required to predict which token is most likely to occur in the position of the masked token. BERT models have yielded promising results in diverse NLP tasks by continuing training the massive pre-trained models on a smaller dataset for a downstream task; they can, however, still be used for masking tasks. We can therefore use these pre-trained models to generate candidates for a token in a sentence given its context. While this approach is computationally expensive, meaning that it does not scale very well, this project can be considered a proof of concept and we can dismiss the issue of computational efficiency for now.
-  </p>
-
-  <h3>2.1 Model</h3>
-  <p>
-    Since the release of the original paper and models in 2019, multiple derivates of the BERT architecture have been developed. Some aim to reduce computational demand at the cost of some performance, such as [DistilBERT] https://arxiv.org/abs/1910.01108) and [ALBERTA](https://arxiv.org/abs/1909.11942). Others go the other way, improving the performance of the riginal models but being more computationally expensive to use, such as [XLNet](https://arxiv.org/abs/1906.08237) and [RoBERTa](https://arxiv.org/abs/1907.11692).
-  </p>
-  <p>
-    We have opted to use a distillated version of a RoBERTa model (i.e. a more lightweight model based on a more complex architecture) with 82M parameters. The model we are using is a pyTorch-based implementation through [HuggingFace's transformers library](https://huggingface.co/transformers/).
-  </p>
-
-  <h2>3. Error Correction</h2>
-  <p>
-    We will first describe error correction, as the mechanism is quite straightforward and will actually play a part in error detection as well. Given a word error and its surrounding sentence, we simply let the pre-trained RoBERTa model predict, which token should be in the given position based on its concept. Sentence length is an important factor in how well this approach will perform. For one-word answers, for example, it will not work at all. Furthermore, the pre-trained models seem to unproportionally weigh the positional context in the first and last token of a sequence, e.g. by suggesting replacement of the first token with tokens like bullet points or similar beginning-of-line indicators. Because of this, this error correction approach will only work properly on tokens that are preceded by at least one token and followed by at least one token.
-  </p>
-  <p>
-    One could easily supply this model with an auxiliary candidate generation algorithm for these cases; as this is not necessary for the proof of concept and would increase the scope of this project even further, this auxiliary algorithm is omitted from this project.
-  </p>
-
-  <h2>4. Error Detection</h2>
-  <p>
-    In order to take full advantage of the context-sensitive error correction, our spelling corrector should be capable of detecting word errors (such as "tree" instead of "three"). This, in turn, requires our error detection to be context-sensitive as well. In this section, a concept for a context-sensitive approach will be introduced. FUrthermore, challenges that arise with this approach will be discussed, as well as the reasons for why we might have to rely on context-insensitive error detection for now.
-  </p>
-    <h3>4.1 Context-Sensitive</h3>
+  <h2>1. The Problem</h2>
     <p>
-      For context-sensitive error detection, we use the same technology as for error correction. Given a sentence consisting of n tokens, we create n substrings where one token is masked; for example, in substring 2, the second token of the sentence is masked. We then let the model determine 25 likely lexical candidates for the masked position. If the original token is not among the generated tokens, we consider the original token to be a text error. Due to the peculiar behavior regarding tokens in the first and last position of a sentence described in the previous section, the first and last token in a sentence need to be excluded from context-sensitive error detection.
+      When working on non-quality-controlled, human-generated text data, lexical errors can be problematic for automatic 
+      analysis. Automatically correcting these errors is a non-trivial task. The task itself can be split into three 
+      sub-tasks - error detection, candidate generation, and candidate selection - with their own sets of challenges.
     </p>
-      <h4>The Issue</h4>
+    <p>
+      <b>Error detection</b> is the task of finding incorrect words in a sentence. Errors can be categorized in two major 
+      categories: non-word errors (NWE) and word errors (WE). Non-word errors constitute errors that are not real words, 
+      e.g. when someone writes "thre" instead of "three". Word errors, on the other hand, are errors that are correct 
+      words used in the incorrect context, e.g. when someone writes "tree" instead of "three".
+    </p>
+    <p>
+      <b>Candidate generation</b> is the task of generating a list of words that could be the word the author meant to 
+      use, given an incorrect word.
+    </p>
+    <p>
+      <b>Candidate selection</b> is the task of selecting the most likely candidate from the generated list of candidates 
+      with which to replace the detected error.
+    </p>
+    <p>
+      When pre-processing answers to survey questions, the answers’ semantic information should/must be preserved. Out-
+      of-the-box spelling correction solutions have failed us at this in two ways. Firstly, they occasionally considered 
+      correctly spelled words as incorrect and attempted to correct them, changing them into a different word in the 
+      process. Secondly, the generated (and selected) candidates for an incorrect word were often completely different 
+      words, e.g. “bark” instead of “book”.
+    </p>
+
+
+  <h2>2. The Approach</h2>
+    <p>
+      TransSpell is an attempt to solve the problem of spelling correction in a robust way, emphasizing the importance 
+      of minimizing false positives in error detection. Its goal is to apply spelling correction only to words that can 
+      most definitely be considered “false” and for those corrections to be correct. The error detection rate does not 
+      need to be perfect, but it should not produce any false positives.
+      <a href="https://github.com/Broconuts/TransSpell">TransSpell</a> is the successor to 
+      <a href="https://github.com/Broconuts/FastSpell">FastSpell</a>, a spelling correction approach that was developed 
+      for this Study Project which was abandoned due to performance issues.
+    </p>
+
+    <h3>2.1 Error Detection</h3>
       <p>
-        This approach comes with two major flaws, not to mention high computational costs, reducing the scalability of this approach. These will be described below.
+        We first attempted to develop context-sensitive error detection (i.e. error detection capable of detecting NWEs). 
+        When this approach yielded many false positives, we reverted to a modified version of rule-based error detection 
+        used during FastSpell development.
       </p>
-      <p>
-        Firstly, by masking a random word and letting the model determine a likely candidate for that word, we assert that the context is correct. Let us assume a sentence with a word-error in the third token, e.g. "We made ensure that our customers get the products on time" when the author really meant "We made sure[...]". Error detection iterates through the sentence, starting with the second token, "made". Given the context, i.e. "we [mask] ensure that [...]", the model will not generate the correct "made" but rather deem the actual token erroneous and supply something along the lines of "must". The sentence now reads "we must ensure that [...]", which is now contextually coherent but not what the original author had in mind. If the contextual error does not occur in the first checked position (i.e. the second token) of a sentence, TransSpell will make the context fit the original error, rather than make the error fit the context.
-      </p>
-      <p>
-        Secondly, this approach to error-detection can be boiled down to "making sure that a given sentence is a sequence of words that is statistically likely". This entails that, rather than "just" looking for errors, we remodel sentences according to what the pre-trained model has learned sentences to look like. For example, the sentence "We work hard to meet consumer requirements" is changed to "We work hard to meet minimum requirements". This is very problematic because it changes the meaning of the sentence.
-      </p>
-    <h3>4.2 Context-Insensitive</h3>
-    <p>
-      For the reasons described above, we cannot rely on context-sensitive error correction for now. Unfortunately, context-insensitive error detection solutions are error-prone as well. Usually, these approaches utilize finite lists of correct words, like lexica, and checking whether a token is contained in this finite list. As is the norm with assets like that, these lists are not exhaustive. While there are -potentially - exhaustive options out there (e.g. the Merriam-Webster API), these options are not for free and therefore not feasible for this project. We therefore introduce a list of additional conditions besides "membership in a lexicon", in an attempt to reduce the amount of False Positives in error detection.
-    </p>
-    <p>
-      The complete process of context-insentive error detection for a given token is as follows (in order):
-    </p>
-    <ol>
-        <li>Check whether the token is longer than three characters. If it is not, do not check further and assume it is not an error. This aims to protect acronyms and similar domain-specific terms from being considered an error.</li>
-        <li>Check whether the token occurs more than 10 times in the entire corpus. If it does, do not consider it an error.</li>
-        <li>Check whether the token is contained in a lexicon for American English and British English, respectively. If none of these conditions were met, consider the word an error. Please note that the second criterion requires knowledge of the entire corpus (as well as a certain size of the corpus for the measure to be effective).</li>
-    </ol>
-<h1>Named Entity Recognition</h1>
-    <p>
-    Named entities are discrete things, like Osnabrueck University, Siemens, Frank Sinatra, etc. Dates, sums of money, percentages and other numeric measurements are also named entities. Named Entity recognition (NER) is a task of finding and classifying named entities from a text into predefined categories to extract further information. Some of the most common use cases for NER are date recognition, allowing to put an event into a virtual calendar or linking on Wikipedia, establishing connections between certain words/word groups and related articles.
-    </p>
-    <h2>Implementing Named Entity Recognition</h2>
-    <p>
-    There are numerous ways to implement a NER pipeline. Throughout this study project, we tried to implement some of the most well-known ones to see which worked best. In doing so, we moved from the most simple to the more labor-intensive solutions.
-    </p>
-    <h3>NER with NLTK</h3>
-    <p>
-    The first way to implement NER we tried was the built-in NER function of the Natural Language Processing Toolkit (NLTK), a suite of NLP libraries for the English language.
+      <h4>Context-Sensitive Approach</h4>
+        <p>
+          Given a sentence consisting of n tokens, we create n substrings where one token is masked (i.e. considered an 
+          error); for example, in substring 2, the second token of the sentence is masked. We then let the candidate 
+          generation component (see section 2.2) determine 50 likely lexical candidates for the masked 
+          position given the remaining (unmasked) tokens of the sentence. If the original token is not among the 
+          generated tokens, it is considered a text error. Unfortunately, this approach comes with two major flaws, not 
+          to mention high computational costs, reducing the scalability of this approach.
+        </p>
+        <p>
+          Firstly, by masking a random word and letting the model determine a likely candidate for that word, we assert 
+          that the context is correct. Let us assume a sentence with a word-error in the third token, e.g. "We made ensure 
+          that our customers get the products on time" when the author really meant "We made sure[...]". Error detection 
+          iterates through the sentence sequentially, thereby checking "made" before “ensure”. Given the context, i.e. "we 
+          [mask] ensure that [...]", the candidate generation component will not generate the correct "made" but rather 
+          deem the actual token erroneous and supply something along the lines of "must". The sentence now reads "we must 
+          ensure that [...]", which is now contextually coherent but not what the original author had in mind. If the 
+          contextual error does not occur in the first checked position of a sentence, this approach will make the context 
+          fit the original error, rather than make the error fit the context.
+        </p>
+        <p>
+          Secondly, this approach to error-detection can be summarized as "making sure a given sentence is a sequence of 
+          words that is statistically likely". This entails that, rather than "just" looking for errors, we remodel 
+          sentences according to what the pre-trained model used for candidate generation has learned sentences to look 
+          like. For example, the sentence "we work hard to meet <b>consumer</b> requirements" is changed to "we work 
+          hard to meet <b>minimum</b> requirements." This is very problematic because it changes the meaning of the 
+          sentence, reproducing one of the main issues of the out-of-the-box approaches.
+        </p>
+      <h4>Rule-Based Approach</h4>
+        <p>
+          For the reasons described above, context-sensitive error correction is currently too unreliable. However, 
+          context-insensitive error detection solutions introduce new problems that require consideration. Usually, 
+          these approaches take finite lists of correct words, like lexica, and check whether a token is contained 
+          in this finite list. As is the norm with assets like that, these lists are not exhaustive. While there are 
+          options available that are potentially exhaustive (e.g. the 
+          <a href="https://dictionaryapi.com/">Merriam-Webster API</a>), these options are not for free and therefore 
+          not feasible for this project. We therefore introduce a list of additional conditions for correctness of a 
+          word besides "membership in a lexicon", to reduce the number of false positives in error detection.
+        </p>
+        <p>
+          The complete process of context-insensitive error detection for a given token is as follows (in order):
+        </p> 
+        <ol>
+          <li>
+            Check whether the token is shorter than four characters or - if the source sentence is properly capitalized – 
+            matches a regex modelling acronyms. If either condition is met, do not check further and assume it is not an 
+            error. This aims to protect acronyms and similar domain-specific terms from being considered an error.
+          </li>
+          <li>
+            Check whether the token occurs more than 10 times in the entire corpus. If it does, do not consider it an error.
+          </li>
+          <li>
+            Check whether the token is contained in a lexicon for American English and British English, respectively. 
+          </li>
+        </ol>
+        <p>
+          If none of these conditions were met, consider the word an error. Please note that the second criterion requires 
+          both knowledge of the entire corpus and a certain size of the corpus for the measure to be effective).
+        </p>
 
-    <p>
-    NER in NLTK requires several pre-processing steps:
-    </p>
-    <p>
-•	First, a text needs to be split into separate words or tokenized by applying nltk.word_tokenize(sentence). The result looks like: (This, is, a, sentence).
-    </p>
-•	Second, after applying nltk.pos_tag(sentence) each word receives its own part-of speech-tag (POS tag) The possible tags look like: we – PRP, dog - NN and so on.
-    <p>
-•	In the final step, the NER itself is implemented by chunking the preprocessed text with NLTK’s chunker: ne_tree = ne_chunk(pos_tag(word_tokenize(example))).
-When performing NER, NLTK is able to determine such named entity categories as ORGANIZATION, PERSON, GPE, etc.
-    </p>
-    <p>
-    However, NLTK’s named entity recognition abilities have certain limitations. When working with NLTK, the results we got not always matched our expectations and showed that some words were falsely determined as named entities, e.g. Overall – GPE; while others were assigned incorrect name categories, e.g. Microsoft – PERSON or AI – ORGANISATION. This in a way confirms the out of the box NER comparison results we were able to obtain online. There, NLTK is reported to be one of the fastest and easiest ways to perform NER tasks that is partially balanced off by its producing not the most accurate results in certain cases. When tested against other NER tools, NLTK’s F1 score matched those of Spacy and even beat those of Stanford NLP and Deep Pavlov pipelines. Though NLTK is essential for basic preprocessing tasks, it was decided to further explore the alternative NER methods as NLTK’s performance seemed to leave enough room for improvement.  Further options included Spacy and training a custom NER solution with our own dataset-specific tags from scratch. Please find both of these aspects covered in detail in the following sections.
-    </p>
-    <h4>References</h4>
-    <p>
-    Kalyan, P. (2019, August 09). Named Entity Recognition with NLTK. Retrieved September 08, 2020, from https://medium.com/@pavankalyanpk986/named-entity-recognition-with-nltk-ec59ff6a9250
-    </p>
-    <p>
-    Natural Language Toolkit, Documentation. Retrieved September 09, 2020, from https://www.nltk.org/
-    </p>
-    <p>
-    Li, S. (2018, December 06). Named Entity Recognition with NLTK and SpaCy. Retrieved September 08, 2020, from https://towardsdatascience.com/named-entity-recognition-with-nltk-and-spacy-8c4a7d88e7da
-    </p>
-    <p>
-Terry-Jack, M. (2019, May 03). NLP: Pretrained Named Entity Recognition (NER). Retrieved September 08, 2020, from https://medium.com/@b.terryjack/nlp-pretrained-named-entity-recognition-7caa5cd28d7b
-    </p>
-  <h2>5. Evaluation</h2>
+    <h3>2.2 Candidate Generation</h3>
+      <p>
+        Candidate generation occurs based solely on the context of the erroneous word. We simply mask the token in 
+        question (i.e. replace it with a mask-token) and let a pretrained transformer model predict which token should 
+        be in the given position based on its context. Sentence length is an important factor in how well this approach 
+        will perform. For one-word answers, for example, it will not work at all. Furthermore, the pre-trained models 
+        seem to disproportionally weigh the positional context in the first and last token of a sequence, e.g. by 
+        suggesting replacement of the first token with tokens like bullet points or similar beginning-of-line 
+        indicators. Because of this, this error correction approach will only work properly on tokens that are preceded 
+        by at least one token and followed by at least one token.
+      </p>
+      <h4>A Note on the Implementation</h4>
+        <p>
+          As a description of the BERT architecture and its derivates far exceeds the scope of this documentation, 
+          please refer to <a href="https://arxiv.org/abs/1810.04805">the original paper</a> for more information. For 
+          TransSpell, we use a pretrained distillated version of a RoBERTa model (i.e. a more lightweight model based on 
+          a more complex BERT architecture) with 82M parameters. The model itself is a pyTorch-based implementation 
+          through <a href="https://huggingface.co/transformers/">HuggingFace’s transformers library</a>.
+        </p>
 
-  <h2>6. Discussion</h2>
+    <h3>2.3 Candidate Selection</h3>
+      <p>
+        Given the list of candidates generated by the transformer, which is ordered according to decreasing likelihood 
+        of the candidate given the context, we first create a ranking of these candidates based on their respective 
+        Levenshtein distance [source] to the original erroneous token. All candidates with a distance larger than 3 are 
+        ruled out. For a better understanding of Levenshtein distances, refer to 
+        <a href="https://norvig.com/spell-correct.html">Peter Norvig’s blog post on writing a spelling corrector</a>. 
+        If no suggestion had a small enough distance to the original word, we return the original word as a correction 
+        candidate to prevent TransSpell from applying a change that would change the intended meaning of the author. If 
+        some candidates meet the Levenshtein distance criterion, we then iterate through the ranking, checking if the 
+        first letter of the candidate matches the first letter of the original word. This is based on the intuition that 
+        most human-made typos do not occur in the first position of a word. The first match to this category is chosen 
+        as the most likely candidate. If no token matches this criterion, the most likely (according to the transformer 
+        model) token with the closest Levenshtein distance to the original word is chosen as the correct word.
+      </p>
+
+
+  <h2>3. Evaluation</h2>
+    <p>
+      Given the necessity of an error being incorporated in a full sentence for TransSpell to work, we cannot use 
+      traditional spelling correction corpora that only consist of a proper word and possible misspellings of that word 
+      (such as the <a href="https://www.dcs.bbk.ac.uk/~roger/corpora.html">Birkbeck corpus</a>). Moreover, calculating 
+      a meaningful metric for performance would require a an amount of manually labeled data that exceeds the scope of 
+      this Study Project.
+    </p>
+    <p>
+      While a meaningful metrics-driven evaluation was not possible within the scope of this project, we provide a CSV 
+      document (upon request in adherence to data protection guidelines) containing all sentences from the PNLP dataset 
+      that were altered by the spelling corrector, as well as TransSpell’s corrections for comparison. The CSV provides
+      an intuition for the performance of TransSpell.
+    </p>
+  <h2>References</h2>
+  Devlin, Jacob & Chang, Ming-Wei & Lee, Kenton & Toutanova, Kristina. (2018). BERT: Pre-training of Deep Bidirectional 
+  Transformers for Language Understanding. <br>
 
 <h1>Named Entity Recognition</h1>
 <p>
