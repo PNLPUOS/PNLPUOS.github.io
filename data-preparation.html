@@ -20,8 +20,54 @@ permalink: data-preparation
 
 <h1>Data Preparation</h1>
 <p>
-  In the modern world everyone is associated with data. We have most access to the data than ever before. If in 1640s a latin word called “data”[1] was not recorded then no one would have known the term. Data is a collection of facts, such as numbers, words, measurements, observations or just descriptions of things. Nowadays, data scientists are always collecting data from different sources like social media, news portal, forum etc and extracting information. These massive amounts of data are not in the same shape or structure which could be suitable for any type of work. In natural language processing(NLP) and artificial neural network(ANN), data preprocessing is essential before training or testing to facilitate the process by removing required outliers and scaling the dataset.
+  In the modern world everyone is associated with data. We have most access to the data than ever before. 
+  If in 1640s a latin word called “data”[1] was not recorded then no one would have known the term. Data 
+  is a collection of facts, such as numbers, words, measurements, observations or just descriptions of things. 
+  Nowadays, data scientists are always collecting data from different sources like social media, news portal, 
+  forum etc and extracting information. These massive amounts of data are not in the same shape or structure 
+  which could be suitable for any type of work. In natural language processing(NLP) and artificial neural network(ANN),
+  data preprocessing is must needed before training or testing to facilitate the process by removing required outliers
+  and scaling the dataset. Real/raw datasets have missing or inconsistent values and lot’s of redundant information. 
+  Based on these problem raw dataset can be divided into 3 groups:
 </p>
+<p><b>Missing data:</b> Inaccurate or wrong data appeared to be visible during the final phase of analysis. Wrong data entry could be one example.</p>
+<p><b>Noisy data:</b> This type of data encompasses huge data and outliers but it’s just meaningless data. Human mistakes, mislabeling etc might create
+ noisy data.</p>
+ <p><b>Inconsistent data:</b> Inconsistencies happen because of mistakes in code, data duplication, similar data in different file formats.</p>
+ 
+<h2>Types of data preparation techniques</h2> 
+<p><b>Lowercasing:</b> Lowercasing the dataset is the simplest form of data preprocessing, applicable to most of the NLP problems helps to maintain consistency of expected result.</p>
+<p><b>Remove number:</b> Removing any number which is not related to the analysis generally using regular expression.</p>
+<p><b>Remove punctuation:</b> Removes this set of symbols [!”#$%&’()*+,-./:;<=>?@[\]^_`{|}~]</p>
+<p><b>Remove whitespaces:</b> </p>
+<p><b>Term Frequency (TF):</b> Term frequency is how many times a term appears in a particular document in corpus.
+TF = (Number of times term T appears in the particular row) / (number of terms in that row). Consider a document containing 100 words where the word study appears 3 times. 
+The term frequency (TF) for Study word is (3 / 100) = 0.03</p>
+<p><b>Inverse Document Frequency (IDF):</b> Inverse Document frequency is how many times a term appears in a particular document in corpus.
+IDF(t) = log(Total number of rows / the number of rows in which the word was present). Assume we have 1000 documents and the word study appears only in 100 of them. Then, 
+The inverse document frequency (i.e., idf) is calculated as log(1000 / 100) = 2.30 
+</p>
+<p><b>Bag-of-Words(BOW):</b> BOW is a way of extracting features from the text to use in machine learning algorithms such as document classification. Assume couple of sentence as separate document where 7 unique words.
+<ul style="list-style-type:none;">
+  <li><i>"Today is sunny day"       [1,1,1,1,0,0,0]</i></li>
+  <li><i>"Today temperature is good"        [1,1,0,0,1,1,0]</i></li>
+  <li><i>"Today is presentation day"			[1,1,0,1,0,0,1]</i></li>
+</ul>  
+</p>
+<p><b>Tokenization:</b> Spliting long string of text into smaller or single piece as tokens is called Tokenization. Sentences are tokenized into words. 
+Tokenization is also referred to as text segmentation or lexical analysis. Assume a sentence <i>"Today is sunny day"</i>. After tokenization becomes 
+<i>["Today", "is", "sunny", "day"]</i></p>
+<p><b>Part of Speech(POS):</b></p>
+<p><b>Remove Stop Words:</b> There are some words like "the", "a", "on", "is", "all" etc. that 
+do not carry any meaning and are removed from text. For example <i>"Today is the first day at university"</i>. 
+Here "is", "the", "at" are stop words. So these word will be removed.</p>
+<p><b>Stemming:</b>Removing affixes from word and extract the base form of word is called Stemming. 
+Assume number of words <i>eating, eats, eaten</i>. The stem of these word is <i>eat</i>.Stemming is 
+important in natural language understanding (NLU) and natural language processing (NLP). And search engine like Google use this for indexing the words. That's
+how stemming reduces the size of index and increase the accuracy.</p>
+<p><b>Lemmatization:</b> Grouping different infected forms of words into root form which have the same meaning is called Lemmatization. 
+The morphological analysis might require to extract the correct lemma from a word.</p>
+ <!-----------------------------------------------End of data preparation----------------------------------------------------->
 <h1>Spelling Correction</h1>
   <h2>1. The Problem</h2>
     <p>
