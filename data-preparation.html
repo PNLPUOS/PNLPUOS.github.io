@@ -131,6 +131,40 @@ Terry-Jack, M. (2019, May 03). NLP: Pretrained Named Entity Recognition (NER). R
 
   <h2>6. Discussion</h2>
 
+<h1>Named Entity Recognition</h1>
+<p>
+  Named Entity Recognition (NER) is a part of information extraction that detects and categorizes named entities in a raw text such as organization, person, location, date, monetary values, etc. NER can be typically used for Machine Translation, Semantic Annotation, and such tasks in Artificial Intelligence including Natural Language Processing.
+</p>
+
+  <h2>Part-of-Speech Tagging and Chunking with NLTK</h2>
+  <p>
+    Before proceeding with NER, we need to process part-of-speech (POS) tagging and chunking based on POS-tags. POS tagger is used to label grammar information corresponding to each word in a sentence using information like front and back words and shape features, such as upper and lower case, capitalization, etc. Chunking takes as input POS-tags, it extracts phrases composed of different tokens from the text. Especially, noun phrase (NP) chunking is a necessary process for NER because single word tokens may not fully represent the actual meaning of the text if a named entity consists of multiple words.
+  </p>
+  <p>
+    As a first approach to POS tagging and chunking, Python’s NLTK library has been mainly used for data preparation in this project, also features a solid sentence tokenizer and POS tagger. First, NLTK tokenizes sentences based on words and punctuation, then the tagging is done by a trained model of the NLTK library. A chunk grammar can be defined using regular expression and works on top of POS-tags. As such, the performance was improved by modifying the chunk grammar based on the early result following POS-tagging, but NER using its default model still gave us inaccurate labeling.
+  </p>
+
+  <h2>Named Entity Recognition with spaCy</h2>
+  <p>
+    So, the next method with a pre-trained model for general entities like people, location, and date is Python’s spaCy library. SpaCy performs a highly efficient statistical processing for NER. It has not only similar features provided by NLTK such as tokenization, part-of-speech tagging, and named entity recognition, but also supports other functionalities, e.g. neural network models (multi-task CNN), integrated word vectors, and dependency parsing. But most of all, spaCy is optimized for production use, namely integrated and opinionated providing limited options selected based on functionality among other algorithms. This makes spaCy deliver better performance and usability with intuitive visualizations as well. Apart from its default model, spaCy also enables us to train and update the NER model with new examples, though it doesn’t support different neural network architectures.
+  </p>
+  <p>
+    First, we chose spaCy’s small model without word vectors, which can be the right tool with fairly high accuracy (F-score: 0.85) and speed to get started with NER. The model was applied to our data, it worked relatively well for date and monetary entities, but most of the others, especially for company-specific words, were given a blank space or incorrect label. The large model might give slightly better performance (F-score: 0.86), but it’s not effective enough to offset the trade-off between coverage and memory usage that the increased size of the vector table brought. Additionally, the problem was that our dataset didn’t have sufficient named entities overall to train a custom model for noticeable improvement.
+  </p>
+
+  <h2>Discussion</h2>
+  <p>
+    Those results might be due to the fact that our data is unstructured texts collected from an employee survey which usually includes company-related words such as the name of its project, product, or system. So, if we tried to annotate it manually, we still had to get further information to set the criteria for what categories company-specific names belong to. This is one of the general challenges in the field of entity recognition that NER systems are often given sensitive data depending on the project. It means that even if a suitable model for one project is designed, it may not be reusable for another project. In conclusion, there is a need to develop a NER model that can eventually cover a wider range of data.
+  </p>
+
+  <h2>References</h2>
+  <p>
+      1. Bhavani, D. (n.d.). Understanding Named Entity Recognition Pre-Trained Models. Retrieved September 7, 2020, from https://blog.vsoftconsulting.com/blog/understanding-named-entity-recognition-pre-trained-models
+      2. Jurafsky, D., & Martin, J. H. (2008). Speech and Language Processing, 2nd Edition (2nd ed.). Prentice Hall.
+      3. Li, S. Named Entity Recognition with NLTK and SpaCy. (2018, August 17). Retrieved September 7, 2020, from https://towardsdatascience.com/named-entity-recognition-with-nltk-and-spacy-8c4a7d88e7da
+      4. spaCy 101: Everything you need to know. (n.d.). Retrieved September 7, 2020, from https://spacy.io/usage/spacy-101
+  </p>
+
 
 <h1>Classification Model for NER detection </h1>
 <h2>Introduction</h2>
