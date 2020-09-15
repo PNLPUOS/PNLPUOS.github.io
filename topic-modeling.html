@@ -5,6 +5,10 @@ permalink: topic-modeling
 <head>
   <style>
     h4 {text-align: center;}
+    img.center {
+    display: block;
+    margin: 0 auto;
+    }
   </style>
 </head>
 
@@ -20,5 +24,561 @@ permalink: topic-modeling
 
 <h1>Topic Modeling</h1>
 <p>
-  ....
+  <h3>Approach</h3>
+  As mentioned in the <a href="https://pnlpuos.github.io/overview">Overview</a>
+  section of this report, our topic analysis pipeline employs a document
+  clustering approach which dynamically-identifies an optimal clustering of
+  vectorized document representations, before passing clustered documents onto
+  later tasks such as <a href="https://pnlpuos.github.io/sentiment-analysis">Sentiment
+  Analysis</a>. However, it must be admitted that this approach is not the
+  most-common method for achieving the task of topic modeling, and we below
+  provide an overview of the task of topic modeling to contextualize the
+  subsequent deep-dive into our methodology.
+</p>
+<p>
+  Topic modeling is the natural language processing (NLP) task of identifying
+  representative groups of topics in a text dataset. In other words, when
+  provided a set of documents, an effective topic modeling will demonstrate
+  'what the documents are about.' Given that we implement a topic modeling
+  pipeline for reporting on open employee survey comments, reasonable topics
+  identified by a successful modeling may include topics such as <i>salary</i>,
+  <i>teamwork</i>, etc.
+</p>
+<p>
+  There exist two main approaches to the topic modeling task: statistical
+  topic model approaches and document clustering approaches. We briefly
+  describe the statistical approach before investigating our methods.
+</p>
+
+<p>
+Statistical topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core
+“latent topics” of a large volume of documents. There are three types of models typically employed: Latent Semantic
+Analysis (LSA),  Probabilistic Latent Semantic Analysis (PLSA) and Latent Dirichlet allocation (LDA). LDA, proposed
+by J. K. Pritchard, M. Stephens, and P. Donnelly [7], generates topics based on word frequency from a set of given documents.
+It is based upon two assumptions: First, documents with similar words belong to the same topic. Second, documents with groups
+of words together appear in different documents belongs to the same topic. LDA generalizes well to other documents because of
+its general approach.
+</p>
+
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:200px;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lda_model.png'> </div>
+    <div style="float:left; width:40%;">
+		<p>Figure is known as a plate diagram of an LDA model where:</p>
+		<ul>
+			<li>α is the per-document topic distributions</li>
+			<li>β is the per-topic word distribution</li>
+			<li>θ is the topic distribution for document m</li>
+			<li>φ is the word distribution for topic k</li>
+			<li>z is the topic for the n-th word in document m</li>
+			<li>w is the specific word</li>
+		</ul>
+	</div>
+</div>
+
+<p>The dataset consists of 17672 documents with 343549 words where 20% are used as test data and 80 % as training data.
+Data preprocessing is the most important aspect needed to ensure a good result of the LDA topic modeling. Below,
+the preprocessing steps taken to prepare the dataset are explained. </p>
+		<ul>
+			<li>Tokenization: Split the text into sentences and the sentences into words.</li>
+			<li>Lowercase the words and remove punctuation.</li>
+			<li>Words that have fewer than 3 characters are removed.</li>
+			<li>All stopwords are removed.</li>
+			<li>Words are lemmatized</li>
+		</ul>
+<p>For LDA topic modeling, we created a dictionary and a corpus using  the Gensim library. Gensim assigns a unique id
+to each word (i.e.. (0,1) means word id 0 occurs 1 in the first document).  Then we trained the LDA model. </p>
+
+<p>After getting an LDA trained model, we don’t know for how many topics the trained model will perform best.
+So topic coherence is one of the main techniques used to estimate the number of topics. We used UMass and c_v
+measures to get the coherence score[6] where c_v best fit for our dataset.  Figure shows the coherence score
+in relation to the number of topics. We choose 8 topics (coherence score 0.37) as optimal for our purposes.
+Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure.
+</p>
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/optimal_topic_plot.png'> </div>
+    <div style="float:left; width:40%;">
+		<img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/topic_list.png'>
+	</div>
+</div>
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Metrices</th>
+      <th>Coherence Score</th>
+      <th>Number of topics</th>
+    </tr>
+    <tr>
+      <td>c_v (0 < x < 1)</td>
+      <td>0.37</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>u_mass (-14 < x < 14)</td>
+      <td>-5.84</td>
+      <td>8</td>
+    </tr>
+  </table>
+  <p>Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.</p>
+</div>
+
+<p>LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.[8]
+ LSTMs are designed to solve traditional RNNs vanishing gradient problems and allow them to retain information for long periods. In addition,
+ LSTM maintains a constant error to continue the learning process over the time and backpropagate through time and layers. Applications
+ of LSTM’s is text generation, handwriting generation, image captioning, translating languages etc.
+</p>
+
+<img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lstm_architecture.png'>
+<p>Figure : LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
+</p>
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lstm_model.png'> </div>
+    <div style="float:left; width:40%;">
+		<p>LSTM Parameters:</p>
+		<ul>
+			<li>Vocabulary size = 50000</li>
+			<li>Max sequence length = 100</li>
+			<li>Embedding dimension = 100</li>
+			<li>Number of epochs = 5</li>
+			<li>Batch size = 64</li>
+			<li>Learning Rate = 0.001</li>
+			<li>Accuracy rate = 64%</li>
+		</ul>
+	</div>
+</div>
+
+<p>Finally, topic modeling using LDA generates same keyword in diffirent topics. And the LSTM model does not perform well on our dataset, which is likely due to overfitting on a small dataset.
+Having access to more data may help in this situation, but running more epochs using the current data would not solve this problem.
+</p>
+
+<p>
+  Nevertheless, we employ a document clustering approach given our academic interest in
+  exploring the applications of pretrained word embeddings coupled with
+  traditional cluster analyses. Furthermore, we ignore supervised approaches
+  such as document classification because these are unsuitable for our task
+  given the requirement that the pipeline be able to dynamically-identify
+  new topics potentially unrepresented in a training set.
+</p>
+<p>
+  The document clustering approach requires that we first transform the
+  unstructured comment data into numerical features before
+  performing a cluster analysis on the feature-engineered documents. After
+  feature-engineering we obtain document vectors for which we perform a
+  cluster analysis optimized via hyperparameter grid search, before
+  generating meaningful topic labels useful for report generation. The below
+  image summarizes the topic modeling pipeline as implemented in our
+  codebase.
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/pipeline-topics.png" alt="...">
+</p>
+<p>
+  <h3>Document Vectorization</h3>
+  While it is a trivial task to obtain word vectors from pretrained neural word embedding models
+  such as word2vec or FastText, it is challenging to devise a methodology for converting these
+  word-level vectors into a normalized document representation which still encodes the
+  semantic information of the document's concatenated tokens.
+</p>
+<p>
+  Many solutions to the problem of document vectorization leverage the
+  demonstrated <i>compositionality</i> of obtained word embeddings, i.e. the behavior that
+  larger blocks of information such as phrases can be represented by the vector manipulation of
+  embedding constituents. [1] Due to this property of trained word embeddings, one can negotiate
+  vector operations such as addition to superficially 'combine' the semantic information
+  encoded in individual tokens into a document representation.
+</p>
+<p>
+  A naïve solution for obtaining a document vector is the simple average of
+  embedding vectors constituting a document. As an initial approach, we employed this method
+  for obtaining document vectors, but the resulting clusterings did not yield optimal results.
+  The figure below demonstrates a sample clustering on FastText vectors averaged to obtain
+  document vectors. Clearly, the clusters are not clearly separable.
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-badclusters.png" alt="..." width="500", class="center">
+</p>
+<p>
+  It has been shown that weighting embeddings via smoothed term frequency can
+  improve performance on text similarity tasks without the need for additional training data. [3]
+  Because of these findings, we opted to implement additional functionality for computing the
+  smooth-inverse-frequency (SIF) weighted average of word embeddings as a document representation.
+  The SIF weighting equation for a single word is demonstrated below:
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-sif.png" alt="..." width="200" class="center">
+</p>
+<p>
+  where <i>a</i> denotes an arbitrary normalization constant of approximately 1e-5, and <i>p(w)</i>
+  denotes the word's frequency. Nevertheless, preliminary evaluations showed that this baseline,
+  although effective for text similarity, did not generalize well to the creation of document
+  vectors which performed effectively for document clustering.
+</p>
+<p>
+  Inspired by reseerch into effective document representations for twitter sentiment
+  analysis, a domain which is somewhat comparable to ours given similarities between twitter
+  texts and our short, focused comments, we opted to integrate into the SIF weighted average the
+  Term-Frequency-Inverse-Document-Frequency (TFIDF) measure as a replacement for the value <i>p(w)</i>,
+  as was found to be itself effective as a weighting schema for document vectors [4, 5].
+  With this modification, the weighting equation for single words in our
+  averaged document vectors becomes <br>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-siftfidf.png" alt="..." width="200" class="center">
+</p>
+<p>
+  where <i>w</i> for a term <i>i</i> in document <i>j</i> denotes<br>
+</p>
+<p>
+  <img src="https://www.link-assistant.com/images/news/tf-idf-tool-for-seo/screen-03.png" alt="..." class="center" width="200">
+</p>
+<p>
+  The resulting weighting scheme produces satisfactory clusterings when qualitatively
+  compared with other approaches. Seen below, a sample clustering with increased
+  separation between identified clusters suggests that the TFIDF weighting scheme captures
+  the most-relevant keywords of each document and effectively weights these terms in order
+  to generate more meaningfully-distinct document vector representations.
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-goodclusters.png" alt="..." width="500" class="center">
+</p>
+
+<p>
+<h3> Dimensionality Reduction </h3>
+<h5> Dealing with High Dimensional Datasets </h5>
+
+When we work with natural language, we often have to deal with a large amount of data. If such a dataset also contains many different variables, we speak of a so-called high dimensional dataset. For a lot of scientific tasks such high dimensional datasets are a welcome basis, but as Spiderman's uncle might say <i>„with high dimensional datasets comes the great curse of dimensionality"</I>. Working with large data sets entails problems, such that it requires a lot of time and space complexity, it often leads to overfitting, not all the features in the given data set might be relevant to our problem and, due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomena that occurs when working with high dimensional data. With the curse of dimensionality we’re facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
+<br>
+<ul>
+<li><b>Data Sparsity </b><br>
+the volume of the represented space grows quicker than the data and thus becomes sparse
+<br> —> this is a problem if we want to derive some statistical significance from the data <br><br>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small></li><br>
+
+<li><b>Closeness of the data </b><br>
+in low dimensional spaces, data may seem very close but the higher the dimension the further these data points may seem to be
+<br> —> distances of objects seem to be different when changing perspectives </li>
+<br>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Closeness_Data.png" alt="..." width="300" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small><br></li>
+</ul>
+
+In other words: when the number of features or dimensions grow, the amount of data we need to generalize accurately grows exponentially. That makes common data organization strategies become inefficient. <br><br>
+
+<h5> Dimensionality Reduction Techniques </h5>
+There is a trick that helps us to organize, reduce and visualize such large amounts of data: it’s called dimensionality reduction. Dimensionality reduction is about discovering non-linear and non-local relationship in a given high dimensional data set. By reducing the dimensions we can reduce noise in the data which in turn makes it easier to apply simple learning algorithms. In our project, we are applying the following two dimensionality reduction techniques:
+
+<br>
+<ul>
+<li><b> Principle Component Analysis (PCA) </b><br>
+PCA is the most tried linear dimensionality reduction technique. It transforms existing variables into a new set of variables, which are a linear combination of the original variables and finally converts the correlations among all of the features into a 2D-Graph. What we can see after applying PCA is that features that are highly correlated cluster together whereas the differences along the first principal component axis are more important than the differences along the second principal component.  <br><br></li>
+
+<li><b> Uniform - Manifold Approximation and Projection (UMAP)</b><br>
+UMAP is a non-linear dimensionality reduction technique with a solid mathematical background. Its algorithm balances between emphasizing local versus global structure. After first modeling a blurry topological structure of the high dimensional set it is searching for a low dimensional projection that is closest to it.  <br></li>
+</ul><br>
+
+
+<h5> Results </h5>
+In our pipeline we are applying both dimensionality reduction techniques: first PCA and following UMAP. Doing so we expected to get an improved computation time and to obtain a less noisy dataset.
+
+<ul>
+<li><i> running dimensionality reduction only with UMAP (without PCA)</I> <br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_without_PCA.png" alt="..." width="300" class="center"><br><br></li>
+
+<li> <i>running dimensionality reduction with UMAP and PCA</I>
+<br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_Reduction.png" alt="..." width="300" class="center"><br><br></li>
+
+
+Our expectation in obtaining a less noisy dataset by applying both algorithms has been fulfilled. We can see the difference by looking at the first picture which is a plot of the dataset after only applying UMAP, in contrast to the second picture where we can see a plot of the dataset after applying PCA and UMAP in combination. The output is more precise and structured. These results supported our approach.
+</p>
+
+<h3>Clustering</h3>
+<h5>Introduction</h5>
+<p>
+		Clustering is a method where similar or similar properties of data points are group together
+		Given a set of dataset points, we can just use a clustering algorithm to search for pattern in the
+		given scenario, finding similarities within the data and group them together.
+</p>
+<p>
+		Clustering Algorithm can be divided into Four types :
+		<ul>
+		  <li>Flat and Centroid based</li>
+		  <li>Flat and Density based</li>
+		  <li>Hierarchical and Centroid based</li>
+		  <li>Hierarchical and Density based</li>
+		</ul>
+</p>
+<br>
+<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/topic_modeling/images/clustering.png?raw=true" alt="..." width="300" class="center">
+<br>
+<p>
+    The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
+</p>
+<h5>HDBSCAN</h5>
+<p>
+  HDBSCAN works on DBSCAN, DBSCAN has two parameters that are : epsilon and min-points. epsilon is radius of a circle, which enclose data points, and if data points inside 'eps'(epsilon) radius are above K(min-points) then the circle considered as Dense Circle. In HDBSCAN, the parameter min-points are passed and fixed for DBSCAN, and different epsilon radius circle are drawn, and then HDBSCAN algorithm looks for the smaller eps value which accomodate min-points. And that eps value considered as dense. The circles get merged using Probability density function and using distance metrics <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#transform-the-space"> Mutual Rechability Distance </a> components get connected forming <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#build-the-minimum-spanning-tree">minimum spanning tree</a>. Next step in HDBSCAN is to convert MST into the hierarchy of connected components, using sorting of edges of MST which is also converted in Dendogram. HDBSCAN takes a parameter minimum cluster size, to eradicate clusters that has lower data points than minimum cluster size. Afterwards, HDBSCAN takes another parameter which acts as threshold which cut out the condensed dendogram, the maximum points in the hierarchy considered as clusters. For more info see here <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#extract-the-clusters">Cluster Extraction </a>
+<br>
+<br>
+  This is how HDBSCAN algorithm performs, in project we used the package from <a href = "https://github.com/scikit-learn-contrib/hdbscan">Scikit learn</a>. The most important parameters which we already discussed above are min_cluster_size, metric and min_samples.
+</p>
+
+<p>
+  <h3>Topic Labeling</h3>
+  <p> The aim of this pipeline step is to find suitable labels for each previously identified cluster. The topic labelling is performed on the pre-processed data. Importantly, the comments no longer contain stop-words and the words are lemmatized (e.g. <i> talk </i> instead of <i> talks </i> or <i> talked </i>). Generally, finding an appropriate label for a document is a difficult task for computational automation, because no one unique solution exists. Typically, a range of possible labels are appropriate for the document and humans prefer abstract labels which will likely consist of words not found in the text of the document. For this reason the approach presented here focusses on easy methods on the basis of words occurring in the comments, because this makes the process faster and less resource-intense. </p>
+  <p> As a basis for labelling and a brief characterisation of the cluster a set of keywords is determined for each cluster. This is done using either the unaltered word frequency or TFIDF. TFIDF takes into account besides the frequency of the word in question itself also the rarity of this word across different comments in the cluster. This technique is typically employed to counteract the effect of very frequent words which have a high frequency across all inspected documents. In this case, as common stop-words are already removed in the data preparation, word frequency and TFIDF perform similarly. </p>
+  <p> The label is then chosen by projecting the keywords back into embedding space and selecting the mean as a label for the cluster. Alternatively, a simpler method takes the five most common keywords in the cluster and uses this list as a label for the cluster. The advantage of the mean projection is that a single-word label instead of a list of words is better aligned with how a person might chose a cluster label. </p>
+  <p> For additional insight into the content of the identified clusters we attempted to select a few representative comments for each cluster. We implemented two different approaches for this task: a statistical approach and an embedding-focused approach. The statistical approach utilizes the frequency distribution of all words in the cluster. This frequency distribution is calculated and then normalized by dividing it through the frequency of the most frequent word. Each comment is assigned a weight which is the sum of all normalized frequencies of the words in the comment. The comments with the highest weights are taken as most representative of the cluster. This approach as described above introduces a bias toward longer comments, because the weight is not normalized by the number of words in the comment. In the embedding-focused approach we calculate the centroid embedding of all embeddings representing the comments in the cluster by taking the mean of each dimension. This centroid embedding then forms a reference point and we determine the cosine distance of each comment embedding to the centroid embedding. The comments with the smallest cosine distance are taken as representative of the cluster. The quality of representative comments selected with this approach depends on the structure of the underlying cluster. If a few comments in the cluster are very different from the rest these “outliers” will skew the resulting mean. </p>
+  <p> In conclusion, the simple methods presented here can provide some insights into the contents of the clusters and are applicable to all contents, but do not reach the quality of human-like annotation. Additionally, the resulting labels highly depend on the quality of the underlying data and clustering especially the degree to which clusters form coherent groups and are separated from each other. </p>
+</p>
+
+<p>
+  <h3>Grid Search</h3>
+    <h5>The algorithm</h5>
+      <body>
+        In general, a grid search is nothing else than successively trying out
+	different function input parameter configurations, then measuring the
+	performance for each configuration with a predefined score. The ultimate
+	goal is to maximize this score to get the best possible setting for the
+	underlying problem. The name grid search comes from the visualization in
+	which each of the configurations can be seen as a node of a grid in a high
+	dimensional vector space (e.g., a cube in a 3-dimensional parameter space).
+      </body>
+
+      <h5>Our approach</h5>
+      <body>
+        The general definition of grid search is scanning the data to configure the
+	optimal parameters for a model. In our topic model approach, this means
+	something slightly different, namely finding the best parameters for the
+	different components of the topic modeling pipeline (e.g.,
+	normalization, dimensionality reduction, clustering).<br><br>
+        To implement a smooth and dynamic grid search process, we had to adjust our
+	underlying pipeline architecture in a very standardized but also flexible
+	way. To this end, we gave every component function a fixed structure, which
+	requires as input the data, the name of the used algorithm, and the parameter
+	configuration. With this structure, it is easy to switch or drop out specific
+	components, or for our case, it was straightforward to call the functions in
+	sequence for the grid search.<br>
+        We implemented a <b> pipeline </b> variable (Image 1) for the actual process,
+        which is basically a python dictionary that contains all information about the
+	grid search components. So it is built with all different functions and a
+	bunch of input parameters, which then make the grid: <br><br>
+        <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/pipeline.png" alt="..." width="300" class="center">
+        <br>
+        Image 1: Adding normalization, dimensionality reduction and clustering
+        algorithm to the pipeline.
+        <br><br>
+        The actual grid search was implemented in a highly dynamic way fitting the
+	pipeline structure. This allows a component to be integrated into the
+	pipeline by merely adding it to the pipeline variable with the required
+	information. This process is possible due to providing the python function, for
+	example, for the clustering algorithm as a kind of object variable in order to
+	enable simple iterating through these successive components. Surely, they have
+	to be designed in a way that the previous functions' output suits the input of
+	the upcoming one.<br>
+        Our grid search aims to optimize the so-called <b>silhouette score</b>, which
+	measures how close the points of one cluster are compared to the distance
+	between the different clusters. We found the best parameter configuration by
+	optimizing this score, which we then set as default for our topic modeling
+	pipeline. Additionally, for a cross-check, we also took the number of
+	outliers into account.
+      </body>
+
+      <h5>Logging</h5>
+      <body>
+        Running a grid search without logging the information you get during the
+	process is pointless. Therefore, we paired each configuration with the
+	associated scores. The pairs were sent to our Mongo database to ensure saving
+	even if the grid search stopped prematurely. Simultaneously, this step
+	enabled access from remote working stations. With the python library
+	<b>pymongo</b>, a connection to the database was set up by creating a python
+	dictionary with all critical information and storing it in a grid search
+	collection. The library automatically converts the python dictionary to a
+	MongoDB object. Additionally, we implemented some sort of wrapper for smoother
+	handling of the information in the database. This wrapper allowed us to write,
+	delete, and search for database objects so that the best configurations'
+	information remains accessible at any point.
+        </body>
+</p>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+<p>
+	<h3>Analysis of the Grid Search Logs</h3>
+	<h5>Our Approach</h5>
+	In addition to figuring out the best configurations from the grid search
+	descriptively, we analyzed the grid search logs by means of a multiple
+	regression analysis to assess how much the different parameters contribute to
+	the silhouette score. The six predictors entered in the regression were the
+	grid search parameters defining the functioning of the UMAP dimensionality
+	reduction algorithm and the hdbscan clustering algorithm. Their metric
+	(Canberra/Cosine/Euclidean and Canberra/Euclidean, respectively) was entered as
+	a predictor for both algorithms. Additionally, for UMAP the number of neighbors
+	and the spread were taken into account, and for hdbscan, the minimum cluster
+	size and the minimum number of samples. All predictors were treated as
+	categorical data because only a few distinct values of the usually continuous
+	parameters could be entered into the grid search due to the limited
+	computational power available.<br>
+	As the grid search was run twice, once for the pipeline based on Fasttext
+	embeddings and once based on BERT embeddings, two analyses were conducted and
+	are presented separately. Our goal with both analyses was to find a
+	straightforward solution employing only predictors that contribute
+	substantially to the explained variance while accounting for as much variance
+	as possible. The dependent variable is the silhouette score; the outliers were
+	not included as a dependent variable. However, to reduce noise in the data, we
+	excluded results with more than 10% outliers from the analyses. Additionally,
+	results presenting more than 375 clusters were also excluded, as such a high
+	number of clusters seemed unreasonable given our input data.
+</p>
+<p>
+        <h5>Results with Fasttext embeddings</h5>
+        We identified a linear model employing the ordinary least squares (OLS)
+	technique with four predictors and no interactions, that accounts for 67.24%
+	of the variance in our data (F(5, 624) = 259.9, p < 0.001, R² = 0.6755,
+	Adjusted R² = 0.6729). According to these results, the best parameter
+	combination is the Cosine metric, an increased number of neighbors, and larger
+	cluster size for UMAP, as well as a smaller number of samples for
+	hdbscan (<I>Table 1</I>).
+<br><br>
+	<I>Table 1: Results of the multiple regression analysis of the grid search
+	logs based on fasttext embeddings.<br>
+	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
+	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+	R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729, AIC = -2532.875 </I><br>
+        <table>
+  		<tr>
+    			<th> </th>
+    			<th>Estimate</th>
+    			<th>Std.Error</th>
+			<th>t-value</th>
+  		</tr>
+  		<tr>
+   			<td>Intercept</td>
+    			<td>-0.19768</td>
+    			<td>0.00463</td>
+			<td>-42.731 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: metric cosine</td>
+    			<td>0.08805</td>
+    			<td>0.00314</td>
+			<td>28.080 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: metric euclidean</td>
+    			<td>0.02838</td>
+    			<td>0.00314</td>
+			<td>9.050 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: number of neighbors</td>
+    			<td>0.00105</td>
+    			<td> 0.00010 </td>
+			<td>10.267 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>hdbscan: min cluster size</td>
+    			<td>0.00068</td>
+    			<td>0.00004</td>
+			<td>17.929 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>hdbscan: min number of samples</td>
+    			<td>-0.00102</td>
+    			<td>0.00033</td>
+			<td>-3.085 &nbsp&nbsp**</td>
+  		</tr>
+	</table>
+</p>
+<p>
+	<h5>Results with BERT embeddings</h5>
+	The results look different for the grid search logs generated using the
+	pipeline with BERT embeddings. As the precondition of homoscedasticity was not
+	satisfied, we employed a regression with the generalized least squares
+	technique (GLS). The best model here comprises three predictors and one
+	interaction. The implied advice here is to use the Euclidean metric for both
+	algorithms and increase the minimum cluster size for the hdbscan algorithm
+	(<I>Table 2</I>).
+	<br><br>
+	<I>Table 2: Results of the multiple regression analysis of the grid search logs
+	based on BERT embeddings.<br>
+	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
+	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+	AIC = -1186.359 BIC = -1147.218 logLik = 601.1795 </I><br>
+        <table>
+  		<tr>
+    			<th> </th>
+    			<th>Value</th>
+    			<th>Std.Error</th>
+			<th>t-value</th>
+  		</tr>
+  		<tr>
+   			<td>Intercept</td>
+    			<td>-0.10262</td>
+    			<td>0.01211</td>
+			<td>-8.474 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: metric cosine</td>
+    			<td>0.00123</td>
+    			<td>0.01415</td>
+			<td>0.087 &nbsp&nbsp n.s.</td>
+  		</tr>
+  		<tr>
+    			<td>UMAP: metric euclidean</td>
+    			<td>0.04785</td>
+    			<td>0.014146</td>
+			<td>3.383 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>hdbscan: metric euclidean</td>
+    			<td>0.05686</td>
+    			<td>0.01412</td>
+			<td>4.026 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>hdbscan: min cluster size</td>
+    			<td>0.00163</td>
+    			<td>0.00012</td>
+			<td>14.117 &nbsp&nbsp***</td>
+  		</tr>
+  		<tr>
+    			<td>Interaction: UMAP metric cosine x hdbscan metric euclidean</td>
+    			<td>-0.02125</td>
+    			<td>0.01999</td>
+			<td>-1.063 &nbsp&nbsp n.s.</td>
+  		</tr>
+  		<tr>
+    			<td>Interaction: UMAP metric euclidean x hdbscan metric euclidean</td>
+    			<td>0.16369</td>
+    			<td>0.01997</td>
+			<td>8.195 &nbsp&nbsp***</td>
+  		</tr>
+	</table>
+</p>
+<p>
+	<h5>Conclusion</h5>
+	Following the results of the regressions, straightforward advice on optimizing
+	the pipeline can be given; however, this advice's limitations should be
+	considered in the process. Most importantly, since a reasonable number of
+	clusters is limited from a theoretical point of view, the results of a
+	correspondingly limited grid search would likely provide more accurate
+	insights. Furthermore, the regression models do not fit the data perfectly,
+	thereby possibly limiting the validity and generalizability of the results. The
+	noise in the original data can at least partly explain the reduced fit.
+	To sum, the regression helps to shed light on the parameters that most
+	decisively contribute to the score; nevertheless they should not lead to the
+	omission of a close inspection of the configurations.
+
+</p>
+
+<p>
+  <h3>References</h3>
+  <a>&emsp;</a>[1] Mikolov, Tomas & Corrado, G.s & Chen, Kai & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. 1-12.<br>
+  <a>&emsp;</a>[2] P. Bojanowski, E. Grave, A. Joulin, T. Mikolov. (2016) Enriching Word Vectors with Subword Information.<br>
+  <a>&emsp;</a>[3] Arora, S., Liang, Y., & Ma, T. (2016). A simple but tough-to-beat baseline for sentence embeddings. Paper presented at 5th International Conference on Learning Representations. <br>
+  <a>&emsp;</a>[4] Edilson Anselmo Correa Junior, Vanessa Marinho, and Leandro Santos. (2017). NILC-USP at SemEval-2017 Task 4: A Multi-view Ensemble for Twitter Sentiment Analysis. In Proceedings of the 11th International Workshop on Semantic Evaluation. Vancouver, Canada, SemEval ’17, pages 610–614.<br>
+  <a>&emsp;</a>[5] Zhao, Jiang & Lan, Man & Tian, Jun. (2015). ECNU: Using Traditional Similarity Measurements and Word Embedding for Semantic Textual Similarity Estimation.<br>
+  <a>https://dl.acm.org/doi/10.1145/2684822.2685324</a>[6] M. Röder, A. Both, A. Hinneburg, 2015. Exploring the Space of Topic Coherence Measures<br>
+  <a>https://www.genetics.org/content/155/2/945</a>[7] J. K. Pritchard, M. Stephens and P. Donnelly, 2000. Inference of Population Structure Using Multilocus Genotype Data<br>
+  <a>http://www.bioinf.jku.at/publications/older/2604.pdf</a>[8] S. Hochreiter, P. Schmidhuber, 1997. Long short-term memory<br>
 </p>
