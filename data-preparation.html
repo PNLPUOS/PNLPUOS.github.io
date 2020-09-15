@@ -90,26 +90,26 @@ permalink: data-preparation
     </ol>
 <h1>Named Entity Recognition</h1>
     <p>
-    Named entities are discrete things, like Osnabrueck University, Siemens, Frank Sinatra, etc. Dates, sums of money, percentages and other numeric measurements are also named entities. Named Entity recognition (NER) is a task of finding and classifying named entities from a text into predefined categories to extract further information. Some of the most common use cases for NER are date recognition, allowing to put an event into a virtual calendar or linking on Wikipedia, establishing connections between certain words/word groups and related articles. 
-    </p> 
+    Named entities are discrete things, like Osnabrueck University, Siemens, Frank Sinatra, etc. Dates, sums of money, percentages and other numeric measurements are also named entities. Named Entity recognition (NER) is a task of finding and classifying named entities from a text into predefined categories to extract further information. Some of the most common use cases for NER are date recognition, allowing to put an event into a virtual calendar or linking on Wikipedia, establishing connections between certain words/word groups and related articles.
+    </p>
     <h2>Implementing Named Entity Recognition</h2>
     <p>
     There are numerous ways to implement a NER pipeline. Throughout this study project, we tried to implement some of the most well-known ones to see which worked best. In doing so, we moved from the most simple to the more labor-intensive solutions.
-    </p> 
+    </p>
     <h3>NER with NLTK</h3>
     <p>
-    The first way to implement NER we tried was the built-in NER function of the Natural Language Processing Toolkit (NLTK), a suite of NLP libraries for the English language. 
-    
+    The first way to implement NER we tried was the built-in NER function of the Natural Language Processing Toolkit (NLTK), a suite of NLP libraries for the English language.
+
     <p>
     NER in NLTK requires several pre-processing steps:
     </p>
     <p>
 •	First, a text needs to be split into separate words or tokenized by applying nltk.word_tokenize(sentence). The result looks like: (This, is, a, sentence).
     </p>
-•	Second, after applying nltk.pos_tag(sentence) each word receives its own part-of speech-tag (POS tag) The possible tags look like: we – PRP, dog - NN and so on. 
+•	Second, after applying nltk.pos_tag(sentence) each word receives its own part-of speech-tag (POS tag) The possible tags look like: we – PRP, dog - NN and so on.
     <p>
 •	In the final step, the NER itself is implemented by chunking the preprocessed text with NLTK’s chunker: ne_tree = ne_chunk(pos_tag(word_tokenize(example))).
-When performing NER, NLTK is able to determine such named entity categories as ORGANIZATION, PERSON, GPE, etc. 
+When performing NER, NLTK is able to determine such named entity categories as ORGANIZATION, PERSON, GPE, etc.
     </p>
     <p>
     However, NLTK’s named entity recognition abilities have certain limitations. When working with NLTK, the results we got not always matched our expectations and showed that some words were falsely determined as named entities, e.g. Overall – GPE; while others were assigned incorrect name categories, e.g. Microsoft – PERSON or AI – ORGANISATION. This in a way confirms the out of the box NER comparison results we were able to obtain online. There, NLTK is reported to be one of the fastest and easiest ways to perform NER tasks that is partially balanced off by its producing not the most accurate results in certain cases. When tested against other NER tools, NLTK’s F1 score matched those of Spacy and even beat those of Stanford NLP and Deep Pavlov pipelines. Though NLTK is essential for basic preprocessing tasks, it was decided to further explore the alternative NER methods as NLTK’s performance seemed to leave enough room for improvement.  Further options included Spacy and training a custom NER solution with our own dataset-specific tags from scratch. Please find both of these aspects covered in detail in the following sections.
@@ -169,7 +169,7 @@ Terry-Jack, M. (2019, May 03). NLP: Pretrained Named Entity Recognition (NER). R
 <h1>Classification Model for NER detection </h1>
 <h2>Introduction</h2>
 <p>
-Classification models are supervised learning models. Where the model learns from a pre-existing dataset. We have an input and a set output. The output are   finite or discrete variables making them a class. So, for every input the model learns to have an output class. We have a multi class output in the NER detection. For every given word input its output is a class output. The class output are categories of NER like person, location, organization.  
+Classification models are supervised learning models. Where the model learns from a pre-existing dataset. We have an input and a set output. The output are   finite or discrete variables making them a class. So, for every input the model learns to have an output class. We have a multi class output in the NER detection. For every given word input its output is a class output. The class output are categories of NER like person, location, organization.
 </p>
 <h2>Aim and Objective</h2>
 <p>
@@ -179,8 +179,8 @@ The aim of creating a pipeline was to try to classify words to labeled entities.
 <li>To have a classification model with pre-defined labels. </li>
 <li>A model functional for multiple classifications labels. </li>
 </ul>
-<h2>The Dataset</h2> 
-<p> 
+<h2>The Dataset</h2>
+<p>
 Taking an already existing GMB(Groningen Meaning Bank) corpus for entity classification which is pre annotated for NER. The dataset is tokenized at white spacing basically making it one-word token. Except for labels where multiple words are essential for an entity like organizations. Let’s take a list of entities in the training data with their corresponding description: </p>
 
 <head>
@@ -248,7 +248,7 @@ tr:nth-child(even) {
   </tr>
 </table>
 
-<h2>The Packages </h2> 
+<h2>The Packages </h2>
 <p>The major two packages used for the classification model were Keras and Scikit-learn. Scikit learn is a machine learning library for the Python programming language. We used functions like count vectorizer, tf-idf and data splitting functions. Count vectorizer and tf-idf are basically used to convert the words to a numeric vector which can be fed to a neural network for processing. Data splitting function basically helps in splitting the data into a training, testing and blind dataset. Keras is a neural network package in Python. We use it to create a sequential dense model. “A Sequential model is appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor.” </p>
 
 <h2>The Model </h2>
@@ -262,9 +262,9 @@ tr:nth-child(even) {
 <h2> Results and Output. </h2>
 <p>
 The following image shows the partial output accuracy of 3 classes number 0,1 and 2. Where 0 stands for geo, 1 for org and 2 for per. </p>
-<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/master/images/NERoutput1.png" alt="Accuracy" width="460" height="345">
+<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/master/images/NERoutput1.png" alt="Accuracy" width="460" height="345">
 <p>The second image shows how the output looks like and the corresponding pre-annotated correct labels </p>
-<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/master/images/NERoutput2.png" alt="Output" width="460" height="345">
+<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/master/images/NERoutput2.png" alt="Output" width="460" height="345">
 
 <h2>Discussion</h2>
 <p>Seeing the results and the code one can see that the classification model works better in terms of accuracy compared to the NLTK and the spacy model. However, we ran into a problem which we couldn’t solve. Once we used the pre existing annotated dataset we could test that data. But when we wanted to test the data on our dataset which is a blind dataset we weren’t able to run the model. The model is compatible to a certain input matrix. The blind data when vectorized using word vector or tf-idf has a different input matrix which is not compatible with the trained model. </p>
