@@ -61,7 +61,7 @@ its general approach.
 </p>
 
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:200px;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lda_model.png'> </div>
+    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:200px;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lda_model.png'> </div>
     <div style="float:left; width:40%;">
 		<p>Figure is known as a plate diagram of an LDA model where:</p>
 		<ul>
@@ -95,9 +95,9 @@ in relation to the number of topics. We choose 8 topics (coherence score 0.37) a
 Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure.
 </p>
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/optimal_topic_plot.png'> </div>
+    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/optimal_topic_plot.png'> </div>
     <div style="float:left; width:40%;">
-		<img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/topic_list.png'>
+		<img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/topic_list.png'>
 	</div>
 </div>
 
@@ -128,11 +128,11 @@ Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure
  of LSTM’s is text generation, handwriting generation, image captioning, translating languages etc.
 </p>
 
-<img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lstm_architecture.png'>
+<img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_architecture.png'>
 <p>Figure : LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
 </p>
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lstm_model.png'> </div>
+    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_model.png'> </div>
     <div style="float:left; width:40%;">
 		<p>LSTM Parameters:</p>
 		<ul>
@@ -170,7 +170,7 @@ Having access to more data may help in this situation, but running more epochs u
   codebase.
 </p>
 <p>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/pipeline-topics.png" alt="...">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/pipeline-topics.png" alt="...">
 </p>
 <p>
   <h3>Document Vectorization</h3>
@@ -195,7 +195,7 @@ Having access to more data may help in this situation, but running more epochs u
   document vectors. Clearly, the clusters are not clearly separable.
 </p>
 <p>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-badclusters.png" alt="..." width="500", class="center">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/graph-badclusters.png" alt="..." width="500", class="center">
 </p>
 <p>
   It has been shown that weighting embeddings via smoothed term frequency can
@@ -205,7 +205,7 @@ Having access to more data may help in this situation, but running more epochs u
   The SIF weighting equation for a single word is demonstrated below:
 </p>
 <p>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-sif.png" alt="..." width="200" class="center">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/eq-sif.png" alt="..." width="200" class="center">
 </p>
 <p>
   where <i>a</i> denotes an arbitrary normalization constant of approximately 1e-5, and <i>p(w)</i>
@@ -222,7 +222,7 @@ Having access to more data may help in this situation, but running more epochs u
   With this modification, the weighting equation for single words in our
   averaged document vectors becomes <br>
 <p>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/eq-siftfidf.png" alt="..." width="200" class="center">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/eq-siftfidf.png" alt="..." width="200" class="center">
 </p>
 <p>
   where <i>w</i> for a term <i>i</i> in document <i>j</i> denotes<br>
@@ -238,7 +238,7 @@ Having access to more data may help in this situation, but running more epochs u
   to generate more meaningfully-distinct document vector representations.
 </p>
 <p>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/graph-goodclusters.png" alt="..." width="500" class="center">
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/graph-goodclusters.png" alt="..." width="500" class="center">
 </p>
 
 <p>
@@ -251,13 +251,13 @@ When we work with natural language, we often have to deal with a large amount of
 <li><b>Data Sparsity </b><br>
 the volume of the represented space grows quicker than the data and thus becomes sparse
 <br> —> this is a problem if we want to derive some statistical significance from the data <br><br>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small></li><br>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small></li><br>
 
 <li><b>Closeness of the data </b><br>
 in low dimensional spaces, data may seem very close but the higher the dimension the further these data points may seem to be
 <br> —> distances of objects seem to be different when changing perspectives </li>
 <br>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/Dimensionality_Reduction-Closeness_Data.png" alt="..." width="300" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small><br></li>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Closeness_Data.png" alt="..." width="300" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small><br></li>
 </ul>
 
 In other words: when the number of features or dimensions grow, the amount of data we need to generalize accurately grows exponentially. That makes common data organization strategies become inefficient. <br><br>
@@ -279,10 +279,10 @@ UMAP is a non-linear dimensionality reduction technique with a solid mathematica
 In our pipeline we are applying both dimensionality reduction techniques: first PCA and following UMAP. Doing so we expected to get an improved computation time and to obtain a less noisy dataset.
 
 <ul>
-<li><i> running dimensionality reduction only with UMAP (without PCA)</I> <br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_without_PCA.png" alt="..." width="300" class="center"><br><br></li>
+<li><i> running dimensionality reduction only with UMAP (without PCA)</I> <br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/UMAP_without_PCA.png" alt="..." width="300" class="center"><br><br></li>
 
 <li> <i>running dimensionality reduction with UMAP and PCA</I>
-<br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_Reduction.png" alt="..." width="300" class="center"><br><br></li>
+<br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/UMAP_Reduction.png" alt="..." width="300" class="center"><br><br></li>
 
 
 Our expectation in obtaining a less noisy dataset by applying both algorithms has been fulfilled. We can see the difference by looking at the first picture which is a plot of the dataset after only applying UMAP, in contrast to the second picture where we can see a plot of the dataset after applying PCA and UMAP in combination. The output is more precise and structured. These results supported our approach.
@@ -305,7 +305,7 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
 		</ul>
 </p>
 <br>
-<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/topic_modeling/images/clustering.png?raw=true" alt="..." width="300" class="center">
+<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/master/images/clustering.png?raw=true" alt="..." width="300" class="center">
 <br>
 <p>
     The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
@@ -358,7 +358,7 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
         which is basically a python dictionary that contains all information about the
 	grid search components. So it is built with all different functions and a
 	bunch of input parameters, which then make the grid: <br><br>
-        <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/pipeline.png" alt="..." width="300" class="center">
+        <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/pipeline.png" alt="..." width="300" class="center">
         <br>
         Image 1: Adding normalization, dimensionality reduction and clustering
         algorithm to the pipeline.
