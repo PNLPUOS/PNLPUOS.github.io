@@ -88,7 +88,45 @@ permalink: data-preparation
         <li>Check whether the token occurs more than 10 times in the entire corpus. If it does, do not consider it an error.</li>
         <li>Check whether the token is contained in a lexicon for American English and British English, respectively. If none of these conditions were met, consider the word an error. Please note that the second criterion requires knowledge of the entire corpus (as well as a certain size of the corpus for the measure to be effective).</li>
     </ol>
-
+<h1>Named Entity Recognition</h1>
+    <p>
+    Named entities are discrete things, like Osnabrueck University, Siemens, Frank Sinatra, etc. Dates, sums of money, percentages and other numeric measurements are also named entities. Named Entity recognition (NER) is a task of finding and classifying named entities from a text into predefined categories to extract further information. Some of the most common use cases for NER are date recognition, allowing to put an event into a virtual calendar or linking on Wikipedia, establishing connections between certain words/word groups and related articles. 
+    </p> 
+    <h2>Implementing Named Entity Recognition</h2>
+    <p>
+    There are numerous ways to implement a NER pipeline. Throughout this study project, we tried to implement some of the most well-known ones to see which worked best. In doing so, we moved from the most simple to the more labor-intensive solutions.
+    </p> 
+    <h3>NER with NLTK</h3>
+    <p>
+    The first way to implement NER we tried was the built-in NER function of the Natural Language Processing Toolkit (NLTK), a suite of NLP libraries for the English language. 
+    
+    <p>
+    NER in NLTK requires several pre-processing steps:
+    </p>
+    <p>
+•	First, a text needs to be split into separate words or tokenized by applying nltk.word_tokenize(sentence). The result looks like: (This, is, a, sentence).
+    </p>
+•	Second, after applying nltk.pos_tag(sentence) each word receives its own part-of speech-tag (POS tag) The possible tags look like: we – PRP, dog - NN and so on. 
+    <p>
+•	In the final step, the NER itself is implemented by chunking the preprocessed text with NLTK’s chunker: ne_tree = ne_chunk(pos_tag(word_tokenize(example))).
+When performing NER, NLTK is able to determine such named entity categories as ORGANIZATION, PERSON, GPE, etc. 
+    </p>
+    <p>
+    However, NLTK’s named entity recognition abilities have certain limitations. When working with NLTK, the results we got not always matched our expectations and showed that some words were falsely determined as named entities, e.g. Overall – GPE; while others were assigned incorrect name categories, e.g. Microsoft – PERSON or AI – ORGANISATION. This in a way confirms the out of the box NER comparison results we were able to obtain online. There, NLTK is reported to be one of the fastest and easiest ways to perform NER tasks that is partially balanced off by its producing not the most accurate results in certain cases. When tested against other NER tools, NLTK’s F1 score matched those of Spacy and even beat those of Stanford NLP and Deep Pavlov pipelines. Though NLTK is essential for basic preprocessing tasks, it was decided to further explore the alternative NER methods as NLTK’s performance seemed to leave enough room for improvement.  Further options included Spacy and training a custom NER solution with our own dataset-specific tags from scratch. Please find both of these aspects covered in detail in the following sections.
+    </p>
+    <h4>References</h4>
+    <p>
+    Kalyan, P. (2019, August 09). Named Entity Recognition with NLTK. Retrieved September 08, 2020, from https://medium.com/@pavankalyanpk986/named-entity-recognition-with-nltk-ec59ff6a9250
+    </p>
+    <p>
+    Natural Language Toolkit, Documentation. Retrieved September 09, 2020, from https://www.nltk.org/
+    </p>
+    <p>
+    Li, S. (2018, December 06). Named Entity Recognition with NLTK and SpaCy. Retrieved September 08, 2020, from https://towardsdatascience.com/named-entity-recognition-with-nltk-and-spacy-8c4a7d88e7da
+    </p>
+    <p>
+Terry-Jack, M. (2019, May 03). NLP: Pretrained Named Entity Recognition (NER). Retrieved September 08, 2020, from https://medium.com/@b.terryjack/nlp-pretrained-named-entity-recognition-7caa5cd28d7b
+    </p>
   <h2>5. Evaluation</h2>
 
   <h2>6. Discussion</h2>
