@@ -289,38 +289,34 @@ In our pipeline we are applying both dimensionality reduction techniques: first 
 Our expectation in obtaining a less noisy dataset by applying both algorithms has been fulfilled. We can see the difference by looking at the first picture which is a plot of the dataset after only applying UMAP, in contrast to the second picture where we can see a plot of the dataset after applying PCA and UMAP in combination. The output is more precise and structured. These results supported our approach.
 </p>
 
-  <h3>Clustering</h3>
-	<h5>Introduction<h5>
-	<p>
-			Clustering is a method where similar or similar properties of data points are group together
-			Given a set of dataset points, we can just use a clustering algorithm to search for pattern in the
-			given scenario, finding similarities within the data and group them together.
-  </p>
-	<br>
-	<br>
-  <p>
-			Clustering Algorithm can be divided into Four types :
-			<ul>
-			  <li>Flat and Centroid based</li>
-			  <li>Flat and Density based</li>
-			  <li>Hierarchical and Centroid based</li>
-			  <li>Hierarchical and Density based</li>
-			</ul>
-  </p>
-	<br>
-	<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/topic_modeling/images/clustering.png?raw=true" alt="..." width="300" class="center">
-	<br>
-  <p>
-      The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
-  </p>
-	<h5>HDBSCAN</h5>
-		<p>
-		HDBSCAN works on DBSCAN, DBSCAN has two parameters that are : epsilon and min-points. epsilon is radius of a circle, which enclose data points, and if data points inside 'eps'(epsilon) radius are above K(min-points) then the circle considered as Dense Circle. In HDBSCAN, the parameter min-points are passed and fixed for DBSCAN, and different epsilon radius circle are drawn, and then HDBSCAN algorithm looks for the smaller eps value which accomodate min-points. And that eps value considered as dense. The circles get merged using Probability density function and using distance metrics <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#transform-the-space"> Mutual Rechability Distance </a> components get connected forming <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#build-the-minimum-spanning-tree">minimum spanning tree</a>. Next step in HDBSCAN is to convert MST into the hierarchy of connected components, using sorting of edges of MST which is also converted in Dendogram. HDBSCAN takes a parameter minimum cluster size, to eradicate clusters that has lower data points than minimum cluster size. Afterwards, HDBSCAN takes another parameter which acts as threshold which cut out the condensed dendogram, the maximum points in the hierarchy considered as clusters. For more info see here <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#extract-the-clusters">Cluster Extraction </a>
-		<br>
-		<br>
-		This is how HDBSCAN algorithm performs, in project we used the package from <a href = "https://github.com/scikit-learn-contrib/hdbscan">Scikit learn</a>. The most important parameters which we already discussed above are min_cluster_size, metric and min_samples.
-		</p>
-
+<h3>Clustering</h3>
+<h5>Introduction<h5>
+<p>
+		Clustering is a method where similar or similar properties of data points are group together
+		Given a set of dataset points, we can just use a clustering algorithm to search for pattern in the
+		given scenario, finding similarities within the data and group them together.
+</p>
+<p>
+		Clustering Algorithm can be divided into Four types :
+		<ul>
+		  <li>Flat and Centroid based</li>
+		  <li>Flat and Density based</li>
+		  <li>Hierarchical and Centroid based</li>
+		  <li>Hierarchical and Density based</li>
+		</ul>
+</p>
+<br>
+<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/topic_modeling/images/clustering.png?raw=true" alt="..." width="300" class="center">
+<br>
+<p>
+    The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
+</p>
+<h5>HDBSCAN</h5>
+<p>
+  HDBSCAN works on DBSCAN, DBSCAN has two parameters that are : epsilon and min-points. epsilon is radius of a circle, which enclose data points, and if data points inside 'eps'(epsilon) radius are above K(min-points) then the circle considered as Dense Circle. In HDBSCAN, the parameter min-points are passed and fixed for DBSCAN, and different epsilon radius circle are drawn, and then HDBSCAN algorithm looks for the smaller eps value which accomodate min-points. And that eps value considered as dense. The circles get merged using Probability density function and using distance metrics <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#transform-the-space"> Mutual Rechability Distance </a> components get connected forming <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#build-the-minimum-spanning-tree">minimum spanning tree</a>. Next step in HDBSCAN is to convert MST into the hierarchy of connected components, using sorting of edges of MST which is also converted in Dendogram. HDBSCAN takes a parameter minimum cluster size, to eradicate clusters that has lower data points than minimum cluster size. Afterwards, HDBSCAN takes another parameter which acts as threshold which cut out the condensed dendogram, the maximum points in the hierarchy considered as clusters. For more info see here <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#extract-the-clusters">Cluster Extraction </a>
+<br>
+<br>
+  This is how HDBSCAN algorithm performs, in project we used the package from <a href = "https://github.com/scikit-learn-contrib/hdbscan">Scikit learn</a>. The most important parameters which we already discussed above are min_cluster_size, metric and min_samples.
 </p>
 
 <p>
