@@ -50,12 +50,13 @@ permalink: topic-modeling
   describe the statistical approach before investigating our methods.
 </p>
 
-<p>Topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core 
-“latent topics” of a large volume of documents. There are 3 types of model typically employed: Latent Semantic 
-Analysis (LSA),  Probabilistic Latent Semantic Analysis (PLSA) and Latent Dirichlet allocation (LDA). LDA proposed 
-by J. K. Pritchard, M. Stephens, and P. Donnelly[7], generates topics based on word frequency from a set of given documents. 
-It is based upon two assumptions: First, documents with similar words belong to the same topic. Second, documents with groups 
-of words together appear in different documents belongs to the same topic. LDA generalizes well to other documents because of 
+<p>
+Statistical topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core
+“latent topics” of a large volume of documents. There are three types of models typically employed: Latent Semantic
+Analysis (LSA),  Probabilistic Latent Semantic Analysis (PLSA) and Latent Dirichlet allocation (LDA). LDA, proposed
+by J. K. Pritchard, M. Stephens, and P. Donnelly [7], generates topics based on word frequency from a set of given documents.
+It is based upon two assumptions: First, documents with similar words belong to the same topic. Second, documents with groups
+of words together appear in different documents belongs to the same topic. LDA generalizes well to other documents because of
 its general approach.
 </p>
 
@@ -74,8 +75,8 @@ its general approach.
 	</div>
 </div>
 
-<p>The dataset consists of 17672 documents with 343549 words where 20% are used as test data and 80 % as training data. 
-Data preprocessing is the most important aspect needed to ensure a good result of the LDA topic modeling. Below, 
+<p>The dataset consists of 17672 documents with 343549 words where 20% are used as test data and 80 % as training data.
+Data preprocessing is the most important aspect needed to ensure a good result of the LDA topic modeling. Below,
 the preprocessing steps taken to prepare the dataset are explained. </p>
 		<ul>
 			<li>Tokenization: Split the text into sentences and the sentences into words.</li>
@@ -84,15 +85,15 @@ the preprocessing steps taken to prepare the dataset are explained. </p>
 			<li>All stopwords are removed.</li>
 			<li>Words are lemmatized</li>
 		</ul>
-<p>For LDA topic modeling, we created a dictionary and a corpus using  the Gensim library. Gensim assigns a unique id  
-to each word (i.e.. (0,1) means word id 0 occurs 1 in the first document).  Then we trained the LDA model. </p>	
+<p>For LDA topic modeling, we created a dictionary and a corpus using  the Gensim library. Gensim assigns a unique id
+to each word (i.e.. (0,1) means word id 0 occurs 1 in the first document).  Then we trained the LDA model. </p>
 
-<p>After getting an LDA trained model, we don’t know for how many topics the trained model will perform best. 
-So topic coherence is one of the main techniques used to estimate the number of topics. We used UMass and c_v 
-measures to get the coherence score[6] where c_v best fit for our dataset.  Figure shows the coherence score 
-in relation to the number of topics. We choose 8 topics (coherence score 0.37) as optimal for our purposes. 
-Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure. 
-</p>	
+<p>After getting an LDA trained model, we don’t know for how many topics the trained model will perform best.
+So topic coherence is one of the main techniques used to estimate the number of topics. We used UMass and c_v
+measures to get the coherence score[6] where c_v best fit for our dataset.  Figure shows the coherence score
+in relation to the number of topics. We choose 8 topics (coherence score 0.37) as optimal for our purposes.
+Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure.
+</p>
 <div style="width: 100%; overflow: hidden;">
     <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/optimal_topic_plot.png'> </div>
     <div style="float:left; width:40%;">
@@ -118,7 +119,7 @@ Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure
       <td>8</td>
     </tr>
   </table>
-  <p>Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.</p> 
+  <p>Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.</p>
 </div>
 
 <p>LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.[8]
@@ -127,11 +128,11 @@ Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure
  of LSTM’s is text generation, handwriting generation, image captioning, translating languages etc.
 </p>
 
-<img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lstm_architecture.png'> 
+<img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lstm_architecture.png'>
 <p>Figure : LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
 </p>
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lstm_model.png'> </div>
+    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/lstm_model.PNG'> </div>
     <div style="float:left; width:40%;">
 		<p>LSTM Parameters:</p>
 		<ul>
@@ -147,12 +148,12 @@ Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure
 	</div>
 </div>
 
-<p>Finally, topic modeling using LDA generates same keyword in diffirent topics. And the LSTM model does not perform well on our dataset, which is likely due to overfitting on a small dataset. 
+<p>Finally, topic modeling using LDA generates same keyword in diffirent topics. And the LSTM model does not perform well on our dataset, which is likely due to overfitting on a small dataset.
 Having access to more data may help in this situation, but running more epochs using the current data would not solve this problem.
 </p>
 
 <p>
-  We employ a document clustering approach given our academic interest in
+  Nevertheless, we employ a document clustering approach given our academic interest in
   exploring the applications of pretrained word embeddings coupled with
   traditional cluster analyses. Furthermore, we ignore supervised approaches
   such as document classification because these are unsuitable for our task
@@ -243,10 +244,10 @@ Having access to more data may help in this situation, but running more epochs u
 
 <p>
 <h3> Dimensionality Reduction </h3>
-<h4> Dealing with High Dimensional Datasets </h4>
+<h5> Dealing with High Dimensional Datasets </h5>
 
 When we work with natural language, we often have to deal with a large amount of data. If such a dataset also contains many different variables, we speak of a so-called high dimensional dataset. For a lot of scientific tasks such high dimensional datasets are a welcome basis, but as Spiderman's uncle might say <i>„with high dimensional datasets comes the great curse of dimensionality"</I>. Working with large data sets entails problems, such that it requires a lot of time and space complexity, it often leads to overfitting, not all the features in the given data set might be relevant to our problem and, due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomena that occurs when working with high dimensional data. With the curse of dimensionality we’re facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
-
+<br>
 <ul>
 <li><b>Data Sparsity </b><br>
 the volume of the represented space grows quicker than the data and thus becomes sparse
@@ -262,9 +263,10 @@ in low dimensional spaces, data may seem very close but the higher the dimension
 
 In other words: when the number of features or dimensions grow, the amount of data we need to generalize accurately grows exponentially. That makes common data organization strategies become inefficient. <br><br>
 
-<h4> Dimensionality Reduction Techniques </h4>
+<h5> Dimensionality Reduction Techniques </h5>
 There is a trick that helps us to organize, reduce and visualize such large amounts of data: it’s called dimensionality reduction. Dimensionality reduction is about discovering non-linear and non-local relationship in a given high dimensional data set. By reducing the dimensions we can reduce noise in the data which in turn makes it easier to apply simple learning algorithms. In our project, we are applying the following two dimensionality reduction techniques:
 
+<br>
 <ul>
 <li><b> Principle Component Analysis (PCA) </b><br>
 PCA is the most tried linear dimensionality reduction technique. It transforms existing variables into a new set of variables, which are a linear combination of the original variables and finally converts the correlations among all of the features into a 2D-Graph. What we can see after applying PCA is that features that are highly correlated cluster together whereas the differences along the first principal component axis are more important than the differences along the second principal component.  <br><br></li>
@@ -274,14 +276,14 @@ UMAP is a non-linear dimensionality reduction technique with a solid mathematica
 </ul><br>
 
 
-<h4> Results </h4>
+<h5> Results </h5>
 In our pipeline we are applying both dimensionality reduction techniques: first PCA and following UMAP. Doing so we expected to get an improved computation time and to obtain a less noisy dataset.
 
 <ul>
-<li><i> running dimensionality reduction only with UMAP (without PCA)</I> <br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_Reduction.png" alt="..." width="300" class="center"><br><br></li>
+<li><i> running dimensionality reduction only with UMAP (without PCA)</I> <br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_without_PCA.png" alt="..." width="300" class="center"><br><br></li>
 
 <li> <i>running dimensionality reduction with UMAP and PCA</I>
-<br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_without_PCA.png" alt="..." width="300" class="center"><br><br></li>
+<br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/UMAP_Reduction.png" alt="..." width="300" class="center"><br><br></li>
 
 
 Our expectation in obtaining a less noisy dataset by applying both algorithms has been fulfilled. We can see the difference by looking at the first picture which is a plot of the dataset after only applying UMAP, in contrast to the second picture where we can see a plot of the dataset after applying PCA and UMAP in combination. The output is more precise and structured. These results supported our approach.
@@ -289,13 +291,15 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
 
 <p>
   <h3>Clustering</h3>
-	<h4>Introduction<h4>
-		<p>
+	<h5>Introduction<h5>
+	<p>
 			Clustering is a method where similar or similar properties of data points are group together
 			Given a set of dataset points, we can just use a clustering algorithm to search for pattern in the
 			given scenario, finding similarities within the data and group them together.
-			<br>
-			<br>
+  </p>
+	<br>
+	<br>
+  <p>
 			Clustering Algorithm can be divided into Four types :
 			<ul>
 			  <li>Flat and Centroid based</li>
@@ -303,13 +307,14 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
 			  <li>Hierarchical and Centroid based</li>
 			  <li>Hierarchical and Density based</li>
 			</ul>
-			<br>
-			<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/topic_modeling/images/clustering.png?raw=true" alt="...">
-			<br>
-
-			The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
-		</p>
-	<h4>HDBSCAN</h4>
+  </p>
+	<br>
+	<img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/topic_modeling/images/clustering.png?raw=true" alt="..." width="300" class="center">
+	<br>
+  <p>
+      The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
+  </p>
+	<h5>HDBSCAN</h5>
 		<p>
 		HDBSCAN works on DBSCAN, DBSCAN has two parameters that are : epsilon and min-points. epsilon is radius of a circle, which enclose data points, and if data points inside 'eps'(epsilon) radius are above K(min-points) then the circle considered as Dense Circle. In HDBSCAN, the parameter min-points are passed and fixed for DBSCAN, and different epsilon radius circle are drawn, and then HDBSCAN algorithm looks for the smaller eps value which accomodate min-points. And that eps value considered as dense. The circles get merged using Probability density function and using distance metrics <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#transform-the-space"> Mutual Rechability Distance </a> components get connected forming <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#build-the-minimum-spanning-tree">minimum spanning tree</a>. Next step in HDBSCAN is to convert MST into the hierarchy of connected components, using sorting of edges of MST which is also converted in Dendogram. HDBSCAN takes a parameter minimum cluster size, to eradicate clusters that has lower data points than minimum cluster size. Afterwards, HDBSCAN takes another parameter which acts as threshold which cut out the condensed dendogram, the maximum points in the hierarchy considered as clusters. For more info see here <a href = "https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html#extract-the-clusters">Cluster Extraction </a>
 		<br>
@@ -317,8 +322,6 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
 		This is how HDBSCAN algorithm performs, in project we used the package from <a href = "https://github.com/scikit-learn-contrib/hdbscan">Scikit learn</a>. The most important parameters which we already discussed above are min_cluster_size, metric and min_samples.
 		</p>
 
-
-  ...
 </p>
 </p>
 
@@ -333,69 +336,69 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
 
 <p>
   <h3>Grid Search</h3>
-    <h4>The algorithm</h4>
+    <h5>The algorithm</h5>
       <body>
-        In general, a grid search is nothing else than successively trying out 
-	different function input parameter configurations, then measuring the 
-	performance for each configuration with a predefined score. The ultimate 
-	goal is to maximize this score to get the best possible setting for the 
-	underlying problem. The name grid search comes from the visualization in 
-	which each of the configurations can be seen as a node of a grid in a high 
+        In general, a grid search is nothing else than successively trying out
+	different function input parameter configurations, then measuring the
+	performance for each configuration with a predefined score. The ultimate
+	goal is to maximize this score to get the best possible setting for the
+	underlying problem. The name grid search comes from the visualization in
+	which each of the configurations can be seen as a node of a grid in a high
 	dimensional vector space (e.g., a cube in a 3-dimensional parameter space).
       </body>
 
-      <h4>Our approach</h4>
+      <h5>Our approach</h5>
       <body>
         The general definition of grid search is scanning the data to configure the
-	optimal parameters for a model. In our topic model approach, this means 
-	something slightly different, namely finding the best parameters for the 
-	different components of the topic modeling pipeline (e.g., 
+	optimal parameters for a model. In our topic model approach, this means
+	something slightly different, namely finding the best parameters for the
+	different components of the topic modeling pipeline (e.g.,
 	normalization, dimensionality reduction, clustering).<br><br>
-        To implement a smooth and dynamic grid search process, we had to adjust our 
-	underlying pipeline architecture in a very standardized but also flexible 
-	way. To this end, we gave every component function a fixed structure, which 
-	requires as input the data, the name of the used algorithm, and the parameter 
-	configuration. With this structure, it is easy to switch or drop out specific 
-	components, or for our case, it was straightforward to call the functions in 
+        To implement a smooth and dynamic grid search process, we had to adjust our
+	underlying pipeline architecture in a very standardized but also flexible
+	way. To this end, we gave every component function a fixed structure, which
+	requires as input the data, the name of the used algorithm, and the parameter
+	configuration. With this structure, it is easy to switch or drop out specific
+	components, or for our case, it was straightforward to call the functions in
 	sequence for the grid search.<br>
-        We implemented a <b> pipeline </b> variable (Image 1) for the actual process, 
-        which is basically a python dictionary that contains all information about the 
-	grid search components. So it is built with all different functions and a 
+        We implemented a <b> pipeline </b> variable (Image 1) for the actual process,
+        which is basically a python dictionary that contains all information about the
+	grid search components. So it is built with all different functions and a
 	bunch of input parameters, which then make the grid: <br><br>
-        <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/pipeline.png" alt="...">
+        <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/topic_modeling/images/pipeline.png" alt="..." width="300" class="center">
         <br>
         Image 1: Adding normalization, dimensionality reduction and clustering
         algorithm to the pipeline.
         <br><br>
-        The actual grid search was implemented in a highly dynamic way fitting the 
-	pipeline structure. This allows a component to be integrated into the 
-	pipeline by merely adding it to the pipeline variable with the required 
-	information. This process is possible due to providing the python function, for 
-	example, for the clustering algorithm as a kind of object variable in order to 
-	enable simple iterating through these successive components. Surely, they have 
-	to be designed in a way that the previous functions' output suits the input of 
+        The actual grid search was implemented in a highly dynamic way fitting the
+	pipeline structure. This allows a component to be integrated into the
+	pipeline by merely adding it to the pipeline variable with the required
+	information. This process is possible due to providing the python function, for
+	example, for the clustering algorithm as a kind of object variable in order to
+	enable simple iterating through these successive components. Surely, they have
+	to be designed in a way that the previous functions' output suits the input of
 	the upcoming one.<br>
-        Our grid search aims to optimize the so-called <b>silhouette score</b>, which 
-	measures how close the points of one cluster are compared to the distance 
-	between the different clusters. We found the best parameter configuration by 
-	optimizing this score, which we then set as default for our topic modeling 
-	pipeline. Additionally, for a cross-check, we also took the number of 
+        Our grid search aims to optimize the so-called <b>silhouette score</b>, which
+	measures how close the points of one cluster are compared to the distance
+	between the different clusters. We found the best parameter configuration by
+	optimizing this score, which we then set as default for our topic modeling
+	pipeline. Additionally, for a cross-check, we also took the number of
 	outliers into account.
       </body>
 
-      <h4>Logging</h4>
+      <h5>Logging</h5>
       <body>
-        Running a grid search without logging the information you get during the 
-	process is pointless. Therefore, we paired each configuration with the 
-	associated scores. The pairs were sent to our Mongo database to ensure saving 
-	even if the grid search stopped prematurely. Simultaneously, this step 
-	enabled access from remote working stations. With the python library 
-	<b>pymongo</b>, a connection to the database was set up by creating a python 
-	dictionary with all critical information and storing it in a grid search 
-	collection. The library automatically converts the python dictionary to a 
-	MongoDB object. Additionally, we implemented some sort of wrapper for smoother 
-	handling of the information in the database. This wrapper allowed us to write, 
-	delete, and search for database objects so that the best configurations' 
+        Running a grid search without logging the information you get during the
+	process is pointless. Therefore, we paired each configuration with the
+	associated scores. The pairs were sent to our Mongo database to ensure saving
+	even if the grid search stopped prematurely. Simultaneously, this step
+	enabled access from remote working stations. With the python library
+	<b>pymongo</b>, a connection to the database was set up by creating a python
+	dictionary with all critical information and storing it in a grid search
+	collection. The library automatically converts the python dictionary to a
+	MongoDB object. Additionally, we implemented some sort of wrapper for smoother
+	handling of the information in the database. This wrapper allowed us to write,
+	delete, and search for database objects so that the best configurations'
 	information remains accessible at any point.
         </body>
 <p>
@@ -411,44 +414,44 @@ table, th, td {
 </style>
 <p>
 	<h3>Analysis of the Grid Search Logs</h3>
-	<h4>Our Approach</h4>
-	In addition to figuring out the best configurations from the grid search 
-	descriptively, we analyzed the grid search logs by means of a multiple 
-	regression analysis to assess how much the different parameters contribute to 
-	the silhouette score. The six predictors entered in the regression were the 
-	grid search parameters defining the functioning of the UMAP dimensionality 
-	reduction algorithm and the hdbscan clustering algorithm. Their metric 
-	(Canberra/Cosine/Euclidean and Canberra/Euclidean, respectively) was entered as 
-	a predictor for both algorithms. Additionally, for UMAP the number of neighbors 
-	and the spread were taken into account, and for hdbscan, the minimum cluster 
-	size and the minimum number of samples. All predictors were treated as 
-	categorical data because only a few distinct values of the usually continuous 
-	parameters could be entered into the grid search due to the limited 
+	<h5>Our Approach</h5>
+	In addition to figuring out the best configurations from the grid search
+	descriptively, we analyzed the grid search logs by means of a multiple
+	regression analysis to assess how much the different parameters contribute to
+	the silhouette score. The six predictors entered in the regression were the
+	grid search parameters defining the functioning of the UMAP dimensionality
+	reduction algorithm and the hdbscan clustering algorithm. Their metric
+	(Canberra/Cosine/Euclidean and Canberra/Euclidean, respectively) was entered as
+	a predictor for both algorithms. Additionally, for UMAP the number of neighbors
+	and the spread were taken into account, and for hdbscan, the minimum cluster
+	size and the minimum number of samples. All predictors were treated as
+	categorical data because only a few distinct values of the usually continuous
+	parameters could be entered into the grid search due to the limited
 	computational power available.<br>
-	As the grid search was run twice, once for the pipeline based on Fasttext 
-	embeddings and once based on BERT embeddings, two analyses were conducted and 
-	are presented separately. Our goal with both analyses was to find a 
-	straightforward solution employing only predictors that contribute 
-	substantially to the explained variance while accounting for as much variance 
-	as possible. The dependent variable is the silhouette score; the outliers were 
-	not included as a dependent variable. However, to reduce noise in the data, we 
-	excluded results with more than 10% outliers from the analyses. Additionally, 
-	results presenting more than 375 clusters were also excluded, as such a high 
+	As the grid search was run twice, once for the pipeline based on Fasttext
+	embeddings and once based on BERT embeddings, two analyses were conducted and
+	are presented separately. Our goal with both analyses was to find a
+	straightforward solution employing only predictors that contribute
+	substantially to the explained variance while accounting for as much variance
+	as possible. The dependent variable is the silhouette score; the outliers were
+	not included as a dependent variable. However, to reduce noise in the data, we
+	excluded results with more than 10% outliers from the analyses. Additionally,
+	results presenting more than 375 clusters were also excluded, as such a high
 	number of clusters seemed unreasonable given our input data.
 </p>
 <p>
-        <h4>Results with Fasttext embeddings</h4>
-        We identified a linear model employing the ordinary least squares (OLS) 
-	technique with four predictors and no interactions, that accounts for 67.24% 
-	of the variance in our data (F(5, 624) = 259.9, p < 0.001, R² = 0.6755, 
-	Adjusted R² = 0.6729). According to these results, the best parameter 
-	combination is the Cosine metric, an increased number of neighbors, and larger 
-	cluster size for UMAP, as well as a smaller number of samples for 
-	hdbscan (<I>Table 1</I>). 
+        <h5>Results with Fasttext embeddings</h5>
+        We identified a linear model employing the ordinary least squares (OLS)
+	technique with four predictors and no interactions, that accounts for 67.24%
+	of the variance in our data (F(5, 624) = 259.9, p < 0.001, R² = 0.6755,
+	Adjusted R² = 0.6729). According to these results, the best parameter
+	combination is the Cosine metric, an increased number of neighbors, and larger
+	cluster size for UMAP, as well as a smaller number of samples for
+	hdbscan (<I>Table 1</I>).
 <br><br>
 	<I>Table 1: Results of the multiple regression analysis of the grid search
 	logs based on fasttext embeddings.<br>
-	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01 
+	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
 	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
 	R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729, AIC = -2532.875 </I><br>
         <table>
@@ -497,18 +500,18 @@ table, th, td {
 	</table>
 </p>
 <p>
-	<h4>Results with BERT embeddings</h4>
-	The results look different for the grid search logs generated using the 
-	pipeline with BERT embeddings. As the precondition of homoscedasticity was not 
-	satisfied, we employed a regression with the generalized least squares 
-	technique (GLS). The best model here comprises three predictors and one 
-	interaction. The implied advice here is to use the Euclidean metric for both 
-	algorithms and increase the minimum cluster size for the hdbscan algorithm 
+	<h5>Results with BERT embeddings</h5>
+	The results look different for the grid search logs generated using the
+	pipeline with BERT embeddings. As the precondition of homoscedasticity was not
+	satisfied, we employed a regression with the generalized least squares
+	technique (GLS). The best model here comprises three predictors and one
+	interaction. The implied advice here is to use the Euclidean metric for both
+	algorithms and increase the minimum cluster size for the hdbscan algorithm
 	(<I>Table 2</I>).
 	<br><br>
-	<I>Table 2: Results of the multiple regression analysis of the grid search logs 
+	<I>Table 2: Results of the multiple regression analysis of the grid search logs
 	based on BERT embeddings.<br>
-	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01 
+	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
 	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
 	AIC = -1186.359 BIC = -1147.218 logLik = 601.1795 </I><br>
         <table>
@@ -563,19 +566,19 @@ table, th, td {
 	</table>
 </p>
 <p>
-	<h4>Conclusion</h4>
-	Following the results of the regressions, straightforward advice on optimizing 
-	the pipeline can be given; however, this advice's limitations should be 
-	considered in the process. Most importantly, since a reasonable number of 
-	clusters is limited from a theoretical point of view, the results of a 
-	correspondingly limited grid search would likely provide more accurate 
-	insights. Furthermore, the regression models do not fit the data perfectly, 
-	thereby possibly limiting the validity and generalizability of the results. The 
-	noise in the original data can at least partly explain the reduced fit. 
-	To sum, the regression helps to shed light on the parameters that most 
-	decisively contribute to the score; nevertheless they should not lead to the 
+	<h5>Conclusion</h5>
+	Following the results of the regressions, straightforward advice on optimizing
+	the pipeline can be given; however, this advice's limitations should be
+	considered in the process. Most importantly, since a reasonable number of
+	clusters is limited from a theoretical point of view, the results of a
+	correspondingly limited grid search would likely provide more accurate
+	insights. Furthermore, the regression models do not fit the data perfectly,
+	thereby possibly limiting the validity and generalizability of the results. The
+	noise in the original data can at least partly explain the reduced fit.
+	To sum, the regression helps to shed light on the parameters that most
+	decisively contribute to the score; nevertheless they should not lead to the
 	omission of a close inspection of the configurations.
- 
+
 <p>
   ...
 </p>
