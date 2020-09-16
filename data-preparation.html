@@ -20,214 +20,214 @@ permalink: data-preparation
 
 <h1>Data Preparation</h1>
 <p>
-  In the modern world everyone is associated with data. We have most access to the data than ever before. 
-  If in 1640s a latin word called “data”[1] was not recorded then no one would have known the term. Data 
-  is a collection of facts, such as numbers, words, measurements, observations or just descriptions of things. 
-  Nowadays, data scientists are always collecting data from different sources like social media, news portal, 
-  forum etc and extracting information. These massive amounts of data are not in the same shape or structure 
+  In the modern world everyone is associated with data. We have most access to the data than ever before.
+  If in 1640s a latin word called “data”[1] was not recorded then no one would have known the term. Data
+  is a collection of facts, such as numbers, words, measurements, observations or just descriptions of things.
+  Nowadays, data scientists are always collecting data from different sources like social media, news portal,
+  forum etc and extracting information. These massive amounts of data are not in the same shape or structure
   which could be suitable for any type of work. In natural language processing(NLP) and artificial neural network(ANN),
   data preprocessing is must needed before training or testing to facilitate the process by removing required outliers
-  and scaling the dataset. Real/raw datasets have missing or inconsistent values and lot’s of redundant information. 
+  and scaling the dataset. Real/raw datasets have missing or inconsistent values and lot’s of redundant information.
   Based on these problem raw dataset can be divided into 3 groups:
 </p>
 <p><b>Missing data:</b> Inaccurate or wrong data appeared to be visible during the final phase of analysis. Wrong data entry could be one example.</p>
 <p><b>Noisy data:</b> This type of data encompasses huge data and outliers but it’s just meaningless data. Human mistakes, mislabeling etc might create
  noisy data.</p>
  <p><b>Inconsistent data:</b> Inconsistencies happen because of mistakes in code, data duplication, similar data in different file formats.</p>
- 
-<h2>Types of data preparation techniques</h2> 
+
+<h2>Types of data preparation techniques</h2>
 <p><b>Lowercasing:</b> Lowercasing the dataset is the simplest form of data preprocessing, applicable to most of the NLP problems helps to maintain consistency of expected result.</p>
 <p><b>Remove number:</b> Removing any number which is not related to the analysis generally using regular expression.</p>
 <p><b>Remove punctuation:</b> Removes this set of symbols [!”#$%&’()*+,-./:;<=>?@[\]^_`{|}~]</p>
 <p><b>Remove whitespaces:</b> </p>
 <p><b>Term Frequency (TF):</b> Term frequency is how many times a term appears in a particular document in corpus.
-TF = (Number of times term T appears in the particular row) / (number of terms in that row). Consider a document containing 100 words where the word study appears 3 times. 
+TF = (Number of times term T appears in the particular row) / (number of terms in that row). Consider a document containing 100 words where the word study appears 3 times.
 The term frequency (TF) for Study word is (3 / 100) = 0.03</p>
 <p><b>Inverse Document Frequency (IDF):</b> Inverse Document frequency is how many times a term appears in a particular document in corpus.
-IDF(t) = log(Total number of rows / the number of rows in which the word was present). Assume we have 1000 documents and the word study appears only in 100 of them. Then, 
-The inverse document frequency (i.e., idf) is calculated as log(1000 / 100) = 2.30 
+IDF(t) = log(Total number of rows / the number of rows in which the word was present). Assume we have 1000 documents and the word study appears only in 100 of them. Then,
+The inverse document frequency (i.e., idf) is calculated as log(1000 / 100) = 2.30
 </p>
 <p><b>Bag-of-Words(BOW):</b> BOW is a way of extracting features from the text to use in machine learning algorithms such as document classification. Assume couple of sentence as separate document where 7 unique words.
 <ul style="list-style-type:none;">
   <li><i>"Today is sunny day"       [1,1,1,1,0,0,0]</i></li>
   <li><i>"Today temperature is good"        [1,1,0,0,1,1,0]</i></li>
   <li><i>"Today is presentation day"			[1,1,0,1,0,0,1]</i></li>
-</ul>  
+</ul>
 </p>
-<p><b>Tokenization:</b> Spliting long string of text into smaller or single piece as tokens is called Tokenization. Sentences are tokenized into words. 
-Tokenization is also referred to as text segmentation or lexical analysis. Assume a sentence <i>"Today is sunny day"</i>. After tokenization becomes 
+<p><b>Tokenization:</b> Spliting long string of text into smaller or single piece as tokens is called Tokenization. Sentences are tokenized into words.
+Tokenization is also referred to as text segmentation or lexical analysis. Assume a sentence <i>"Today is sunny day"</i>. After tokenization becomes
 <i>["Today", "is", "sunny", "day"]</i></p>
 <p><b>Part of Speech(POS):</b></p>
-<p><b>Remove Stop Words:</b> There are some words like "the", "a", "on", "is", "all" etc. that 
-do not carry any meaning and are removed from text. For example <i>"Today is the first day at university"</i>. 
+<p><b>Remove Stop Words:</b> There are some words like "the", "a", "on", "is", "all" etc. that
+do not carry any meaning and are removed from text. For example <i>"Today is the first day at university"</i>.
 Here "is", "the", "at" are stop words. So these word will be removed.</p>
-<p><b>Stemming:</b>Removing affixes from word and extract the base form of word is called Stemming. 
-Assume number of words <i>eating, eats, eaten</i>. The stem of these word is <i>eat</i>.Stemming is 
+<p><b>Stemming:</b>Removing affixes from word and extract the base form of word is called Stemming.
+Assume number of words <i>eating, eats, eaten</i>. The stem of these word is <i>eat</i>.Stemming is
 important in natural language understanding (NLU) and natural language processing (NLP). And search engine like Google use this for indexing the words. That's
 how stemming reduces the size of index and increase the accuracy.</p>
-<p><b>Lemmatization:</b> Grouping different infected forms of words into root form which have the same meaning is called Lemmatization. 
+<p><b>Lemmatization:</b> Grouping different infected forms of words into root form which have the same meaning is called Lemmatization.
 The morphological analysis might require to extract the correct lemma from a word.</p>
  <!-----------------------------------------------End of data preparation----------------------------------------------------->
 <h1>Spelling Correction</h1>
   <h2>1. The Problem</h2>
     <p>
-      When working on non-quality-controlled, human-generated text data, lexical errors can be problematic for automatic 
-      analysis. Automatically correcting these errors is a non-trivial task. The task itself can be split into three 
+      When working on non-quality-controlled, human-generated text data, lexical errors can be problematic for automatic
+      analysis. Automatically correcting these errors is a non-trivial task. The task itself can be split into three
       sub-tasks - error detection, candidate generation, and candidate selection - with their own sets of challenges.
     </p>
     <p>
-      <b>Error detection</b> is the task of finding incorrect words in a sentence. Errors can be categorized in two major 
-      categories: non-word errors (NWE) and word errors (WE). Non-word errors constitute errors that are not real words, 
-      e.g. when someone writes "thre" instead of "three". Word errors, on the other hand, are errors that are correct 
+      <b>Error detection</b> is the task of finding incorrect words in a sentence. Errors can be categorized in two major
+      categories: non-word errors (NWE) and word errors (WE). Non-word errors constitute errors that are not real words,
+      e.g. when someone writes "thre" instead of "three". Word errors, on the other hand, are errors that are correct
       words used in the incorrect context, e.g. when someone writes "tree" instead of "three".
     </p>
     <p>
-      <b>Candidate generation</b> is the task of generating a list of words that could be the word the author meant to 
+      <b>Candidate generation</b> is the task of generating a list of words that could be the word the author meant to
       use, given an incorrect word.
     </p>
     <p>
-      <b>Candidate selection</b> is the task of selecting the most likely candidate from the generated list of candidates 
+      <b>Candidate selection</b> is the task of selecting the most likely candidate from the generated list of candidates
       with which to replace the detected error.
     </p>
     <p>
       When pre-processing answers to survey questions, the answers’ semantic information should/must be preserved. Out-
-      of-the-box spelling correction solutions have failed us at this in two ways. Firstly, they occasionally considered 
-      correctly spelled words as incorrect and attempted to correct them, changing them into a different word in the 
-      process. Secondly, the generated (and selected) candidates for an incorrect word were often completely different 
+      of-the-box spelling correction solutions have failed us at this in two ways. Firstly, they occasionally considered
+      correctly spelled words as incorrect and attempted to correct them, changing them into a different word in the
+      process. Secondly, the generated (and selected) candidates for an incorrect word were often completely different
       words, e.g. “bark” instead of “book”.
     </p>
 
 
   <h2>2. The Approach</h2>
     <p>
-      TransSpell is an attempt to solve the problem of spelling correction in a robust way, emphasizing the importance 
-      of minimizing false positives in error detection. Its goal is to apply spelling correction only to words that can 
-      most definitely be considered “false” and for those corrections to be correct. The error detection rate does not 
+      TransSpell is an attempt to solve the problem of spelling correction in a robust way, emphasizing the importance
+      of minimizing false positives in error detection. Its goal is to apply spelling correction only to words that can
+      most definitely be considered “false” and for those corrections to be correct. The error detection rate does not
       need to be perfect, but it should not produce any false positives.
-      <a href="https://github.com/Broconuts/TransSpell">TransSpell</a> is the successor to 
-      <a href="https://github.com/Broconuts/FastSpell">FastSpell</a>, a spelling correction approach that was developed 
+      <a href="https://github.com/Broconuts/TransSpell">TransSpell</a> is the successor to
+      <a href="https://github.com/Broconuts/FastSpell">FastSpell</a>, a spelling correction approach that was developed
       for this Study Project which was abandoned due to performance issues.
     </p>
 
     <h3>2.1 Error Detection</h3>
       <p>
-        We first attempted to develop context-sensitive error detection (i.e. error detection capable of detecting NWEs). 
-        When this approach yielded many false positives, we reverted to a modified version of rule-based error detection 
+        We first attempted to develop context-sensitive error detection (i.e. error detection capable of detecting NWEs).
+        When this approach yielded many false positives, we reverted to a modified version of rule-based error detection
         used during FastSpell development.
       </p>
       <h4>Context-Sensitive Approach</h4>
         <p>
-          Given a sentence consisting of n tokens, we create n substrings where one token is masked (i.e. considered an 
-          error); for example, in substring 2, the second token of the sentence is masked. We then let the candidate 
-          generation component (see section 2.2) determine 50 likely lexical candidates for the masked 
-          position given the remaining (unmasked) tokens of the sentence. If the original token is not among the 
-          generated tokens, it is considered a text error. Unfortunately, this approach comes with two major flaws, not 
+          Given a sentence consisting of n tokens, we create n substrings where one token is masked (i.e. considered an
+          error); for example, in substring 2, the second token of the sentence is masked. We then let the candidate
+          generation component (see section 2.2) determine 50 likely lexical candidates for the masked
+          position given the remaining (unmasked) tokens of the sentence. If the original token is not among the
+          generated tokens, it is considered a text error. Unfortunately, this approach comes with two major flaws, not
           to mention high computational costs, reducing the scalability of this approach.
         </p>
         <p>
-          Firstly, by masking a random word and letting the model determine a likely candidate for that word, we assert 
-          that the context is correct. Let us assume a sentence with a word-error in the third token, e.g. "We made ensure 
-          that our customers get the products on time" when the author really meant "We made sure[...]". Error detection 
-          iterates through the sentence sequentially, thereby checking "made" before “ensure”. Given the context, i.e. "we 
-          [mask] ensure that [...]", the candidate generation component will not generate the correct "made" but rather 
-          deem the actual token erroneous and supply something along the lines of "must". The sentence now reads "we must 
-          ensure that [...]", which is now contextually coherent but not what the original author had in mind. If the 
-          contextual error does not occur in the first checked position of a sentence, this approach will make the context 
+          Firstly, by masking a random word and letting the model determine a likely candidate for that word, we assert
+          that the context is correct. Let us assume a sentence with a word-error in the third token, e.g. "We made ensure
+          that our customers get the products on time" when the author really meant "We made sure[...]". Error detection
+          iterates through the sentence sequentially, thereby checking "made" before “ensure”. Given the context, i.e. "we
+          [mask] ensure that [...]", the candidate generation component will not generate the correct "made" but rather
+          deem the actual token erroneous and supply something along the lines of "must". The sentence now reads "we must
+          ensure that [...]", which is now contextually coherent but not what the original author had in mind. If the
+          contextual error does not occur in the first checked position of a sentence, this approach will make the context
           fit the original error, rather than make the error fit the context.
         </p>
         <p>
-          Secondly, this approach to error-detection can be summarized as "making sure a given sentence is a sequence of 
-          words that is statistically likely". This entails that, rather than "just" looking for errors, we remodel 
-          sentences according to what the pre-trained model used for candidate generation has learned sentences to look 
-          like. For example, the sentence "we work hard to meet <b>consumer</b> requirements" is changed to "we work 
-          hard to meet <b>minimum</b> requirements." This is very problematic because it changes the meaning of the 
+          Secondly, this approach to error-detection can be summarized as "making sure a given sentence is a sequence of
+          words that is statistically likely". This entails that, rather than "just" looking for errors, we remodel
+          sentences according to what the pre-trained model used for candidate generation has learned sentences to look
+          like. For example, the sentence "we work hard to meet <b>consumer</b> requirements" is changed to "we work
+          hard to meet <b>minimum</b> requirements." This is very problematic because it changes the meaning of the
           sentence, reproducing one of the main issues of the out-of-the-box approaches.
         </p>
       <h4>Rule-Based Approach</h4>
         <p>
-          For the reasons described above, context-sensitive error correction is currently too unreliable. However, 
-          context-insensitive error detection solutions introduce new problems that require consideration. Usually, 
-          these approaches take finite lists of correct words, like lexica, and check whether a token is contained 
-          in this finite list. As is the norm with assets like that, these lists are not exhaustive. While there are 
-          options available that are potentially exhaustive (e.g. the 
-          <a href="https://dictionaryapi.com/">Merriam-Webster API</a>), these options are not for free and therefore 
-          not feasible for this project. We therefore introduce a list of additional conditions for correctness of a 
+          For the reasons described above, context-sensitive error correction is currently too unreliable. However,
+          context-insensitive error detection solutions introduce new problems that require consideration. Usually,
+          these approaches take finite lists of correct words, like lexica, and check whether a token is contained
+          in this finite list. As is the norm with assets like that, these lists are not exhaustive. While there are
+          options available that are potentially exhaustive (e.g. the
+          <a href="https://dictionaryapi.com/">Merriam-Webster API</a>), these options are not for free and therefore
+          not feasible for this project. We therefore introduce a list of additional conditions for correctness of a
           word besides "membership in a lexicon", to reduce the number of false positives in error detection.
         </p>
         <p>
           The complete process of context-insensitive error detection for a given token is as follows (in order):
-        </p> 
+        </p>
         <ol>
           <li>
-            Check whether the token is shorter than four characters or - if the source sentence is properly capitalized – 
-            matches a regex modelling acronyms. If either condition is met, do not check further and assume it is not an 
+            Check whether the token is shorter than four characters or - if the source sentence is properly capitalized –
+            matches a regex modelling acronyms. If either condition is met, do not check further and assume it is not an
             error. This aims to protect acronyms and similar domain-specific terms from being considered an error.
           </li>
           <li>
             Check whether the token occurs more than 10 times in the entire corpus. If it does, do not consider it an error.
           </li>
           <li>
-            Check whether the token is contained in a lexicon for American English and British English, respectively. 
+            Check whether the token is contained in a lexicon for American English and British English, respectively.
           </li>
         </ol>
         <p>
-          If none of these conditions were met, consider the word an error. Please note that the second criterion requires 
+          If none of these conditions were met, consider the word an error. Please note that the second criterion requires
           both knowledge of the entire corpus and a certain size of the corpus for the measure to be effective).
         </p>
 
     <h3>2.2 Candidate Generation</h3>
       <p>
-        Candidate generation occurs based solely on the context of the erroneous word. We simply mask the token in 
-        question (i.e. replace it with a mask-token) and let a pretrained transformer model predict which token should 
-        be in the given position based on its context. Sentence length is an important factor in how well this approach 
-        will perform. For one-word answers, for example, it will not work at all. Furthermore, the pre-trained models 
-        seem to disproportionally weigh the positional context in the first and last token of a sequence, e.g. by 
-        suggesting replacement of the first token with tokens like bullet points or similar beginning-of-line 
-        indicators. Because of this, this error correction approach will only work properly on tokens that are preceded 
+        Candidate generation occurs based solely on the context of the erroneous word. We simply mask the token in
+        question (i.e. replace it with a mask-token) and let a pretrained transformer model predict which token should
+        be in the given position based on its context. Sentence length is an important factor in how well this approach
+        will perform. For one-word answers, for example, it will not work at all. Furthermore, the pre-trained models
+        seem to disproportionally weigh the positional context in the first and last token of a sequence, e.g. by
+        suggesting replacement of the first token with tokens like bullet points or similar beginning-of-line
+        indicators. Because of this, this error correction approach will only work properly on tokens that are preceded
         by at least one token and followed by at least one token.
       </p>
       <h4>A Note on the Implementation</h4>
         <p>
-          As a description of the BERT architecture and its derivates far exceeds the scope of this documentation, 
-          please refer to <a href="https://arxiv.org/abs/1810.04805">the original paper</a> for more information. For 
-          TransSpell, we use a pretrained distillated version of a RoBERTa model (i.e. a more lightweight model based on 
-          a more complex BERT architecture) with 82M parameters. The model itself is a pyTorch-based implementation 
+          As a description of the BERT architecture and its derivates far exceeds the scope of this documentation,
+          please refer to <a href="https://arxiv.org/abs/1810.04805">the original paper</a> for more information. For
+          TransSpell, we use a pretrained distillated version of a RoBERTa model (i.e. a more lightweight model based on
+          a more complex BERT architecture) with 82M parameters. The model itself is a pyTorch-based implementation
           through <a href="https://huggingface.co/transformers/">HuggingFace’s transformers library</a>.
         </p>
 
     <h3>2.3 Candidate Selection</h3>
       <p>
-        Given the list of candidates generated by the transformer, which is ordered according to decreasing likelihood 
-        of the candidate given the context, we first create a ranking of these candidates based on their respective 
-        Levenshtein distance [source] to the original erroneous token. All candidates with a distance larger than 3 are 
-        ruled out. For a better understanding of Levenshtein distances, refer to 
-        <a href="https://norvig.com/spell-correct.html">Peter Norvig’s blog post on writing a spelling corrector</a>. 
-        If no suggestion had a small enough distance to the original word, we return the original word as a correction 
-        candidate to prevent TransSpell from applying a change that would change the intended meaning of the author. If 
-        some candidates meet the Levenshtein distance criterion, we then iterate through the ranking, checking if the 
-        first letter of the candidate matches the first letter of the original word. This is based on the intuition that 
-        most human-made typos do not occur in the first position of a word. The first match to this category is chosen 
-        as the most likely candidate. If no token matches this criterion, the most likely (according to the transformer 
+        Given the list of candidates generated by the transformer, which is ordered according to decreasing likelihood
+        of the candidate given the context, we first create a ranking of these candidates based on their respective
+        Levenshtein distance [source] to the original erroneous token. All candidates with a distance larger than 3 are
+        ruled out. For a better understanding of Levenshtein distances, refer to
+        <a href="https://norvig.com/spell-correct.html">Peter Norvig’s blog post on writing a spelling corrector</a>.
+        If no suggestion had a small enough distance to the original word, we return the original word as a correction
+        candidate to prevent TransSpell from applying a change that would change the intended meaning of the author. If
+        some candidates meet the Levenshtein distance criterion, we then iterate through the ranking, checking if the
+        first letter of the candidate matches the first letter of the original word. This is based on the intuition that
+        most human-made typos do not occur in the first position of a word. The first match to this category is chosen
+        as the most likely candidate. If no token matches this criterion, the most likely (according to the transformer
         model) token with the closest Levenshtein distance to the original word is chosen as the correct word.
       </p>
 
 
   <h2>3. Evaluation</h2>
     <p>
-      Given the necessity of an error being incorporated in a full sentence for TransSpell to work, we cannot use 
-      traditional spelling correction corpora that only consist of a proper word and possible misspellings of that word 
-      (such as the <a href="https://www.dcs.bbk.ac.uk/~roger/corpora.html">Birkbeck corpus</a>). Moreover, calculating 
-      a meaningful metric for performance would require a an amount of manually labeled data that exceeds the scope of 
+      Given the necessity of an error being incorporated in a full sentence for TransSpell to work, we cannot use
+      traditional spelling correction corpora that only consist of a proper word and possible misspellings of that word
+      (such as the <a href="https://www.dcs.bbk.ac.uk/~roger/corpora.html">Birkbeck corpus</a>). Moreover, calculating
+      a meaningful metric for performance would require a an amount of manually labeled data that exceeds the scope of
       this Study Project.
     </p>
     <p>
-      While a meaningful metrics-driven evaluation was not possible within the scope of this project, we provide a CSV 
-      document (upon request in adherence to data protection guidelines) containing all sentences from the PNLP dataset 
+      While a meaningful metrics-driven evaluation was not possible within the scope of this project, we provide a CSV
+      document (upon request in adherence to data protection guidelines) containing all sentences from the PNLP dataset
       that were altered by the spelling corrector, as well as TransSpell’s corrections for comparison. The CSV provides
       an intuition for the performance of TransSpell.
     </p>
   <h2>References</h2>
-  Devlin, Jacob & Chang, Ming-Wei & Lee, Kenton & Toutanova, Kristina. (2018). BERT: Pre-training of Deep Bidirectional 
+  Devlin, Jacob & Chang, Ming-Wei & Lee, Kenton & Toutanova, Kristina. (2018). BERT: Pre-training of Deep Bidirectional
   Transformers for Language Understanding. <br>
 
 <h1>Named Entity Recognition</h1>
@@ -369,7 +369,7 @@ The following image shows the partial output accuracy of 3 classes number 0,1 an
 <p>Seeing the results and the code one can see that the classification model works better in terms of accuracy compared to the NLTK and the spacy model. However, we ran into a problem which we couldn’t solve. Once we used the pre existing annotated dataset we could test that data. But when we wanted to test the data on our dataset which is a blind dataset we weren’t able to run the model. The model is compatible to a certain input matrix. The blind data when vectorized using word vector or tf-idf has a different input matrix which is not compatible with the trained model. </p>
 
   <h2>Sources</h2>
-<p>[1] data (n.), https://www.etymonline.com/word/data</p>
+<p>[1] https://www.etymonline.com/word/data</p>
 <p>[2] https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/data?select=ner_dataset.csv</p>
 <p>[3] https://keras.io/guides/sequential_model/ </p>
 
