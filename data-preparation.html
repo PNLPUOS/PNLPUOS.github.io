@@ -20,53 +20,61 @@ permalink: data-preparation
 
 <h1>Data Preparation</h1>
 <p>
-  In the modern world everyone is associated with data. We have most access to the data than ever before.
-  If in 1640s a latin word called “data”[1] was not recorded then no one would have known the term. Data
-  is a collection of facts, such as numbers, words, measurements, observations or just descriptions of things.
-  Nowadays, data scientists are always collecting data from different sources like social media, news portal,
-  forum etc and extracting information. These massive amounts of data are not in the same shape or structure
-  which could be suitable for any type of work. In natural language processing(NLP) and artificial neural network(ANN),
-  data preprocessing is must needed before training or testing to facilitate the process by removing required outliers
-  and scaling the dataset. Real/raw datasets have missing or inconsistent values and lot’s of redundant information.
-  Based on these problem raw dataset can be divided into 3 groups:
+  This section describes the relevant data cleaning methods employed to render the raw
+  employee survey data suitable for topic modeling and sentiment classification. We also provide a brief
+  introduction to the topic of data preparation.
 </p>
-<p><b>Missing data:</b> Inaccurate or wrong data appeared to be visible during the final phase of analysis. Wrong data entry could be one example.</p>
-<p><b>Noisy data:</b> This type of data encompasses huge data and outliers but it’s just meaningless data. Human mistakes, mislabeling etc might create
- noisy data.</p>
- <p><b>Inconsistent data:</b> Inconsistencies happen because of mistakes in code, data duplication, similar data in different file formats.</p>
+<h3>Introduction</h3>
+<p>
+  "Data" refers to a collection of facts such as numbers, words, measurements, or other observations [1].
+  Data can be inherently structured, meaning that there already exist clearly-defined data types and
+  relationships, or otherwise unstructured, implying that data lacks structure which makes it readily navigable,
+  searchable, or interpretable. In our case, we work with unstructured, natural language (text) data, which
+  requires several stages of preprocessing and feature engineering to satisfy the analysis methods we employ.
+  There exist three common challenges to data analysis:
+</p>
+<p>
+  <p><b>Missing Data: </b>Data or metadata are unavailable. With our analysis data, we possess only raw employee
+  survey comments associated with prompting questions. For anonymity reasons, we lack metadata about the respondents,
+  which limits the analyses we can perform.</p>
+  <p><b>Noisy Data: </b></p>Data contains outliers or other inconsistencies which obfuscate patterns we expect or aim to
+  find. In our case, the employee survey data contains many irrelevant comments, spelling errors, and nonsenical phrases
+  which must be removed or corrected. We below describe in greater detail several of the preprocessing steps which aim to combat
+  this problem. Additionally, we propose a novel spelling correction algorithm described in a later section.
+  <p><b>Inconsistent Data: </b></p>Data is inconsistently recorded. This includes formatting inconsistencies such as
+  letter-casing or inconsistent data types.
+</p>
 
-<h2>Types of data preparation techniques</h2>
-<p><b>Lowercasing:</b> Lowercasing the dataset is the simplest form of data preprocessing, applicable to most of the NLP problems helps to maintain consistency of expected result.</p>
-<p><b>Remove number:</b> Removing any number which is not related to the analysis generally using regular expression.</p>
-<p><b>Remove punctuation:</b> Removes this set of symbols [!”#$%&’()*+,-./:;<=>?@[\]^_`{|}~]</p>
-<p><b>Remove whitespaces:</b> </p>
-<p><b>Term Frequency (TF):</b> Term frequency is how many times a term appears in a particular document in corpus.
-TF = (Number of times term T appears in the particular row) / (number of terms in that row). Consider a document containing 100 words where the word study appears 3 times.
-The term frequency (TF) for Study word is (3 / 100) = 0.03</p>
-<p><b>Inverse Document Frequency (IDF):</b> Inverse Document frequency is how many times a term appears in a particular document in corpus.
-IDF(t) = log(Total number of rows / the number of rows in which the word was present). Assume we have 1000 documents and the word study appears only in 100 of them. Then,
-The inverse document frequency (i.e., idf) is calculated as log(1000 / 100) = 2.30
+<h2>Data Preparation Techniques</h2>
+<p>
+  We below list the data preparation methods we employ to combat the issues of noisy and inconsistent data.
 </p>
-<p><b>Bag-of-Words(BOW):</b> BOW is a way of extracting features from the text to use in machine learning algorithms such as document classification. Assume couple of sentence as separate document where 7 unique words.
-<ul style="list-style-type:none;">
-  <li><i>"Today is sunny day"       [1,1,1,1,0,0,0]</i></li>
-  <li><i>"Today temperature is good"        [1,1,0,0,1,1,0]</i></li>
-  <li><i>"Today is presentation day"			[1,1,0,1,0,0,1]</i></li>
-</ul>
-</p>
-<p><b>Tokenization:</b> Spliting long string of text into smaller or single piece as tokens is called Tokenization. Sentences are tokenized into words.
-Tokenization is also referred to as text segmentation or lexical analysis. Assume a sentence <i>"Today is sunny day"</i>. After tokenization becomes
-<i>["Today", "is", "sunny", "day"]</i></p>
-<p><b>Part of Speech(POS):</b></p>
-<p><b>Remove Stop Words:</b> There are some words like "the", "a", "on", "is", "all" etc. that
-do not carry any meaning and are removed from text. For example <i>"Today is the first day at university"</i>.
-Here "is", "the", "at" are stop words. So these word will be removed.</p>
-<p><b>Stemming:</b>Removing affixes from word and extract the base form of word is called Stemming.
-Assume number of words <i>eating, eats, eaten</i>. The stem of these word is <i>eat</i>.Stemming is
-important in natural language understanding (NLU) and natural language processing (NLP). And search engine like Google use this for indexing the words. That's
-how stemming reduces the size of index and increase the accuracy.</p>
-<p><b>Lemmatization:</b> Grouping different infected forms of words into root form which have the same meaning is called Lemmatization.
-The morphological analysis might require to extract the correct lemma from a word.</p>
+<p><b>Lowercasing: </b>To render all words in a natural language dataset comparable and remove duplicates resulting from
+capitalization differences, it is advisable to make all words lowercase. This helps to maintain data consistency.</p>
+<p><b>Number Removal: </b>For our semantic analysis, numbers are not a relevant feature and only introduce additional noise.
+Therefore, removing numbers is a relevant form of denoising.</p>
+<p><b>Punctuation Removal: </b>Many punctuation marks are irrelevant to our semantic analysis or are misused, introducing
+additional noise which is best removed. We remove symbols present in the following list: [!”#$%&’()*+,-./:;<=>?@[\]^_`{|}~]</p>
+<p><b>Term Frequency Inverse Document Frequency (TFIDF): </b>Although not a form of data cleaning per se, for several stages of
+our analysis it is useful to introduce additional statistical features which can help us to structure the representation of the
+texts. TFIDF is a form of statistical feature engineering which denotes the number of times a term appears in a given corpus (TF),
+divided by the number of times the term appears in a given document (IDF). For further information on how the TFIDF score is
+used to inform our document vector representations, please refer to the <a href="https://pnlpuos.github.io/topic-modeling">Topic Modeling</a>
+section of this report.</p>
+<p><b>Tokenization: </b>Tokenizing a document signifies splitting the document into its component words or sentences. In order to isolate
+words as the atomic constituents of document meaning, we tokenize our documents into words as an important preprocessing step.</p>
+<p><b>Stemming: </b>Removing inflectional stems from words controls for morphological variations which otherwise confuse the association
+of closely-related terms.</p>
+<p><b>Lemmatization: </b>As an alternative to stemming, rendering words into their "lemmata" or uninflected forms is also an effective means of
+controlling for variations in word inflection or declination.</p>
+<p><b>Stopword Removal: </b>Many words such as "a," "the," and "from" do not contribute significant meaning to a sentence but are
+commonly repeated connecting particles which, for all-intensive purposes, constitute dataset noise. We remove an exhaustive list
+of English "stopwords" in order to remove these tokens from the analysis.</p>
+
+<p>By the methods described above we are able to both remove noise from the dataset and control the representation of natural
+language such that the independent variables inherent to the unstructured data are, as much as possible, only the semantic meaning
+of the individual texts. We below describe the unique spell correction algorithm we employ to further correct inconsistencies in
+our dataset.</p>
  <!-----------------------------------------------End of data preparation----------------------------------------------------->
 <h1>Spelling Correction</h1>
   <h2>1. The Problem</h2>
