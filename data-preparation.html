@@ -449,10 +449,116 @@ tr:nth-child(even) {
   The following image shows the partial output accuracy of 3 classes number 0,1 and 2. Where 0 stands for geo, 1 for org 
   and 2 for per. 
 </p>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/NERoutput1.png" alt="Accuracy" width="460" height="345">
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-vg0y{background-color:#34696d;color:#ffffff;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-vg0y"></th>
+    <th class="tg-vg0y">precision</th>
+    <th class="tg-vg0y">recall</th>
+    <th class="tg-vg0y">f1-score</th>
+    <th class="tg-vg0y">support</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0lax">0</td>
+    <td class="tg-0lax">0.85</td>
+    <td class="tg-0lax">0.95</td>
+    <td class="tg-0lax">0.90</td>
+    <td class="tg-0lax">7540<br></td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">1</td>
+    <td class="tg-0lax">0.86</td>
+    <td class="tg-0lax">0.71</td>
+    <td class="tg-0lax">0.78</td>
+    <td class="tg-0lax">4065</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">2</td>
+    <td class="tg-0lax">0.94</td>
+    <td class="tg-0lax">0.90</td>
+    <td class="tg-0lax">0.92</td>
+    <td class="tg-0lax">3351</td>
+  </tr>
+</tbody>
+</table>
 <p>The second image shows how the output looks like and the corresponding pre-annotated correct labels </p>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/NERoutput1.png" alt="Output" width="460" height="345">
-
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg .tg-vg0y{background-color:#34696d;color:#ffffff;text-align:left;vertical-align:top}
+  .tg .tg-4ihi{background-color:#739e8e;color:#ffffff;font-weight:bold;text-align:left;vertical-align:top}
+  .tg .tg-0lax{text-align:left;vertical-align:top}
+  </style>
+  <table class="tg">
+  <thead>
+    <tr>
+      <th class="tg-vg0y"></th>
+      <th class="tg-vg0y">Predicted</th>
+      <th class="tg-vg0y">Actual_Tag</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tg-4ihi">0</td>
+      <td class="tg-0lax">0</td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">1</td>
+      <td class="tg-0lax">2</td>
+      <td class="tg-0lax">[per]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">2</td>
+      <td class="tg-0lax">1</td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">3</td>
+      <td class="tg-0lax">0</td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">...<br></td>
+      <td class="tg-0lax">...</td>
+      <td class="tg-0lax">...</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">14952</td>
+      <td class="tg-0lax">0<br></td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">14953</td>
+      <td class="tg-0lax">0</td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">14954</td>
+      <td class="tg-0lax">01</td>
+      <td class="tg-0lax">[org]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">14955</td>
+      <td class="tg-0lax">2</td>
+      <td class="tg-0lax">[per</td>
+    </tr>
+  </tbody>
+  </table>
 <h2>Discussion</h2>
 <p>
   Seeing the results and the code one can see that the classification model works better in terms of accuracy compared 
