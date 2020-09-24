@@ -9,6 +9,17 @@ permalink: topic-modeling
     display: block;
     margin: 0 auto;
     }
+    ul {
+    position: relative;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1.2em;
+    }
+    ul li:before {
+      content: "-";
+      position: absolute;
+      left: 0;
+    }
   </style>
 </head>
 
@@ -24,7 +35,7 @@ permalink: topic-modeling
 
 <h1>Topic Modeling</h1>
 <p>
-  <h3>Approach</h3>
+  <h3>Introduction</h3>
   As mentioned in the <a href="https://pnlpuos.github.io/overview">Overview</a>
   section of this report, our topic analysis pipeline employs a document
   clustering approach which dynamically-identifies an optimal clustering of
@@ -51,13 +62,14 @@ permalink: topic-modeling
 </p>
 
 <p>
-Statistical topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core
-“latent topics” of a large volume of documents. There are three types of models typically employed: Latent Semantic
-Analysis (LSA),  Probabilistic Latent Semantic Analysis (PLSA) and Latent Dirichlet allocation (LDA). LDA, proposed
-by J. K. Pritchard, M. Stephens, and P. Donnelly [7], generates topics based on word frequency from a set of given documents.
-It is based upon two assumptions: First, documents with similar words belong to the same topic. Second, documents with groups
-of words together appear in different documents belongs to the same topic. LDA generalizes well to other documents because of
-its general approach.
+  <h3>Digression: Statistical Topic Modeling Approach</h3>
+  Statistical topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core
+  “latent topics” of a large volume of documents. There are three types of models typically employed: Latent Semantic
+  Analysis (LSA),  Probabilistic Latent Semantic Analysis (PLSA) and Latent Dirichlet allocation (LDA). LDA, proposed
+  by J. K. Pritchard, M. Stephens, and P. Donnelly [7], generates topics based on word frequency from a set of given documents.
+  It is based upon two assumptions: First, documents with similar words belong to the same topic. Second, documents with groups
+  of words together appear in different documents belongs to the same topic. LDA generalizes well to other documents because of
+  its general approach.
 </p>
 
 <div style="width: 100%; overflow: hidden;">
@@ -152,6 +164,7 @@ Having access to more data may help in this situation, but running more epochs u
 </p>
 
 <p>
+  <h3>Document Clustering Pipeline</h3>
   Nevertheless, we employ a document clustering approach given our academic interest in
   exploring the applications of pretrained word embeddings coupled with
   traditional cluster analyses. Furthermore, we ignore supervised approaches
@@ -328,7 +341,7 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
 </p>
 
 <p>
-  <h3>Grid Search</h3>
+  <h3>Optimization: Finding the Best Parameters with Grid Search</h3>
     <h5>The algorithm</h5>
       <body>
         In general, a grid search is nothing else than successively trying out
@@ -403,7 +416,7 @@ table, th, td {
 }
 </style>
 <p>
-	<h3>Analysis of the Grid Search Logs</h3>
+	<h3>Evaluation: Analyzing the Outcome of the Grid Search</h3>
 	<h5>Our Approach</h5>
 	In addition to figuring out the best configurations from the grid search
 	descriptively, we analyzed the grid search logs by means of a multiple
@@ -568,17 +581,22 @@ table, th, td {
 	To sum, the regression helps to shed light on the parameters that most
 	decisively contribute to the score; nevertheless they should not lead to the
 	omission of a close inspection of the configurations.
-
+</p>
+<p>
+  <h3>Discussion</h3>
+  [Anna]
 </p>
 
 <p>
   <h3>References</h3>
-  <a>&emsp;</a>[1] Mikolov, Tomas & Corrado, G.s & Chen, Kai & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. 1-12.<br>
-  <a>&emsp;</a>[2] P. Bojanowski, E. Grave, A. Joulin, T. Mikolov. (2016) Enriching Word Vectors with Subword Information.<br>
-  <a>&emsp;</a>[3] Arora, S., Liang, Y., & Ma, T. (2016). A simple but tough-to-beat baseline for sentence embeddings. Paper presented at 5th International Conference on Learning Representations. <br>
-  <a>&emsp;</a>[4] Edilson Anselmo Correa Junior, Vanessa Marinho, and Leandro Santos. (2017). NILC-USP at SemEval-2017 Task 4: A Multi-view Ensemble for Twitter Sentiment Analysis. In Proceedings of the 11th International Workshop on Semantic Evaluation. Vancouver, Canada, SemEval ’17, pages 610–614.<br>
-  <a>&emsp;</a>[5] Zhao, Jiang & Lan, Man & Tian, Jun. (2015). ECNU: Using Traditional Similarity Measurements and Word Embedding for Semantic Textual Similarity Estimation.<br>
-  <a>https://dl.acm.org/doi/10.1145/2684822.2685324</a>[6] M. Röder, A. Both, A. Hinneburg, 2015. Exploring the Space of Topic Coherence Measures<br>
-  <a>https://www.genetics.org/content/155/2/945</a>[7] J. K. Pritchard, M. Stephens and P. Donnelly, 2000. Inference of Population Structure Using Multilocus Genotype Data<br>
-  <a>http://www.bioinf.jku.at/publications/older/2604.pdf</a>[8] S. Hochreiter, P. Schmidhuber, 1997. Long short-term memory<br>
+  <ul>
+    <li><a href="">[1]</a>Mikolov, Tomas & Corrado, G.s & Chen, Kai & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. 1-12.</li>
+    <li><a href="">[2]</a>P. Bojanowski, E. Grave, A. Joulin, T. Mikolov. (2016) Enriching Word Vectors with Subword Information.</li>
+    <li><a href="">[3]</a>Arora, S., Liang, Y., & Ma, T. (2016). A simple but tough-to-beat baseline for sentence embeddings. Paper presented at 5th International Conference on Learning Representations.</li>
+    <li><a href="">[4]</a>Edilson Anselmo Correa Junior, Vanessa Marinho, and Leandro Santos. (2017). NILC-USP at SemEval-2017 Task 4: A Multi-view Ensemble for Twitter Sentiment Analysis. In Proceedings of the 11th International Workshop on Semantic Evaluation. Vancouver, Canada, SemEval ’17, pages 610–614.</li>
+    <li><a href="">[5]</a>Zhao, Jiang & Lan, Man & Tian, Jun. (2015). ECNU: Using Traditional Similarity Measurements and Word Embedding for Semantic Textual Similarity Estimation.</li>
+    <li><a href="https://dl.acm.org/doi/10.1145/2684822.2685324">[6]</a>M. Röder, A. Both, A. Hinneburg, 2015. Exploring the Space of Topic Coherence Measures</li>
+    <li><a href="https://www.genetics.org/content/155/2/945">[7]</a>J. K. Pritchard, M. Stephens and P. Donnelly, 2000. Inference of Population Structure Using Multilocus Genotype Data</li>
+    <li><a href="http://www.bioinf.jku.at/publications/older/2604.pdf">[8]</a>S. Hochreiter, P. Schmidhuber, 1997. Long short-term memory.</li>
+  </ul>
 </p>
