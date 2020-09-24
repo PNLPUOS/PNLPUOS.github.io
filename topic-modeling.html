@@ -73,9 +73,9 @@ permalink: topic-modeling
 </p>
 
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:200px;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lda_model.png'> </div>
+    <div style="width: 50%; float: left;"><img align='left' style="width: 70%; height:200px;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lda_model.png'> </div>
     <div style="float:left; width:40%;">
-		<p>Figure is known as a plate diagram of an LDA model where:</p>
+		<p><i>Figure 1: Plate diagram of LDA model where:</i></p>
 		<ul>
 			<li>α is the per-document topic distributions</li>
 			<li>β is the per-topic word distribution</li>
@@ -108,11 +108,11 @@ Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure
 </p>
 <div style="width: 100%; overflow: hidden;">
     <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/optimal_topic_plot.png'> </div>
-    <div style="float:left; width:40%;">
+    <div style="float:left; width:50%;">
 		<img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/topic_list.png'>
 	</div>
 </div>
-
+<br><br>
 <div style="overflow-x:auto;">
   <table>
     <tr>
@@ -131,7 +131,11 @@ Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure
       <td>8</td>
     </tr>
   </table>
-  <p>Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.</p>
+  <p>
+    <i>
+      Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.
+    </i>
+  </p>
 </div>
 
 <p>LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.[8]
@@ -141,12 +145,15 @@ Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure
 </p>
 
 <img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_architecture.png'>
-<p>Figure : LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
+<p>
+  <i>
+    Figure 2: LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
+  </i>
 </p>
 <div style="width: 100%; overflow: hidden;">
     <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_model.png'> </div>
-    <div style="float:left; width:40%;">
-		<p>LSTM Parameters:</p>
+    <div style="float:left; width:50%;">
+		<p><i>Figure 3: LSTM Parameters</i></p>
 		<ul>
 			<li>Vocabulary size = 50000</li>
 			<li>Max sequence length = 100</li>
@@ -184,6 +191,9 @@ Having access to more data may help in this situation, but running more epochs u
 </p>
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/pipeline-topics.png" alt="...">
+  <i>
+    Figure 4: Diagram of Topic Modeling Pipeline
+  </i>
 </p>
 <p>
   <h3>Document Vectorization</h3>
@@ -209,6 +219,9 @@ Having access to more data may help in this situation, but running more epochs u
 </p>
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/graph-badclusters.png" alt="..." width="500", class="center">
+  <i>
+    Figure 5: Cluster analysis with average word vectors.
+  </i>
 </p>
 <p>
   It has been shown that weighting embeddings via smoothed term frequency can
@@ -241,7 +254,7 @@ Having access to more data may help in this situation, but running more epochs u
   where <i>w</i> for a term <i>i</i> in document <i>j</i> denotes<br>
 </p>
 <p>
-  <img src="https://www.link-assistant.com/images/news/tf-idf-tool-for-seo/screen-03.png" alt="..." class="center" width="200">
+  <img src="https://www.link-assistant.com/images/news/tf-idf-tool-for-seo/screen-03.png" alt="..." class="center" width="300">
 </p>
 <p>
   The resulting weighting scheme produces satisfactory clusterings when qualitatively
@@ -252,6 +265,9 @@ Having access to more data may help in this situation, but running more epochs u
 </p>
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/graph-goodclusters.png" alt="..." width="500" class="center">
+  <i>
+    Figure 6: Cluster analysis with smooth-inverse-tfidf vectors.
+  </i>
 </p>
 
 <p>
@@ -259,18 +275,26 @@ Having access to more data may help in this situation, but running more epochs u
 <h5> Dealing with High Dimensional Datasets </h5>
 
 When we work with natural language, we often have to deal with a large amount of data. If such a dataset also contains many different variables, we speak of a so-called high dimensional dataset. For a lot of scientific tasks such high dimensional datasets are a welcome basis, but as Spiderman's uncle might say <i>„with high dimensional datasets comes the great curse of dimensionality"</I>. Working with large data sets entails problems, such that it requires a lot of time and space complexity, it often leads to overfitting, not all the features in the given data set might be relevant to our problem and, due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomena that occurs when working with high dimensional data. With the curse of dimensionality we’re facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
-<br>
+<br><br>
 <ul>
 <li><b>Data Sparsity </b><br>
 the volume of the represented space grows quicker than the data and thus becomes sparse
-<br> —> this is a problem if we want to derive some statistical significance from the data <br><br>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small></li><br>
-
+<br><a>&#8594;</a> this is a problem if we want to derive some statistical significance from the data <br><br>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center">
+<i>
+  Figure 7: Demonstration of data sparsity. <a href="https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality">Source</a>
+</i>
+<br><br></li>
 <li><b>Closeness of the data </b><br>
 in low dimensional spaces, data may seem very close but the higher the dimension the further these data points may seem to be
-<br> —> distances of objects seem to be different when changing perspectives </li>
+<br><br>
+<br><a>&#8594;</a> distances of objects seem to be different when changing perspectives </li>
 <br>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Closeness_Data.png" alt="..." width="300" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small><br></li>
+<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Closeness_Data.png" alt="..." width="300" class="center">
+<i>
+  Figure 8: Objects appear differently from different perspectives. <a href="https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality">Source</a>
+</i>
+<br><br></li>
 </ul>
 
 In other words: when the number of features or dimensions grow, the amount of data we need to generalize accurately grows exponentially. That makes common data organization strategies become inefficient. <br><br>
@@ -278,7 +302,7 @@ In other words: when the number of features or dimensions grow, the amount of da
 <h5> Dimensionality Reduction Techniques </h5>
 There is a trick that helps us to organize, reduce and visualize such large amounts of data: it’s called dimensionality reduction. Dimensionality reduction is about discovering non-linear and non-local relationship in a given high dimensional data set. By reducing the dimensions we can reduce noise in the data which in turn makes it easier to apply simple learning algorithms. In our project, we are applying the following two dimensionality reduction techniques:
 
-<br>
+<br><br><br>
 <ul>
 <li><b> Principle Component Analysis (PCA) </b><br>
 PCA is the most tried linear dimensionality reduction technique. It transforms existing variables into a new set of variables, which are a linear combination of the original variables and finally converts the correlations among all of the features into a 2D-Graph. What we can see after applying PCA is that features that are highly correlated cluster together whereas the differences along the first principal component axis are more important than the differences along the second principal component.  <br><br></li>
@@ -590,13 +614,13 @@ table, th, td {
 <p>
   <h3>References</h3>
   <ul>
-    <li><a href="">[1]</a>Mikolov, Tomas & Corrado, G.s & Chen, Kai & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. 1-12.</li>
-    <li><a href="">[2]</a>P. Bojanowski, E. Grave, A. Joulin, T. Mikolov. (2016) Enriching Word Vectors with Subword Information.</li>
-    <li><a href="">[3]</a>Arora, S., Liang, Y., & Ma, T. (2016). A simple but tough-to-beat baseline for sentence embeddings. Paper presented at 5th International Conference on Learning Representations.</li>
-    <li><a href="">[4]</a>Edilson Anselmo Correa Junior, Vanessa Marinho, and Leandro Santos. (2017). NILC-USP at SemEval-2017 Task 4: A Multi-view Ensemble for Twitter Sentiment Analysis. In Proceedings of the 11th International Workshop on Semantic Evaluation. Vancouver, Canada, SemEval ’17, pages 610–614.</li>
-    <li><a href="">[5]</a>Zhao, Jiang & Lan, Man & Tian, Jun. (2015). ECNU: Using Traditional Similarity Measurements and Word Embedding for Semantic Textual Similarity Estimation.</li>
-    <li><a href="https://dl.acm.org/doi/10.1145/2684822.2685324">[6]</a>M. Röder, A. Both, A. Hinneburg, 2015. Exploring the Space of Topic Coherence Measures</li>
-    <li><a href="https://www.genetics.org/content/155/2/945">[7]</a>J. K. Pritchard, M. Stephens and P. Donnelly, 2000. Inference of Population Structure Using Multilocus Genotype Data</li>
-    <li><a href="http://www.bioinf.jku.at/publications/older/2604.pdf">[8]</a>S. Hochreiter, P. Schmidhuber, 1997. Long short-term memory.</li>
+    <li><a href="">[1]</a>   Mikolov, Tomas & Corrado, G.s & Chen, Kai & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. 1-12.</li>
+    <li><a href="">[2]</a>   P. Bojanowski, E. Grave, A. Joulin, T. Mikolov. (2016) Enriching Word Vectors with Subword Information.</li>
+    <li><a href="">[3]</a>   Arora, S., Liang, Y., & Ma, T. (2016). A simple but tough-to-beat baseline for sentence embeddings. Paper presented at 5th International Conference on Learning Representations.</li>
+    <li><a href="">[4]</a>   Edilson Anselmo Correa Junior, Vanessa Marinho, and Leandro Santos. (2017). NILC-USP at SemEval-2017 Task 4: A Multi-view Ensemble for Twitter Sentiment Analysis. In Proceedings of the 11th International Workshop on Semantic Evaluation. Vancouver, Canada, SemEval ’17, pages 610–614.</li>
+    <li><a href="">[5]</a>   Zhao, Jiang & Lan, Man & Tian, Jun. (2015). ECNU: Using Traditional Similarity Measurements and Word Embedding for Semantic Textual Similarity Estimation.</li>
+    <li><a href="https://dl.acm.org/doi/10.1145/2684822.2685324">[6]</a>   M. Röder, A. Both, A. Hinneburg, 2015. Exploring the Space of Topic Coherence Measures</li>
+    <li><a href="https://www.genetics.org/content/155/2/945">[7]</a>   J. K. Pritchard, M. Stephens and P. Donnelly, 2000. Inference of Population Structure Using Multilocus Genotype Data</li>
+    <li><a href="http://www.bioinf.jku.at/publications/older/2604.pdf">[8]</a>   S. Hochreiter, P. Schmidhuber, 1997. Long short-term memory.</li>
   </ul>
 </p>
