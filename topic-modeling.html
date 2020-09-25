@@ -60,9 +60,6 @@ permalink: topic-modeling
   topic model approaches and document clustering approaches. We briefly
   describe the statistical approach before investigating our methods.
 </p>
-
-<!-- CURRENT POSITION -->
-
 <p>
   <h3>Digression: Statistical Topic Modeling Approach</h3>
   Statistical topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core
@@ -112,38 +109,57 @@ So topic coherence is one of the main techniques used to estimate the number of 
 measures to get the coherence score[6] where c_v best fit for our dataset.  Figure shows the coherence score
 in relation to the number of topics. We choose 8 topics (coherence score 0.37) as optimal for our purposes.
 Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure.
+
+<!-- CURRENT POSITION -->
+
 </p>
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/optimal_topic_plot.png'> </div>
+    <div style="width: 50%; float: left;"><img class='center' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/optimal_topic_plot.png'> </div>
     <div style="float:left; width:50%;">
-		<img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/topic_list.png'>
+		<img class='center' style="width: 80%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/topic_list.png'>
 	</div>
 </div>
+<p>
+  <i>
+    Figure 2: Topic coherence and word clouds for LDA topic modeling.
+  </i>
+</p>
 <br><br>
-<div style="overflow-x:auto;">
-  <table>
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg .tg-vg0y{background-color:#34696d;color:#ffffff;text-align:left;vertical-align:top}
+  .tg .tg-4ihi{background-color:#739e8e;color:#ffffff;font-weight:bold;text-align:left;vertical-align:top}
+  .tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+  <thead>
     <tr>
-      <th>Metrices</th>
-      <th>Coherence Score</th>
-      <th>Number of topics</th>
+      <th class="tg-vg0y">Metrices</th>
+      <th class="tg-vg0y">Coherence Score</th>
+      <th class="tg-vg0y">Number of Topics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tg-4ihi">c_v (0 < x < 1)</td>
+      <td class="tg-0lax">0.37</td>
+      <td class="tg-0lax">8</td>
     </tr>
     <tr>
-      <td>c_v (0 < x < 1)</td>
-      <td>0.37</td>
-      <td>8</td>
+      <td class="tg-4ihi">u_mass (-14 < x < 14)</td>
+      <td class="tg-0lax">-5.84</td>
+      <td class="tg-0lax">8</td>
     </tr>
-    <tr>
-      <td>u_mass (-14 < x < 14)</td>
-      <td>-5.84</td>
-      <td>8</td>
-    </tr>
+  </tbody>
   </table>
   <p>
     <i>
       Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.
     </i>
   </p>
-</div>
 
 <p>LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.[8]
  LSTMs are designed to solve traditional RNNs vanishing gradient problems and allow them to retain information for long periods. In addition,
