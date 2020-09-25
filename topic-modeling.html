@@ -109,9 +109,6 @@ So topic coherence is one of the main techniques used to estimate the number of 
 measures to get the coherence score[6] where c_v best fit for our dataset.  Figure shows the coherence score
 in relation to the number of topics. We choose 8 topics (coherence score 0.37) as optimal for our purposes.
 Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure.
-
-<!-- CURRENT POSITION -->
-
 <head>
 <style>
 table {
@@ -131,7 +128,6 @@ tr:nth-child(even) {
 }
 </style>
 </head>
-
 </p>
 <div style="width: 100%; overflow: hidden;">
     <div style="width: 50%; float: left;"><img class='center' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/optimal_topic_plot.png'> </div>
@@ -181,6 +177,8 @@ tr:nth-child(even) {
     </i>
   </p>
 
+<!-- CURRENT POSITION -->
+
 <p>
  LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.[8]
  LSTMs are designed to solve traditional RNNs vanishing gradient problems and allow them to retain information for long periods. In addition,
@@ -191,13 +189,13 @@ tr:nth-child(even) {
 <img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_architecture.png'>
 <p>
   <i>
-    Figure 2: LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
+    Figure 3: LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
   </i>
 </p>
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_model.png'> </div>
+    <div style="width: 50%; float: left;"><img class='center' style="width: 80%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_model.png'> </div>
     <div style="float:left; width:50%;">
-		<p><i>Figure 3: LSTM Parameters</i></p>
+		<!-- <p><i></i></p> -->
 		<ul>
 			<li>Vocabulary size = 50000</li>
 			<li>Max sequence length = 100</li>
@@ -209,6 +207,11 @@ tr:nth-child(even) {
 		</ul>
 	</div>
 </div>
+<p>
+  <i>
+    Figure 4: LSTM Parameters
+  </i>
+</p>
 
 <p>Finally, topic modeling using LDA generates same keyword in diffirent topics. And the LSTM model does not perform well on our dataset, which is likely due to overfitting on a small dataset.
 Having access to more data may help in this situation, but running more epochs using the current data would not solve this problem.
