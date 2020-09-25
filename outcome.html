@@ -5,6 +5,21 @@ permalink: outcome
 <head>
   <style>
     h4 {text-align: center;}
+    img.center {
+    display: block;
+    margin: 0 auto;
+    }
+    ul {
+    position: relative;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1.2em;
+    }
+    ul li:before {
+      content: "-";
+      position: absolute;
+      left: 0;
+    }
   </style>
 </head>
 
@@ -20,5 +35,142 @@ permalink: outcome
 
 <h1>Outcome and Reflection</h1>
 <p>
-  ...
+  <h3>Outcome</h3>
+  When we apply our Natural Language Processing (NLP) pipeline consisting of <a href=https://pnlpuos.github.io/data-preparation>Data Preparation</a>,
+  <a href="https://pnlpuos.github.io/topic-modeling">Topic Modeling</a>, and <a href="https://pnlpuos.github.io/sentiment-analysis">Sentiment Analysis</a>,
+  using the employee survey comments provided by deepsight, we are able to report on this data from multiple perspectives. Since the end user
+  is usually a Human Resource (HR) department, we chose to adopt an organizational psychology point of view and assemble our results to answer
+  those questions which an HR department might wish to answer with such a survey. We below present the output of our NLP pipeline on the
+  survey data with regard to relevant topics mentioned, sentiments towards these topics, and overall <a href="https://en.wikipedia.org/wiki/Employee_engagement">employee engagement</a>.
+</p>
+<p>
+  <h5>Topic Modeling Results</h5>
+  From our document clustering approach we have extrapolate twelve relevant topics from the data:
+  <br><br>
+  <ul>
+    <li>Team Spirit</li>
+    <li>Employee-Management Interaction</li>
+    <li>Employee Opinion Survey (EOS)</li>
+    <li>'Non Answers'</li>
+    <li>CIF Training Program</li>
+    <li>HR Department</li>
+    <li>Salary</li>
+    <li>Operating Procedures</li>
+    <li>Teamwork and Communication</li>
+    <li>Customer Relations</li>
+    <li>Cooperation</li>
+    <li>Changes in the Company</li>
+  </ul>
+</p>
+<p>
+  The topic 'Non Answers' contains short, meaningless comments such as <i>"no comment"</i> or <i>" - "</i>. The topic
+  'Employee Opinion Survey' contains comments which primarily discuss the results and consequences of the previous
+  employee opinion survey, which proved interesting to our analysis as it revealed the employees' collective
+  conception of these surveys. We inspected each topic with respect to average comment length, which we adopt as an
+  indicator of employee engagment. Our assumption is that if a comment is longer, the employee providing the comment
+  is more engaged.
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/topic-engagement.png" alt="..." width="500", class="center">
+</p>
+<p>
+  <i>
+    Figure 1: Employee engagement as a function of average comment length for each identified topic.
+  </i>
+</p>
+<p>
+  As demonstrated in Figure 1, the topic with the longest comments in 'Salary', with an average of 168 characters per comment. This
+  value seems intuitive, since salary is generally a controversial topic which affects every employee. Other topics which contained
+  long comments include 'Employee-Management Interaction' (163 characters) and 'HR Department' (152 characters). The topic with the shortest
+  comments is the aforementioned 'Non Answers' topic, with an average comment character-length of 21.
+</p>
+<p>
+  The language content of each topic can be visualized with 'word clouds' which show the most frequent words mentioned in the comments
+  of each topic. The size of the word is positively-correlated with the frequency of the word in the topic. Colors have no meaning, but
+  help to visually-distinguish the words. In sum, the word cloud visualization can be helpful to gain a superficial overview of 'what a
+  topic is about.' For example, in Figure 2, the word cloud for the topic 'HR Department,' words such as "HR" and "department" are
+  prominent along with related words such as "employee," "support," "training," "management," "team," and "staff."
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/wordcloud-hr.jpg" alt="..." width="500", class="center">
+</p>
+<p>
+  <i>
+    Figure 2: Word cloud for a topic about HR department.
+  </i>
+</p>
+<p>
+  To gain further qualitative insights into each topic, we also extracted representative comments. For example, for the topic
+  'CIF Traning Program' the representative comments include:
+  <br><br>
+  <ul>
+    <li>“I feel that the CIF program and its different modules are a big investment and that its results will be favorable to [company]. I believe that this types of programs are much needed to change the culture and achieve the results [company] needs.</li>
+    <li>“CIF training was an eye opener. If we felt that we were working for a good company, the perception changed to we are working for the worlds greatest company. The fact that we can leverage on the network for support and speed is awesome.”</li>
+  </ul>
+</p>
+<p>
+  The comments clearly suggest a positive sentiment. From this additional qualitative analysis, on can then verify sentiment
+  quantitatively via sentiment analysis.
+</p>
+<p>
+  <h5>Sentiment Analysis Results</h5>
+  While the sentiment of the comments is strongly-correlated with the prompting question, there are considerable
+  differences in the sentiment distributions among the different topics. Such variations can be employed to determine
+  what aspects of the company are currently satisfactor to employees, and which demand improvement. As seen in Figure 3, the most positive
+  topic is the 'CIF Traing Program,' with 66.5% of the comments having a positive sentiment. The most negative topic, 'Salary,'
+  reveals only 17.2% of the comments to have a positive sentiment.
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/pie-sentiment.jpg" alt="..." width="500", class="center">
+  <br><br>
+  <i>
+    Figure 3: Sentiment distribution for most-positive and most-negative topics.
+  </i>
+</p>
+<p>
+  In addition to the qualitative, content-related information provided by the outputs of the topic modeling pipeline, our
+  sentiment analysis provides valuable insights into the feelings of employees towards specific processes and departments of
+  the surveying company. This sentiment can again act as an indicator of employee engagement level.
+</p>
+<p>
+  Additionally, when cross-analyzing sentiment with additional question metadata such as surveyed department, we are able to
+  produce a finer-grained analysis indicating the distribution of topic sentiment across the different departments. As seen in
+  Figure 4, when splitting the sentiment analysis of the topic 'HR Department' across the two surveyed departments, there exists
+  a clear divide in opinion across the two groups of employees.
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/department-sentiment.jpg" alt="..." width="500", class="center">
+  <br><br>
+  <i>
+    Figure 4: Sentiment distribution for 'small' and 'large' departments for a sample topic.
+  </i>
+</p>
+<p>
+  Although for both departments the sentiment towards the HR Department is primarily negative, when splitting across the
+  two departments it is revealed that the large department has generally more positive sentiment towards the HR Department
+  than the small department. This information can provide helpful indicators towards precise interventions, e.g. that
+  interventions directed towards HR Department activity in the small department be prioritized or further-investigated in
+  conjunction with representative comments from the topic.
+</p>
+<p>
+  <h5>Conclusion</h5>
+  Because our project's main focus was on the technical implementation of the NLP pipeline, the above analysis represents
+  only a fraction of the possibilities for statistical analyses which may shed light on the topics and opinions
+  contained in the investigated dataset. Nonetheless, these results should give an impresssion of the utility of our methods, as
+  without these computational means arriving at similar insights would likely prove very time-consuming. In short, our analysis
+  pipeline proves superficially-effective in delivering actionable insights quickly and objectively. However, it must be kept in
+  mind that our approaches remain prone to error and subject to improvement.
+</p>
+<p>
+  <h3>Reflection</h3>
+  The combination of Machine Learning and NLP is an exciting new field of research and our cooperation with deepsight GmbH proved
+  an excellent opportunity to apply theoretical knowledge towards resolution of a real-world use-case. In addition to learning
+  and exploring state-of-the-art technologies we also developed soft-skills such as project management, teamwork, and
+  interdisciplinary communication.
+</p>
+<p>
+  Since university study projects rely on student self-organization, the quality of the project and its outcome depends on the
+  commitment of the individual participants. In this regard, our study project was a good experience due to the significant
+  intrinsic motivation within the team. Finally, we would like to thank Dr. Alexander Meier from deepsight GmbH and Prof. Dr. Michael
+  Franke from the University of Osnabrück for providing valuable ideas and input, and for supporting the project from the beginning.
 </p>
