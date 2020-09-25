@@ -20,257 +20,314 @@ permalink: data-preparation
 
 <h1>Data Preparation</h1>
 <p>
-  In the modern world everyone is associated with data. We have most access to the data than ever before. 
-  If in 1640s a latin word called “data”[1] was not recorded then no one would have known the term. Data 
-  is a collection of facts, such as numbers, words, measurements, observations or just descriptions of things. 
-  Nowadays, data scientists are always collecting data from different sources like social media, news portal, 
-  forum etc and extracting information. These massive amounts of data are not in the same shape or structure 
-  which could be suitable for any type of work. In natural language processing(NLP) and artificial neural network(ANN),
-  data preprocessing is must needed before training or testing to facilitate the process by removing required outliers
-  and scaling the dataset. Real/raw datasets have missing or inconsistent values and lot’s of redundant information. 
-  Based on these problem raw dataset can be divided into 3 groups:
+  This section describes the relevant data cleaning methods employed to render the raw
+  employee survey data suitable for topic modeling and sentiment classification. We also provide a brief
+  introduction to the topic of data preparation.
 </p>
-<p><b>Missing data:</b> Inaccurate or wrong data appeared to be visible during the final phase of analysis. Wrong data entry could be one example.</p>
-<p><b>Noisy data:</b> This type of data encompasses huge data and outliers but it’s just meaningless data. Human mistakes, mislabeling etc might create
- noisy data.</p>
- <p><b>Inconsistent data:</b> Inconsistencies happen because of mistakes in code, data duplication, similar data in different file formats.</p>
- 
-<h2>Types of data preparation techniques</h2> 
-<p>The dataset we have used has 348348 number of words, 2033797 number of characters, 127557 number of stopwords, 2776 number of special characters, 664 number 
-of numerics, 30639 number of uppercase words.</p>
-<p><b>Lowercasing:</b> Lowercasing the dataset is the simplest form of data preprocessing, applicable to most of the NLP problems helps to maintain consistency of expected result.</p>
-<p><b>Remove number:</b> Removing any number which is not related to the analysis generally using regular expression.</p>
-<p><b>Remove punctuation:</b> Removes this set of symbols [!”#$%&’()*+,-./:;<=>?@[\]^_`{|}~]</p>
-<p><b>Remove whitespaces:</b> </p>
-<p><b>Term Frequency (TF):</b> Term frequency is how many times a term appears in a particular document in corpus.
-TF = (Number of times term T appears in the particular row) / (number of terms in that row). Consider a document containing 100 words where the word study appears 3 times. 
-The term frequency (TF) for Study word is (3 / 100) = 0.03</p>
-<p><b>Inverse Document Frequency (IDF):</b> Inverse Document frequency is how many times a term appears in a particular document in corpus.
-IDF(t) = log(Total number of rows / the number of rows in which the word was present). Assume we have 1000 documents and the word study appears only in 100 of them. Then, 
-The inverse document frequency (i.e., idf) is calculated as log(1000 / 100) = 2.30 
+<h3>Introduction</h3>
+<p>
+  "Data" refers to a collection of facts such as numbers, words, measurements, or other observations [1].
+  Data can be inherently structured, meaning that there already exist clearly-defined data types and
+  relationships, or otherwise unstructured, implying that data lacks structure which makes it readily navigable,
+  searchable, or interpretable. In our case, we work with unstructured, natural language (text) data, which
+  requires several stages of preprocessing and feature engineering to satisfy the analysis methods we employ.
+  There exist three common challenges to data analysis:
 </p>
-<p><b>Bag-of-Words(BOW):</b> BOW is a way of extracting features from the text to use in machine learning algorithms such as document classification. Assume couple of sentence as separate document where 7 unique words.
-<ul style="list-style-type:none;">
-  <li><i>"Today is sunny day"       [1,1,1,1,0,0,0]</i></li>
-  <li><i>"Today temperature is good"        [1,1,0,0,1,1,0]</i></li>
-  <li><i>"Today is presentation day"			[1,1,0,1,0,0,1]</i></li>
-</ul>  
+<p>
+  <p>
+    <b>Missing Data:</b> Data or metadata are unavailable. With our analysis data, we possess only raw employee
+    survey comments associated with prompting questions. For anonymity reasons, we lack metadata about the respondents,
+    which limits the analyses we can perform.
+  </p>
+  <p>
+    <b>Noisy Data:</b> Data contains outliers or other inconsistencies which obfuscate patterns we expect or aim to
+    find. In our case, the employee survey data contains many irrelevant comments, spelling errors, and nonsenical
+    phrases which must be removed or corrected. We below describe in greater detail several of the preprocessing steps
+    which aim to combat this problem. Additionally, we propose a novel spelling correction algorithm described in a
+    later section.
+  </p>
+  <p>
+    <b>Inconsistent Data:</b> Data is inconsistently recorded. This includes formatting inconsistencies such as
+    letter-casing or inconsistent data types.
+  </p>
 </p>
-<p><b>Tokenization:</b> Spliting long string of text into smaller or single piece as tokens is called Tokenization. Sentences are tokenized into words. 
-Tokenization is also referred to as text segmentation or lexical analysis. Assume a sentence <i>"Today is sunny day"</i>. After tokenization becomes 
-<i>["Today", "is", "sunny", "day"]</i></p>
-<p><b>Part of Speech(POS):</b></p>
-<p><b>Remove Stop Words:</b> There are some words like "the", "a", "on", "is", "all" etc. that 
-do not carry any meaning and are removed from text. For example <i>"Today is the first day at university"</i>. 
-Here "is", "the", "at" are stop words. So these word will be removed.</p>
-<p><b>Stemming:</b>Removing affixes from word and extract the base form of word is called Stemming. 
-Assume number of words <i>eating, eats, eaten</i>. The stem of these word is <i>eat</i>.Stemming is 
-important in natural language understanding (NLU) and natural language processing (NLP). And search engine like Google use this for indexing the words. That's
-how stemming reduces the size of index and increase the accuracy.</p>
-<p><b>Lemmatization:</b> Grouping different infected forms of words into root form which have the same meaning is called Lemmatization. 
-The morphological analysis might require to extract the correct lemma from a word.</p>
+
+<h2>Data Preparation Techniques</h2>
+<p>
+  We below list the data preparation methods we employ to combat the issues of noisy and inconsistent data.
+</p>
+<p>
+  <b>Lowercasing: </b>To render all words in a natural language dataset comparable and remove duplicates resulting from
+  capitalization differences, it is advisable to make all words lowercase. This helps to maintain data consistency.
+</p>
+<p>
+  <b>Number Removal: </b>For our semantic analysis, numbers are not a relevant feature and only introduce additional
+  noise. Therefore, removing numbers is a relevant form of denoising.
+</p>
+<p>
+  <b>Punctuation Removal: </b>Many punctuation marks are irrelevant to our semantic analysis or are misused, introducing
+  additional noise which is best removed. We remove symbols present in the following list:
+  [!”#$%&’()*+,-./:;<=>?@[\]^_`{|}~]
+</p>
+<p>
+  <b>Term Frequency Inverse Document Frequency (TFIDF): </b>Although not a form of data cleaning per se, for several
+  stages of our analysis it is useful to introduce additional statistical features which can help us to structure the
+  representation of the texts. TFIDF is a form of statistical feature engineering which denotes the number of times a
+  term appears in a given corpus (TF), divided by the number of times the term appears in a given document (IDF). For
+  further information on how the TFIDF score is used to inform our document vector representations, please refer to the
+  <a href="https://pnlpuos.github.io/topic-modeling">Topic Modeling</a> section of this report.
+</p>
+<p>
+  <b>Tokenization: </b>Tokenizing a document signifies splitting the document into its component words or sentences. In
+  order to isolate words as the atomic constituents of document meaning, we tokenize our documents into words as an
+  important preprocessing step.
+</p>
+<p>
+  <b>Stemming: </b>Removing inflectional stems from words controls for morphological variations which otherwise confuse
+  the association of closely-related terms.
+</p>
+<p>
+  <b>Lemmatization: </b>As an alternative to stemming, rendering words into their "lemmata" or uninflected forms is also
+  an effective means of controlling for variations in word inflection or declination.
+</p>
+<p>
+  <b>Stopword Removal: </b>Many words such as "a," "the," and "from" do not contribute significant meaning to a sentence
+  but are commonly repeated connecting particles which, for all-intensive purposes, constitute dataset noise. We remove
+  an exhaustive list of English "stopwords" in order to remove these tokens from the analysis.
+</p>
+
+<p>
+  By the methods described above we are able to both remove noise from the dataset and control the representation of
+  natural language such that the independent variables inherent to the unstructured data are, as much as possible, only
+  the semantic meaning of the individual texts. We below describe the unique spell correction algorithm we employ to
+  further correct inconsistencies in our dataset.
+</p>
  <!-----------------------------------------------End of data preparation----------------------------------------------------->
 <h1>Spelling Correction</h1>
-  <h2>1. The Problem</h2>
+  <h2>The Problem</h2>
     <p>
-      When working on non-quality-controlled, human-generated text data, lexical errors can be problematic for automatic 
-      analysis. Automatically correcting these errors is a non-trivial task. The task itself can be split into three 
+      When working on non-quality-controlled, human-generated text data, lexical errors can be problematic for automatic
+      analysis. Automatically correcting these errors is a non-trivial task. The task itself can be split into three
       sub-tasks - error detection, candidate generation, and candidate selection - with their own sets of challenges.
     </p>
     <p>
-      <b>Error detection</b> is the task of finding incorrect words in a sentence. Errors can be categorized in two major 
-      categories: non-word errors (NWE) and word errors (WE). Non-word errors constitute errors that are not real words, 
-      e.g. when someone writes "thre" instead of "three". Word errors, on the other hand, are errors that are correct 
-      words used in the incorrect context, e.g. when someone writes "tree" instead of "three".
+      <b>Error detection</b> is the task of finding incorrect words in a sentence. Errors can be categorized in two
+      major categories: non-word errors (NWE) and word errors (WE). Non-word errors constitute errors that are not real
+      words, e.g. when someone writes "thre" instead of "three". Word errors, on the other hand, are errors that are
+      correct words used in the incorrect context, e.g. when someone writes "tree" instead of "three".
     </p>
     <p>
-      <b>Candidate generation</b> is the task of generating a list of words that could be the word the author meant to 
+      <b>Candidate generation</b> is the task of generating a list of words that could be the word the author meant to
       use, given an incorrect word.
     </p>
     <p>
-      <b>Candidate selection</b> is the task of selecting the most likely candidate from the generated list of candidates 
-      with which to replace the detected error.
+      <b>Candidate selection</b> is the task of selecting the most likely candidate from the generated list of
+      candidates with which to replace the detected error.
     </p>
     <p>
       When pre-processing answers to survey questions, the answers’ semantic information should/must be preserved. Out-
-      of-the-box spelling correction solutions have failed us at this in two ways. Firstly, they occasionally considered 
-      correctly spelled words as incorrect and attempted to correct them, changing them into a different word in the 
-      process. Secondly, the generated (and selected) candidates for an incorrect word were often completely different 
+      of-the-box spelling correction solutions have failed us at this in two ways. Firstly, they occasionally considered
+      correctly spelled words as incorrect and attempted to correct them, changing them into a different word in the
+      process. Secondly, the generated (and selected) candidates for an incorrect word were often completely different
       words, e.g. “bark” instead of “book”.
     </p>
 
 
-  <h2>2. The Approach</h2>
+  <h2>The Approach</h2>
     <p>
-      TransSpell is an attempt to solve the problem of spelling correction in a robust way, emphasizing the importance 
-      of minimizing false positives in error detection. Its goal is to apply spelling correction only to words that can 
-      most definitely be considered “false” and for those corrections to be correct. The error detection rate does not 
+      TransSpell is an attempt to solve the problem of spelling correction in a robust way, emphasizing the importance
+      of minimizing false positives in error detection. Its goal is to apply spelling correction only to words that can
+      most definitely be considered “false” and for those corrections to be correct. The error detection rate does not
       need to be perfect, but it should not produce any false positives.
-      <a href="https://github.com/Broconuts/TransSpell">TransSpell</a> is the successor to 
-      <a href="https://github.com/Broconuts/FastSpell">FastSpell</a>, a spelling correction approach that was developed 
+      <a href="https://github.com/Broconuts/TransSpell">TransSpell</a> is the successor to
+      <a href="https://github.com/Broconuts/FastSpell">FastSpell</a>, a spelling correction approach that was developed
       for this Study Project which was abandoned due to performance issues.
     </p>
 
-    <h3>2.1 Error Detection</h3>
+    <h3>Error Detection</h3>
       <p>
-        We first attempted to develop context-sensitive error detection (i.e. error detection capable of detecting NWEs). 
-        When this approach yielded many false positives, we reverted to a modified version of rule-based error detection 
-        used during FastSpell development.
+        We first attempted to develop context-sensitive error detection (i.e. error detection capable of detecting
+        NWEs). When this approach yielded many false positives, we reverted to a modified version of rule-based error
+        detection used during FastSpell development.
       </p>
-      <h4>Context-Sensitive Approach</h4>
+      <h5>Context-Sensitive Approach</h5>
         <p>
-          Given a sentence consisting of n tokens, we create n substrings where one token is masked (i.e. considered an 
-          error); for example, in substring 2, the second token of the sentence is masked. We then let the candidate 
-          generation component (see section 2.2) determine 50 likely lexical candidates for the masked 
-          position given the remaining (unmasked) tokens of the sentence. If the original token is not among the 
-          generated tokens, it is considered a text error. Unfortunately, this approach comes with two major flaws, not 
+          Given a sentence consisting of n tokens, we create n substrings where one token is masked (i.e. considered an
+          error); for example, in substring 2, the second token of the sentence is masked. We then let the candidate
+          generation component (see section 2.2) determine 50 likely lexical candidates for the masked
+          position given the remaining (unmasked) tokens of the sentence. If the original token is not among the
+          generated tokens, it is considered a text error. Unfortunately, this approach comes with two major flaws, not
           to mention high computational costs, reducing the scalability of this approach.
         </p>
         <p>
-          Firstly, by masking a random word and letting the model determine a likely candidate for that word, we assert 
-          that the context is correct. Let us assume a sentence with a word-error in the third token, e.g. "We made ensure 
-          that our customers get the products on time" when the author really meant "We made sure[...]". Error detection 
-          iterates through the sentence sequentially, thereby checking "made" before “ensure”. Given the context, i.e. "we 
-          [mask] ensure that [...]", the candidate generation component will not generate the correct "made" but rather 
-          deem the actual token erroneous and supply something along the lines of "must". The sentence now reads "we must 
-          ensure that [...]", which is now contextually coherent but not what the original author had in mind. If the 
-          contextual error does not occur in the first checked position of a sentence, this approach will make the context 
-          fit the original error, rather than make the error fit the context.
+          Firstly, by masking a random word and letting the model determine a likely candidate for that word, we assert
+          that the context is correct. Let us assume a sentence with a word-error in the third token, e.g. "We made
+          ensure that our customers get the products on time" when the author really meant "We made sure[...]". Error
+          detection iterates through the sentence sequentially, thereby checking "made" before “ensure”. Given the
+          context, i.e. "we [mask] ensure that [...]", the candidate generation component will not generate the correct
+          "made" but rather deem the actual token erroneous and supply something along the lines of "must". The sentence
+          now reads "we must ensure that [...]", which is now contextually coherent but not what the original author had
+          in mind. If the contextual error does not occur in the first checked position of a sentence, this approach
+          will make the context fit the original error, rather than make the error fit the context.
         </p>
         <p>
-          Secondly, this approach to error-detection can be summarized as "making sure a given sentence is a sequence of 
-          words that is statistically likely". This entails that, rather than "just" looking for errors, we remodel 
-          sentences according to what the pre-trained model used for candidate generation has learned sentences to look 
-          like. For example, the sentence "we work hard to meet <b>consumer</b> requirements" is changed to "we work 
-          hard to meet <b>minimum</b> requirements." This is very problematic because it changes the meaning of the 
+          Secondly, this approach to error-detection can be summarized as "making sure a given sentence is a sequence of
+          words that is statistically likely". This entails that, rather than "just" looking for errors, we remodel
+          sentences according to what the pre-trained model used for candidate generation has learned sentences to look
+          like. For example, the sentence "we work hard to meet <b>consumer</b> requirements" is changed to "we work
+          hard to meet <b>minimum</b> requirements." This is very problematic because it changes the meaning of the
           sentence, reproducing one of the main issues of the out-of-the-box approaches.
         </p>
-      <h4>Rule-Based Approach</h4>
+      <h5>Rule-Based Approach</h5>
         <p>
-          For the reasons described above, context-sensitive error correction is currently too unreliable. However, 
-          context-insensitive error detection solutions introduce new problems that require consideration. Usually, 
-          these approaches take finite lists of correct words, like lexica, and check whether a token is contained 
-          in this finite list. As is the norm with assets like that, these lists are not exhaustive. While there are 
-          options available that are potentially exhaustive (e.g. the 
-          <a href="https://dictionaryapi.com/">Merriam-Webster API</a>), these options are not for free and therefore 
-          not feasible for this project. We therefore introduce a list of additional conditions for correctness of a 
+          For the reasons described above, context-sensitive error correction is currently too unreliable. However,
+          context-insensitive error detection solutions introduce new problems that require consideration. Usually,
+          these approaches take finite lists of correct words, like lexica, and check whether a token is contained
+          in this finite list. As is the norm with assets like that, these lists are not exhaustive. While there are
+          options available that are potentially exhaustive (e.g. the
+          <a href="https://dictionaryapi.com/">Merriam-Webster API</a>), these options are not for free and therefore
+          not feasible for this project. We therefore introduce a list of additional conditions for correctness of a
           word besides "membership in a lexicon", to reduce the number of false positives in error detection.
         </p>
         <p>
           The complete process of context-insensitive error detection for a given token is as follows (in order):
-        </p> 
+        </p>
         <ol>
           <li>
-            Check whether the token is shorter than four characters or - if the source sentence is properly capitalized – 
-            matches a regex modelling acronyms. If either condition is met, do not check further and assume it is not an 
-            error. This aims to protect acronyms and similar domain-specific terms from being considered an error.
+            Check whether the token is shorter than four characters or - if the source sentence is properly capitalized
+            – matches a regex modelling acronyms. If either condition is met, do not check further and assume it is not
+            an error. This aims to protect acronyms and similar domain-specific terms from being considered an error.
           </li>
           <li>
-            Check whether the token occurs more than 10 times in the entire corpus. If it does, do not consider it an error.
+            Check whether the token occurs more than 10 times in the entire corpus. If it does, do not consider it an
+            error.
           </li>
           <li>
-            Check whether the token is contained in a lexicon for American English and British English, respectively. 
+            Check whether the token is contained in a lexicon for American English and British English, respectively.
           </li>
         </ol>
         <p>
-          If none of these conditions were met, consider the word an error. Please note that the second criterion requires 
-          both knowledge of the entire corpus and a certain size of the corpus for the measure to be effective).
+          If none of these conditions were met, consider the word an error. Please note that the second criterion
+          requires the spelling corrector to have information regarding the content of the corpus and the corpus itself
+          to be of a certain size for the measure to be effective).
         </p>
 
-    <h3>2.2 Candidate Generation</h3>
+    <h3>Candidate Generation</h3>
       <p>
-        Candidate generation occurs based solely on the context of the erroneous word. We simply mask the token in 
-        question (i.e. replace it with a mask-token) and let a pretrained transformer model predict which token should 
-        be in the given position based on its context. Sentence length is an important factor in how well this approach 
-        will perform. For one-word answers, for example, it will not work at all. Furthermore, the pre-trained models 
-        seem to disproportionally weigh the positional context in the first and last token of a sequence, e.g. by 
-        suggesting replacement of the first token with tokens like bullet points or similar beginning-of-line 
-        indicators. Because of this, this error correction approach will only work properly on tokens that are preceded 
+        Candidate generation occurs based solely on the context of the erroneous word. We simply mask the token in
+        question (i.e. replace it with a mask-token) and let a pretrained transformer model predict which token should
+        be in the given position based on its context. Sentence length is an important factor in how well this approach
+        will perform. For one-word answers, for example, it will not work at all. Furthermore, the pre-trained models
+        seem to disproportionally weigh the positional context in the first and last token of a sequence, e.g. by
+        suggesting replacement of the first token with tokens like bullet points or similar beginning-of-line
+        indicators. Because of this, this error correction approach will only work properly on tokens that are preceded
         by at least one token and followed by at least one token.
       </p>
-      <h4>A Note on the Implementation</h4>
+      <h5>A Note on the Implementation</h5>
         <p>
-          As a description of the BERT architecture and its derivates far exceeds the scope of this documentation, 
-          please refer to <a href="https://arxiv.org/abs/1810.04805">the original paper</a> for more information. For 
-          TransSpell, we use a pretrained distillated version of a RoBERTa model (i.e. a more lightweight model based on 
-          a more complex BERT architecture) with 82M parameters. The model itself is a pyTorch-based implementation 
+          As a description of the BERT architecture and its derivates far exceeds the scope of this documentation,
+          please refer to <a href="https://arxiv.org/abs/1810.04805">the original paper</a> for more information [4]. For
+          TransSpell, we use a pretrained distillated version of a RoBERTa model (i.e. a more lightweight model based on
+          a more complex BERT architecture) with 82M parameters. The model itself is a pyTorch-based implementation
           through <a href="https://huggingface.co/transformers/">HuggingFace’s transformers library</a>.
         </p>
 
-    <h3>2.3 Candidate Selection</h3>
+    <h3>Candidate Selection</h3>
       <p>
-        Given the list of candidates generated by the transformer, which is ordered according to decreasing likelihood 
-        of the candidate given the context, we first create a ranking of these candidates based on their respective 
-        Levenshtein distance [source] to the original erroneous token. All candidates with a distance larger than 3 are 
-        ruled out. For a better understanding of Levenshtein distances, refer to 
-        <a href="https://norvig.com/spell-correct.html">Peter Norvig’s blog post on writing a spelling corrector</a>. 
-        If no suggestion had a small enough distance to the original word, we return the original word as a correction 
-        candidate to prevent TransSpell from applying a change that would change the intended meaning of the author. If 
-        some candidates meet the Levenshtein distance criterion, we then iterate through the ranking, checking if the 
-        first letter of the candidate matches the first letter of the original word. This is based on the intuition that 
-        most human-made typos do not occur in the first position of a word. The first match to this category is chosen 
-        as the most likely candidate. If no token matches this criterion, the most likely (according to the transformer 
+        Given the list of candidates generated by the transformer, which is ordered according to decreasing likelihood
+        of the candidate given the context, we first create a ranking of these candidates based on their respective
+        Levenshtein distance to the original erroneous token. All candidates with a distance larger than 3 are
+        ruled out. For a better understanding of Levenshtein distances, refer to
+        <a href="https://norvig.com/spell-correct.html">Peter Norvig’s blog post on writing a spelling corrector</a>.
+        If no suggestion had a small enough distance to the original word, we return the original word as a correction
+        candidate to prevent TransSpell from applying a change that would change the intended meaning of the author. If
+        some candidates meet the Levenshtein distance criterion, we then iterate through the ranking, checking if the
+        first letter of the candidate matches the first letter of the original word. This is based on the intuition that
+        most human-made typos do not occur in the first position of a word. The first match to this category is chosen
+        as the most likely candidate. If no token matches this criterion, the most likely (according to the transformer
         model) token with the closest Levenshtein distance to the original word is chosen as the correct word.
       </p>
 
 
-  <h2>3. Evaluation</h2>
+  <h2>Evaluation</h2>
     <p>
-      Given the necessity of an error being incorporated in a full sentence for TransSpell to work, we cannot use 
-      traditional spelling correction corpora that only consist of a proper word and possible misspellings of that word 
-      (such as the <a href="https://www.dcs.bbk.ac.uk/~roger/corpora.html">Birkbeck corpus</a>). Moreover, calculating 
-      a meaningful metric for performance would require a an amount of manually labeled data that exceeds the scope of 
+      Given the necessity of an error being incorporated in a full sentence for TransSpell to work, we cannot use
+      traditional spelling correction corpora that only consist of a proper word and possible misspellings of that word
+      (such as the <a href="https://www.dcs.bbk.ac.uk/~roger/corpora.html">Birkbeck corpus</a>). Moreover, calculating
+      a meaningful metric for performance would require a an amount of manually labeled data that exceeds the scope of
       this Study Project.
     </p>
     <p>
-      While a meaningful metrics-driven evaluation was not possible within the scope of this project, we provide a CSV 
-      document (upon request in adherence to data protection guidelines) containing all sentences from the PNLP dataset 
+      While a meaningful metrics-driven evaluation was not possible within the scope of this project, we provide a CSV
+      document (upon request in adherence to data protection guidelines) containing all sentences from the PNLP dataset
       that were altered by the spelling corrector, as well as TransSpell’s corrections for comparison. The CSV provides
       an intuition for the performance of TransSpell.
     </p>
-  <h2>References</h2>
-  Devlin, Jacob & Chang, Ming-Wei & Lee, Kenton & Toutanova, Kristina. (2018). BERT: Pre-training of Deep Bidirectional 
-  Transformers for Language Understanding. <br>
 
 <h1>Named Entity Recognition</h1>
 <p>
-  Named Entity Recognition (NER) is a part of information extraction that detects and categorizes named entities in a raw text such as organization, person, location, date, monetary values, etc. NER can be typically used for Machine Translation, Semantic Annotation, and such tasks in Artificial Intelligence including Natural Language Processing.
+  Named Entity Recognition (NER) is a part of information extraction that detects and categorizes named entities in a
+  raw text such as organization, person, location, date, monetary values, etc. NER can be typically used for Machine
+  Translation, Semantic Annotation, and such tasks in Artificial Intelligence including Natural Language Processing.
 </p>
 
   <h2>Part-of-Speech Tagging and Chunking with NLTK</h2>
   <p>
-    Before proceeding with NER, we need to process part-of-speech (POS) tagging and chunking based on POS-tags. POS tagger is used to label grammar information corresponding to each word in a sentence using information like front and back words and shape features, such as upper and lower case, capitalization, etc. Chunking takes as input POS-tags, it extracts phrases composed of different tokens from the text. Especially, noun phrase (NP) chunking is a necessary process for NER because single word tokens may not fully represent the actual meaning of the text if a named entity consists of multiple words.
+    Before proceeding with NER, we need to process part-of-speech (POS) tagging and chunking based on POS-tags. POS
+    tagger is used to label grammar information corresponding to each word in a sentence using information like front
+    and back words and shape features, such as upper and lower case, capitalization, etc. Chunking takes as input
+    POS-tags, it extracts phrases composed of different tokens from the text. Especially, noun phrase (NP) chunking is
+    a necessary process for NER because single word tokens may not fully represent the actual meaning of the text if a
+    named entity consists of multiple words.
   </p>
   <p>
-    As a first approach to POS tagging and chunking, Python’s NLTK library has been mainly used for data preparation in this project, also features a solid sentence tokenizer and POS tagger. First, NLTK tokenizes sentences based on words and punctuation, then the tagging is done by a trained model of the NLTK library. A chunk grammar can be defined using regular expression and works on top of POS-tags. As such, the performance was improved by modifying the chunk grammar based on the early result following POS-tagging, but NER using its default model still gave us inaccurate labeling.
+    As a first approach to POS tagging and chunking, Python’s NLTK library has been mainly used for data preparation in
+    this project, also features a solid sentence tokenizer and POS tagger. First, NLTK tokenizes sentences based on
+    words and punctuation, then the tagging is done by a trained model of the NLTK library. A chunk grammar can be
+    defined using regular expression and works on top of POS-tags. As such, the performance was improved by modifying
+    the chunk grammar based on the early result following POS-tagging, but NER using its default model still gave us
+    inaccurate labeling.
   </p>
 
   <h2>Named Entity Recognition with spaCy</h2>
   <p>
-    So, the next method with a pre-trained model for general entities like people, location, and date is Python’s spaCy library. SpaCy performs a highly efficient statistical processing for NER. It has not only similar features provided by NLTK such as tokenization, part-of-speech tagging, and named entity recognition, but also supports other functionalities, e.g. neural network models (multi-task CNN), integrated word vectors, and dependency parsing. But most of all, spaCy is optimized for production use, namely integrated and opinionated providing limited options selected based on functionality among other algorithms. This makes spaCy deliver better performance and usability with intuitive visualizations as well. Apart from its default model, spaCy also enables us to train and update the NER model with new examples, though it doesn’t support different neural network architectures.
+    So, the next method with a pre-trained model for general entities like people, location, and date is Python’s spaCy
+    library. SpaCy performs a highly efficient statistical processing for NER. It has not only similar features provided
+    by NLTK such as tokenization, part-of-speech tagging, and named entity recognition, but also supports other
+    functionalities, e.g. neural network models (multi-task CNN), integrated word vectors, and dependency parsing. But
+    most of all, spaCy is optimized for production use, namely integrated and opinionated providing limited options
+    selected based on functionality among other algorithms. This makes spaCy deliver better performance and usability
+    with intuitive visualizations as well. Apart from its default model, spaCy also enables us to train and update the
+    NER model with new examples, though it doesn’t support different neural network architectures.
   </p>
   <p>
-    First, we chose spaCy’s small model without word vectors, which can be the right tool with fairly high accuracy (F-score: 0.85) and speed to get started with NER. The model was applied to our data, it worked relatively well for date and monetary entities, but most of the others, especially for company-specific words, were given a blank space or incorrect label. The large model might give slightly better performance (F-score: 0.86), but it’s not effective enough to offset the trade-off between coverage and memory usage that the increased size of the vector table brought. Additionally, the problem was that our dataset didn’t have sufficient named entities overall to train a custom model for noticeable improvement.
+    First, we chose spaCy’s small model without word vectors, which can be the right tool with fairly high accuracy
+    (F-score: 0.85) and speed to get started with NER. The model was applied to our data, it worked relatively well for
+    date and monetary entities, but most of the others, especially for company-specific words, were given a blank space
+    or incorrect label. The large model might give slightly better performance (F-score: 0.86), but it’s not effective
+    enough to offset the trade-off between coverage and memory usage that the increased size of the vector table
+    brought. Additionally, the problem was that our dataset didn’t have sufficient named entities overall to train a
+    custom model for noticeable improvement.
   </p>
 
   <h2>Discussion</h2>
   <p>
-    Those results might be due to the fact that our data is unstructured texts collected from an employee survey which usually includes company-related words such as the name of its project, product, or system. So, if we tried to annotate it manually, we still had to get further information to set the criteria for what categories company-specific names belong to. This is one of the general challenges in the field of entity recognition that NER systems are often given sensitive data depending on the project. It means that even if a suitable model for one project is designed, it may not be reusable for another project. In conclusion, there is a need to develop a NER model that can eventually cover a wider range of data.
+    Those results might be due to the fact that our data is unstructured texts collected from an employee survey which
+    usually includes company-related words such as the name of its project, product, or system. So, if we tried to
+    annotate it manually, we still had to get further information to set the criteria for what categories
+    company-specific names belong to. This is one of the general challenges in the field of entity recognition that NER
+    systems are often given sensitive data depending on the project. It means that even if a suitable model for one
+    project is designed, it may not be reusable for another project. In conclusion, there is a need to develop a NER
+    model that can eventually cover a wider range of data.
   </p>
-
-  <h2>References</h2>
-  <p>
-      1. Bhavani, D. (n.d.). Understanding Named Entity Recognition Pre-Trained Models. Retrieved September 7, 2020, from https://blog.vsoftconsulting.com/blog/understanding-named-entity-recognition-pre-trained-models
-      2. Jurafsky, D., & Martin, J. H. (2008). Speech and Language Processing, 2nd Edition (2nd ed.). Prentice Hall.
-      3. Li, S. Named Entity Recognition with NLTK and SpaCy. (2018, August 17). Retrieved September 7, 2020, from https://towardsdatascience.com/named-entity-recognition-with-nltk-and-spacy-8c4a7d88e7da
-      4. spaCy 101: Everything you need to know. (n.d.). Retrieved September 7, 2020, from https://spacy.io/usage/spacy-101
-  </p>
-
 
 <h1>Classification Model for NER detection </h1>
 <h2>Introduction</h2>
 <p>
-Classification models are supervised learning models. Where the model learns from a pre-existing dataset. We have an input and a set output. The output are   finite or discrete variables making them a class. So, for every input the model learns to have an output class. We have a multi class output in the NER detection. For every given word input its output is a class output. The class output are categories of NER like person, location, organization.
+Classification models are supervised learning models. Where the model learns from a pre-existing dataset. We have an
+input and a set output. The output are   finite or discrete variables making them a class. So, for every input the model
+learns to have an output class. We have a multi class output in the NER detection. For every given word input its output
+is a class output. The class output are categories of NER like person, location, organization.
 </p>
 <h2>Aim and Objective</h2>
 <p>
@@ -282,7 +339,11 @@ The aim of creating a pipeline was to try to classify words to labeled entities.
 </ul>
 <h2>The Dataset</h2>
 <p>
-Taking an already existing GMB(Groningen Meaning Bank) corpus for entity classification which is pre annotated for NER. The dataset is tokenized at white spacing basically making it one-word token. Except for labels where multiple words are essential for an entity like organizations. Let’s take a list of entities in the training data with their corresponding description: </p>
+Taking an already existing GMB(Groningen Meaning Bank) corpus for entity classification which is pre annotated for NER.
+The dataset is tokenized at white spacing basically making it one-word token. Except for labels where multiple words are
+essential for an entity like organizations. Let’s take a list of entities in the training data with their corresponding
+description:
+</p>
 
 <head>
 <style>
@@ -350,7 +411,15 @@ tr:nth-child(even) {
 </table>
 
 <h2>The Packages </h2>
-<p>The major two packages used for the classification model were Keras and Scikit-learn. Scikit learn is a machine learning library for the Python programming language. We used functions like count vectorizer, tf-idf and data splitting functions. Count vectorizer and tf-idf are basically used to convert the words to a numeric vector which can be fed to a neural network for processing. Data splitting function basically helps in splitting the data into a training, testing and blind dataset. Keras is a neural network package in Python. We use it to create a sequential dense model. “A Sequential model is appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor.” </p>
+<p>
+  The major two packages used for the classification model were Keras and Scikit-learn. Scikit learn is a machine
+  learning library for the Python programming language. We used functions like count vectorizer, tf-idf and data
+  splitting functions. Count vectorizer and tf-idf are basically used to convert the words to a numeric vector which can
+  be fed to a neural network for processing. Data splitting function basically helps in splitting the data into a
+  training, testing and blind dataset. Keras is a neural network package in Python. We use it to create a sequential
+  dense model. “A Sequential model is appropriate for a plain stack of layers where each layer has exactly one input
+  tensor and one output tensor.”
+</p>
 
 <h2>The Model </h2>
 <ul>
@@ -362,17 +431,169 @@ tr:nth-child(even) {
 
 <h2> Results and Output. </h2>
 <p>
-The following image shows the partial output accuracy of 3 classes number 0,1 and 2. Where 0 stands for geo, 1 for org and 2 for per. </p>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/NERoutput1.png" alt="Accuracy" width="460" height="345">
+  The following image shows the partial output accuracy of 3 classes number 0,1 and 2. Where 0 stands for geo, 1 for org
+  and 2 for per.
+</p>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-vg0y{background-color:#34696d;color:#ffffff;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-vg0y"></th>
+    <th class="tg-vg0y">precision</th>
+    <th class="tg-vg0y">recall</th>
+    <th class="tg-vg0y">f1-score</th>
+    <th class="tg-vg0y">support</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0lax">0</td>
+    <td class="tg-0lax">0.85</td>
+    <td class="tg-0lax">0.95</td>
+    <td class="tg-0lax">0.90</td>
+    <td class="tg-0lax">7540<br></td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">1</td>
+    <td class="tg-0lax">0.86</td>
+    <td class="tg-0lax">0.71</td>
+    <td class="tg-0lax">0.78</td>
+    <td class="tg-0lax">4065</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">2</td>
+    <td class="tg-0lax">0.94</td>
+    <td class="tg-0lax">0.90</td>
+    <td class="tg-0lax">0.92</td>
+    <td class="tg-0lax">3351</td>
+  </tr>
+</tbody>
+</table>
 <p>The second image shows how the output looks like and the corresponding pre-annotated correct labels </p>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/NERoutput1.png" alt="Output" width="460" height="345">
-
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg .tg-vg0y{background-color:#34696d;color:#ffffff;text-align:left;vertical-align:top}
+  .tg .tg-4ihi{background-color:#739e8e;color:#ffffff;font-weight:bold;text-align:left;vertical-align:top}
+  .tg .tg-0lax{text-align:left;vertical-align:top}
+  </style>
+  <table class="tg">
+  <thead>
+    <tr>
+      <th class="tg-vg0y"></th>
+      <th class="tg-vg0y">Predicted</th>
+      <th class="tg-vg0y">Actual_Tag</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tg-4ihi">0</td>
+      <td class="tg-0lax">0</td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">1</td>
+      <td class="tg-0lax">2</td>
+      <td class="tg-0lax">[per]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">2</td>
+      <td class="tg-0lax">1</td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">3</td>
+      <td class="tg-0lax">0</td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">...<br></td>
+      <td class="tg-0lax">...</td>
+      <td class="tg-0lax">...</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">14952</td>
+      <td class="tg-0lax">0<br></td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">14953</td>
+      <td class="tg-0lax">0</td>
+      <td class="tg-0lax">[geo]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">14954</td>
+      <td class="tg-0lax">01</td>
+      <td class="tg-0lax">[org]</td>
+    </tr>
+    <tr>
+      <td class="tg-4ihi">14955</td>
+      <td class="tg-0lax">2</td>
+      <td class="tg-0lax">[per</td>
+    </tr>
+  </tbody>
+  </table>
 <h2>Discussion</h2>
-<p>Seeing the results and the code one can see that the classification model works better in terms of accuracy compared to the NLTK and the spacy model. However, we ran into a problem which we couldn’t solve. Once we used the pre existing annotated dataset we could test that data. But when we wanted to test the data on our dataset which is a blind dataset we weren’t able to run the model. The model is compatible to a certain input matrix. The blind data when vectorized using word vector or tf-idf has a different input matrix which is not compatible with the trained model. </p>
-
-  <h2>Sources</h2>
-<p>[1] data (n.), https://www.etymonline.com/word/data</p>
-<p>[2] https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/data?select=ner_dataset.csv</p>
-<p>[3] https://keras.io/guides/sequential_model/ </p>
-
-
+<p>
+  Seeing the results and the code one can see that the classification model works better in terms of accuracy compared
+  to the NLTK and the spacy model. However, we ran into a problem which we couldn’t solve. Once we used the pre existing
+  annotated dataset we could test that data. But when we wanted to test the data on our dataset which is a blind dataset
+  we weren’t able to run the model. The model is compatible to a certain input matrix. The blind data when vectorized
+  using word vector or tf-idf has a different input matrix which is not compatible with the trained model.
+</p>
+  <style type="text/css">
+    .container .btn{display:block;width:100%;margin-bottom:1rem;color:rgba(63,129,92,0.7);background-color:rgba(63,129,92,0.08);border-color:rgba(63,129,92,0.2);border-style:solid;border-width:1px;border-radius:0.3rem;transition:color 0.2s, background-color 0.2s, border-color 0.2s}.container .btn:hover{color:rgba(63,129,92,0.8);text-decoration:none;background-color:rgba(63,129,92,0.2);border-color:rgba(63,129,92,0.3)}.container .btn+.btn{margin-left:1rem}@media screen and (min-width: 64em){.container .btn{padding:0.75rem 1rem}}@media screen and (min-width: 42em) and (max-width: 64em){.container .btn{padding:0.6rem 0.9rem;font-size:0.9rem}}@media screen and (max-width: 42em){.container .btn{display:block;width:100%;padding:0.75rem;font-size:0.9rem}.container .btn+.btn{margin-top:1rem;margin-left:0}}
+    a {text-align: center;}
+  </style>
+<div class="container">
+  <a href="" class="btn">Back to Top</a>
+</div>
+<p>
+  <h3>References</h3>
+  <table cellspacing="0" cellpadding="0">
+    <tr>
+      <td valign="top"><a href="https://www.etymonline.com/word/data">[1]</a></td>
+      <td>https://www.etymonline.com/word/data</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/data?select=ner_dataset.csv">[2]</a></td>
+      <td>https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/data?select=ner_dataset.csv</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://keras.io/guides/sequential_model/">[3]</a></td>
+      <td>https://keras.io/guides/sequential_model/</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://blog.vsoftconsulting.com/blog/understanding-named-entity-recognition-pre-trained-models">[4]</a></td>
+      <td>Bhavani, D. (n.d.). Understanding Named Entity Recognition Pre-Trained Models. Retrieved September 7, 2020,
+      from https://blog.vsoftconsulting.com/blog/understanding-named-entity-recognition-pre-trained-models</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://arxiv.org/pdf/1810.04805.pdf">[5]</a></td>
+      <td>Devlin, Jacob & Chang, Ming-Wei & Lee, Kenton & Toutanova, Kristina. (2018). BERT: Pre-training of Deep Bidirectional
+      Transformers for Language Understanding.</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://towardsdatascience.com/named-entity-recognition-with-nltk-and-spacy-8c4a7d88e7da">[6]</a></td>
+      <td>Jurafsky, D., & Martin, J. H. (2008). Speech and Language Processing, 2nd Edition (2nd ed.). Prentice Hall.
+      3. Li, S. Named Entity Recognition with NLTK and SpaCy. (2018, August 17). Retrieved September 7, 2020, from
+      https://towardsdatascience.com/named-entity-recognition-with-nltk-and-spacy-8c4a7d88e7da</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://spacy.io/usage/spacy-101">[7]</a></td>
+      <td>spaCy 101: Everything you need to know. (n.d.). Retrieved September 7, 2020, from
+      https://spacy.io/usage/spacy-101</td>
+    </tr>
+  </table>
+</p>

@@ -9,6 +9,17 @@ permalink: topic-modeling
     display: block;
     margin: 0 auto;
     }
+    ul {
+    position: relative;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1.2em;
+    }
+    ul li:before {
+      content: "-";
+      position: absolute;
+      left: 0;
+    }
   </style>
 </head>
 
@@ -24,7 +35,7 @@ permalink: topic-modeling
 
 <h1>Topic Modeling</h1>
 <p>
-  <h3>Approach</h3>
+  <h3>Introduction</h3>
   As mentioned in the <a href="https://pnlpuos.github.io/overview">Overview</a>
   section of this report, our topic analysis pipeline employs a document
   clustering approach which dynamically-identifies an optimal clustering of
@@ -49,21 +60,21 @@ permalink: topic-modeling
   topic model approaches and document clustering approaches. We briefly
   describe the statistical approach before investigating our methods.
 </p>
-
 <p>
-Statistical topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core
-“latent topics” of a large volume of documents. There are three types of models typically employed: Latent Semantic
-Analysis (LSA),  Probabilistic Latent Semantic Analysis (PLSA) and Latent Dirichlet allocation (LDA). LDA, proposed
-by J. K. Pritchard, M. Stephens, and P. Donnelly [7], generates topics based on word frequency from a set of given documents.
-It is based upon two assumptions: First, documents with similar words belong to the same topic. Second, documents with groups
-of words together appear in different documents belongs to the same topic. LDA generalizes well to other documents because of
-its general approach.
+  <h3>Digression: Statistical Topic Modeling Approach</h3>
+  Statistical topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core
+  “latent topics” of a large volume of documents. There are three types of models typically employed: Latent Semantic
+  Analysis (LSA),  Probabilistic Latent Semantic Analysis (PLSA) and Latent Dirichlet allocation (LDA). LDA, proposed
+  by J. K. Pritchard, M. Stephens, and P. Donnelly [7], generates topics based on word frequency from a set of given documents.
+  It is based upon two assumptions: First, documents with similar words belong to the same topic. Second, documents with groups
+  of words together appear in different documents belongs to the same topic. LDA generalizes well to other documents because of
+  its general approach.
 </p>
-
+<br><br>
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 70%; height:200px;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lda_model.png'> </div>
+    <div style="width: 50%; float: left;"><img class='center' style="width: 70%; height:200px;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lda_model.png'> </div>
     <div style="float:left; width:40%;">
-		<p>Figure is known as a plate diagram of an LDA model where:</p>
+		<p><i>where:</i></p>
 		<ul>
 			<li>α is the per-document topic distributions</li>
 			<li>β is the per-topic word distribution</li>
@@ -74,6 +85,11 @@ its general approach.
 		</ul>
 	</div>
 </div>
+<p>
+  <i>
+    Figure 1: Plate diagram of LDA model.
+  </i>
+</p>
 
 <p>The dataset consists of 17672 documents with 343549 words where 20% are used as test data and 80 % as training data.
 Data preprocessing is the most important aspect needed to ensure a good result of the LDA topic modeling. Below,
@@ -93,48 +109,91 @@ So topic coherence is one of the main techniques used to estimate the number of 
 measures to get the coherence score[6] where c_v best fit for our dataset.  Figure shows the coherence score
 in relation to the number of topics. We choose 8 topics (coherence score 0.37) as optimal for our purposes.
 Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure.
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
 </p>
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/optimal_topic_plot.png'> </div>
-    <div style="float:left; width:40%;">
-		<img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/topic_list.png'>
+    <div style="width: 50%; float: left;"><img class='center' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/optimal_topic_plot.png'> </div>
+    <div style="float:left; width:50%;">
+		<img class='center' style="width: 80%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/topic_list.png'>
 	</div>
 </div>
-
-<div style="overflow-x:auto;">
-  <table>
+<p>
+  <i>
+    Figure 2: Topic coherence and word clouds for LDA topic modeling.
+  </i>
+</p>
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg .tg-vg0y{background-color:#34696d;color:#ffffff;text-align:left;vertical-align:top}
+  .tg .tg-4ihi{background-color:#739e8e;color:#ffffff;font-weight:bold;text-align:left;vertical-align:top}
+  .tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+  <table class="tg">
+  <thead>
     <tr>
-      <th>Metrices</th>
-      <th>Coherence Score</th>
-      <th>Number of topics</th>
+      <th class="tg-vg0y">Metrices</th>
+      <th class="tg-vg0y">Coherence Score</th>
+      <th class="tg-vg0y">Number of Topics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tg-4ihi">c_v (0 < x < 1)</td>
+      <td class="tg-0lax">0.37</td>
+      <td class="tg-0lax">8</td>
     </tr>
     <tr>
-      <td>c_v (0 < x < 1)</td>
-      <td>0.37</td>
-      <td>8</td>
+      <td class="tg-4ihi">u_mass (-14 < x < 14)</td>
+      <td class="tg-0lax">-5.84</td>
+      <td class="tg-0lax">8</td>
     </tr>
-    <tr>
-      <td>u_mass (-14 < x < 14)</td>
-      <td>-5.84</td>
-      <td>8</td>
-    </tr>
+  </tbody>
   </table>
-  <p>Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.</p>
-</div>
+  <p>
+    <i>
+      Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.
+    </i>
+  </p>
 
-<p>LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.[8]
+<p>
+ LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.[8]
  LSTMs are designed to solve traditional RNNs vanishing gradient problems and allow them to retain information for long periods. In addition,
  LSTM maintains a constant error to continue the learning process over the time and backpropagate through time and layers. Applications
  of LSTM’s is text generation, handwriting generation, image captioning, translating languages etc.
 </p>
 
 <img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_architecture.png'>
-<p>Figure : LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
+<p>
+  <i>
+    Figure 3: LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
+  </i>
 </p>
 <div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img align='right' style="width: 100%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_model.png'> </div>
-    <div style="float:left; width:40%;">
-		<p>LSTM Parameters:</p>
+    <div style="width: 50%; float: left;"><img class='center' style="width: 80%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_model.png'> </div>
+    <div style="float:left; width:50%;">
+		<!-- <p><i></i></p> -->
 		<ul>
 			<li>Vocabulary size = 50000</li>
 			<li>Max sequence length = 100</li>
@@ -146,12 +205,18 @@ Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure
 		</ul>
 	</div>
 </div>
+<p>
+  <i>
+    Figure 4: LSTM Parameters
+  </i>
+</p>
 
 <p>Finally, topic modeling using LDA generates same keyword in diffirent topics. And the LSTM model does not perform well on our dataset, which is likely due to overfitting on a small dataset.
 Having access to more data may help in this situation, but running more epochs using the current data would not solve this problem.
 </p>
 
 <p>
+  <h3>Document Clustering Pipeline</h3>
   Nevertheless, we employ a document clustering approach given our academic interest in
   exploring the applications of pretrained word embeddings coupled with
   traditional cluster analyses. Furthermore, we ignore supervised approaches
@@ -171,6 +236,9 @@ Having access to more data may help in this situation, but running more epochs u
 </p>
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/pipeline-topics.png" alt="...">
+  <i>
+    Figure 5: Diagram of Topic Modeling Pipeline
+  </i>
 </p>
 <p>
   <h3>Document Vectorization</h3>
@@ -196,6 +264,9 @@ Having access to more data may help in this situation, but running more epochs u
 </p>
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/graph-badclusters.png" alt="..." width="500", class="center">
+  <i>
+    Figure 6: Cluster analysis with average word vectors.
+  </i>
 </p>
 <p>
   It has been shown that weighting embeddings via smoothed term frequency can
@@ -228,7 +299,7 @@ Having access to more data may help in this situation, but running more epochs u
   where <i>w</i> for a term <i>i</i> in document <i>j</i> denotes<br>
 </p>
 <p>
-  <img src="https://www.link-assistant.com/images/news/tf-idf-tool-for-seo/screen-03.png" alt="..." class="center" width="200">
+  <img src="https://www.link-assistant.com/images/news/tf-idf-tool-for-seo/screen-03.png" alt="..." class="center" width="300">
 </p>
 <p>
   The resulting weighting scheme produces satisfactory clusterings when qualitatively
@@ -239,54 +310,93 @@ Having access to more data may help in this situation, but running more epochs u
 </p>
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/graph-goodclusters.png" alt="..." width="500" class="center">
+  <i>
+    Figure 7: Cluster analysis with smooth-inverse-tfidf vectors.
+  </i>
 </p>
 
 <p>
 <h3> Dimensionality Reduction </h3>
-<h5> Dealing with High Dimensional Datasets </h5>
-
-When we work with natural language, we often have to deal with a large amount of data. If such a dataset also contains many different variables, we speak of a so-called high dimensional dataset. For a lot of scientific tasks such high dimensional datasets are a welcome basis, but as Spiderman's uncle might say <i>„with high dimensional datasets comes the great curse of dimensionality"</I>. Working with large data sets entails problems, such that it requires a lot of time and space complexity, it often leads to overfitting, not all the features in the given data set might be relevant to our problem and, due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomena that occurs when working with high dimensional data. With the curse of dimensionality we’re facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
-<br>
-<ul>
-<li><b>Data Sparsity </b><br>
-the volume of the represented space grows quicker than the data and thus becomes sparse
-<br> —> this is a problem if we want to derive some statistical significance from the data <br><br>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small></li><br>
-
-<li><b>Closeness of the data </b><br>
-in low dimensional spaces, data may seem very close but the higher the dimension the further these data points may seem to be
-<br> —> distances of objects seem to be different when changing perspectives </li>
-<br>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Closeness_Data.png" alt="..." width="300" class="center"><br><br><small><i>https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality</i></small><br></li>
-</ul>
-
-In other words: when the number of features or dimensions grow, the amount of data we need to generalize accurately grows exponentially. That makes common data organization strategies become inefficient. <br><br>
-
-<h5> Dimensionality Reduction Techniques </h5>
-There is a trick that helps us to organize, reduce and visualize such large amounts of data: it’s called dimensionality reduction. Dimensionality reduction is about discovering non-linear and non-local relationship in a given high dimensional data set. By reducing the dimensions we can reduce noise in the data which in turn makes it easier to apply simple learning algorithms. In our project, we are applying the following two dimensionality reduction techniques:
-
-<br>
-<ul>
-<li><b> Principle Component Analysis (PCA) </b><br>
-PCA is the most tried linear dimensionality reduction technique. It transforms existing variables into a new set of variables, which are a linear combination of the original variables and finally converts the correlations among all of the features into a 2D-Graph. What we can see after applying PCA is that features that are highly correlated cluster together whereas the differences along the first principal component axis are more important than the differences along the second principal component.  <br><br></li>
-
-<li><b> Uniform - Manifold Approximation and Projection (UMAP)</b><br>
-UMAP is a non-linear dimensionality reduction technique with a solid mathematical background. Its algorithm balances between emphasizing local versus global structure. After first modeling a blurry topological structure of the high dimensional set it is searching for a low dimensional projection that is closest to it.  <br></li>
-</ul><br>
-
-
-<h5> Results </h5>
-In our pipeline we are applying both dimensionality reduction techniques: first PCA and following UMAP. Doing so we expected to get an improved computation time and to obtain a less noisy dataset.
-
-<ul>
-<li><i> running dimensionality reduction only with UMAP (without PCA)</I> <br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/UMAP_without_PCA.png" alt="..." width="300" class="center"><br><br></li>
-
-<li> <i>running dimensionality reduction with UMAP and PCA</I>
-<br> <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/UMAP_Reduction.png" alt="..." width="300" class="center"><br><br></li>
-
-
-Our expectation in obtaining a less noisy dataset by applying both algorithms has been fulfilled. We can see the difference by looking at the first picture which is a plot of the dataset after only applying UMAP, in contrast to the second picture where we can see a plot of the dataset after applying PCA and UMAP in combination. The output is more precise and structured. These results supported our approach.
+<p>
+  <h5> Dealing with High Dimensional Datasets </h5>
+  When we work with natural language, we often have to deal with a large amount of data.
+  If such a dataset also contains many different variables, we speak of a so-called high dimensional dataset.
+  For a lot of scientific tasks such high dimensional datasets are a welcome basis, but as Spiderman's uncle might say <i>„with high dimensional datasets comes the great curse of dimensionality"</I>.
+  Working with large data sets entails problems, such that it requires a lot of time and space complexity, it often leads to overfitting, not all the features in the given data set might be relevant to our problem and,
+  due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomena that occurs when working with high dimensional data.
+  With the curse of dimensionality we’re facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
 </p>
+<p>
+  <b>Data Sparsity</b>
+  The volume of the represented space grows quicker than the data and thus becomes sparse. This is a problem if we want to derive some statistical significance from the data
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center">
+</p>
+<p>
+  <i>
+   Figure 8: Demonstration of data sparsity. <a href="https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality">Source</a>
+  </i>
+</p>
+<p>
+  <b>Closeness of the Data</b>
+  In low dimensional spaces, data may seem very close but the higher the dimension the further these data points may seem to be.
+  In other words, distances of objects seem to be different when changing perspectives.
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Closeness_Data.png" alt="..." width="300" class="center">
+</p>
+<p>
+  <i>
+    Figure 9: Objects appear differently from different perspectives. <a href="https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality">Source</a>
+  </i>
+</p>
+<p>
+  In other words: when the number of features or dimensions grow, the amount of data we need to generalize accurately grows exponentially. That makes common data organization strategies become inefficient. <br><br>
+</p>
+
+<p>
+  <h5> Dimensionality Reduction Techniques </h5>
+  There is a trick that helps us to organize, reduce and visualize such large amounts of data: it’s called dimensionality reduction. Dimensionality reduction is about discovering non-linear and non-local relationship in a given high dimensional data set. By reducing the dimensions we can reduce noise in the data which in turn makes it easier to apply simple learning algorithms. In our project, we are applying the following two dimensionality reduction techniques:
+
+  <br><br>
+  <ul>
+  <li><b> Principle Component Analysis (PCA) </b><br>
+  PCA is the most tried linear dimensionality reduction technique. It transforms existing variables into a new set of variables, which are a linear combination of the original variables and finally converts the correlations among all of the features into a 2D-Graph. What we can see after applying PCA is that features that are highly correlated cluster together whereas the differences along the first principal component axis are more important than the differences along the second principal component.  <br><br></li>
+
+  <li><b> Uniform - Manifold Approximation and Projection (UMAP)</b><br>
+  UMAP is a non-linear dimensionality reduction technique with a solid mathematical background. Its algorithm balances between emphasizing local versus global structure. After first modeling a blurry topological structure of the high dimensional set it is searching for a low dimensional projection that is closest to it.  <br></li>
+  </ul>
+</p>
+
+<p>
+  <h5> Results </h5>
+  In our pipeline we are applying both dimensionality reduction techniques: first PCA and following UMAP. Doing so we expected to get an improved computation time and to obtain a less noisy dataset.
+  In Figures 10 and 11, you can observe the apparent difference in dataset topography when reducing dimensions with UMAP alone and with PCA and UMAP combined.
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/UMAP_without_PCA.png" alt="..." width="300" class="center">
+</p>
+<p>
+  <i>Figure 10: Running dimensionality reduction only with UMAP (without PCA).</i>
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/UMAP_Reduction.png" alt="..." width="300" class="center">
+</p>
+<p>
+  <i>
+    Figure 11: Running dimensionality reduction with UMAP and PCA.
+  </i>
+</p>
+<p>
+  Our expectation in obtaining a less noisy dataset by applying both algorithms has been fulfilled.
+  We can see the difference by looking at the first picture which is a plot of the dataset after only applying UMAP,
+  in contrast to the second picture where we can see a plot of the dataset after applying PCA and UMAP in combination.
+  The output is more precise and structured. These results supported our approach.
+</p>
+
+<!-- CURRENT POSITION -->
+
 
 <h3>Clustering</h3>
 <h5>Introduction</h5>
@@ -306,6 +416,11 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
 </p>
 <br>
 <img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/master/images/clustering.png?raw=true" alt="..." width="300" class="center">
+<p>
+  <i>
+    Figure 12: Overview of cluster algorithms.
+  </i>
+</p>
 <br>
 <p>
     The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
@@ -328,7 +443,7 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
 </p>
 
 <p>
-  <h3>Grid Search</h3>
+  <h3>Optimization: Finding the Best Parameters with Grid Search</h3>
     <h5>The algorithm</h5>
       <body>
         In general, a grid search is nothing else than successively trying out
@@ -360,8 +475,10 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
 	bunch of input parameters, which then make the grid: <br><br>
         <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/pipeline.png" alt="..." width="300" class="center">
         <br>
-        Image 1: Adding normalization, dimensionality reduction and clustering
+        <i>
+        Figure 13: Adding normalization, dimensionality reduction and clustering
         algorithm to the pipeline.
+        </i>
         <br><br>
         The actual grid search was implemented in a highly dynamic way fitting the
 	pipeline structure. This allows a component to be integrated into the
@@ -396,14 +513,14 @@ Our expectation in obtaining a less noisy dataset by applying both algorithms ha
         </body>
 </p>
 
-<style>
+<!-- <style>
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
 }
-</style>
+</style> -->
 <p>
-	<h3>Analysis of the Grid Search Logs</h3>
+	<h3>Evaluation: Analyzing the Outcome of the Grid Search</h3>
 	<h5>Our Approach</h5>
 	In addition to figuring out the best configurations from the grid search
 	descriptively, we analyzed the grid search logs by means of a multiple
@@ -437,13 +554,8 @@ table, th, td {
 	Adjusted R² = 0.6729). According to these results, the best parameter
 	combination is the Cosine metric, an increased number of neighbors, and larger
 	cluster size for UMAP, as well as a smaller number of samples for
-	hdbscan (<I>Table 1</I>).
+	hdbscan (<I>Table 2</I>).
 <br><br>
-	<I>Table 1: Results of the multiple regression analysis of the grid search
-	logs based on fasttext embeddings.<br>
-	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
-	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
-	R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729, AIC = -2532.875 </I><br>
         <table>
   		<tr>
     			<th> </th>
@@ -490,6 +602,13 @@ table, th, td {
 	</table>
 </p>
 <p>
+    <I>Table 2: Results of the multiple regression analysis of the grid search
+  logs based on fasttext embeddings.<br>
+  Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
+  &nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+  R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729, AIC = -2532.875 </I>
+</p>
+<p>
 	<h5>Results with BERT embeddings</h5>
 	The results look different for the grid search logs generated using the
 	pipeline with BERT embeddings. As the precondition of homoscedasticity was not
@@ -497,13 +616,8 @@ table, th, td {
 	technique (GLS). The best model here comprises three predictors and one
 	interaction. The implied advice here is to use the Euclidean metric for both
 	algorithms and increase the minimum cluster size for the hdbscan algorithm
-	(<I>Table 2</I>).
+	(<I>Table 3</I>).
 	<br><br>
-	<I>Table 2: Results of the multiple regression analysis of the grid search logs
-	based on BERT embeddings.<br>
-	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
-	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
-	AIC = -1186.359 BIC = -1147.218 logLik = 601.1795 </I><br>
         <table>
   		<tr>
     			<th> </th>
@@ -556,6 +670,13 @@ table, th, td {
 	</table>
 </p>
 <p>
+    <I>Table 3: Results of the multiple regression analysis of the grid search logs
+  based on BERT embeddings.<br>
+  Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
+  &nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+  AIC = -1186.359 BIC = -1147.218 logLik = 601.1795 </I><br>
+</p>
+<p>
 	<h5>Conclusion</h5>
 	Following the results of the regressions, straightforward advice on optimizing
 	the pipeline can be given; however, this advice's limitations should be
@@ -568,17 +689,51 @@ table, th, td {
 	To sum, the regression helps to shed light on the parameters that most
 	decisively contribute to the score; nevertheless they should not lead to the
 	omission of a close inspection of the configurations.
-
 </p>
-
+<p>
+  <h3>Discussion</h3>
+  [Anna]
+</p>
+  <style type="text/css">
+    .container .btn{display:block;width:100%;margin-bottom:1rem;color:rgba(63,129,92,0.7);background-color:rgba(63,129,92,0.08);border-color:rgba(63,129,92,0.2);border-style:solid;border-width:1px;border-radius:0.3rem;transition:color 0.2s, background-color 0.2s, border-color 0.2s}.container .btn:hover{color:rgba(63,129,92,0.8);text-decoration:none;background-color:rgba(63,129,92,0.2);border-color:rgba(63,129,92,0.3)}.container .btn+.btn{margin-left:1rem}@media screen and (min-width: 64em){.container .btn{padding:0.75rem 1rem}}@media screen and (min-width: 42em) and (max-width: 64em){.container .btn{padding:0.6rem 0.9rem;font-size:0.9rem}}@media screen and (max-width: 42em){.container .btn{display:block;width:100%;padding:0.75rem;font-size:0.9rem}.container .btn+.btn{margin-top:1rem;margin-left:0}}
+    a {text-align: center;}
+  </style>
+<div class="container">
+  <a href="" class="btn">Back to Top</a>
+</div>
 <p>
   <h3>References</h3>
-  <a>&emsp;</a>[1] Mikolov, Tomas & Corrado, G.s & Chen, Kai & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. 1-12.<br>
-  <a>&emsp;</a>[2] P. Bojanowski, E. Grave, A. Joulin, T. Mikolov. (2016) Enriching Word Vectors with Subword Information.<br>
-  <a>&emsp;</a>[3] Arora, S., Liang, Y., & Ma, T. (2016). A simple but tough-to-beat baseline for sentence embeddings. Paper presented at 5th International Conference on Learning Representations. <br>
-  <a>&emsp;</a>[4] Edilson Anselmo Correa Junior, Vanessa Marinho, and Leandro Santos. (2017). NILC-USP at SemEval-2017 Task 4: A Multi-view Ensemble for Twitter Sentiment Analysis. In Proceedings of the 11th International Workshop on Semantic Evaluation. Vancouver, Canada, SemEval ’17, pages 610–614.<br>
-  <a>&emsp;</a>[5] Zhao, Jiang & Lan, Man & Tian, Jun. (2015). ECNU: Using Traditional Similarity Measurements and Word Embedding for Semantic Textual Similarity Estimation.<br>
-  <a>https://dl.acm.org/doi/10.1145/2684822.2685324</a>[6] M. Röder, A. Both, A. Hinneburg, 2015. Exploring the Space of Topic Coherence Measures<br>
-  <a>https://www.genetics.org/content/155/2/945</a>[7] J. K. Pritchard, M. Stephens and P. Donnelly, 2000. Inference of Population Structure Using Multilocus Genotype Data<br>
-  <a>http://www.bioinf.jku.at/publications/older/2604.pdf</a>[8] S. Hochreiter, P. Schmidhuber, 1997. Long short-term memory<br>
-</p>
+  <table cellspacing="0" cellpadding="0">
+    <tr>
+      <td valign="top"><a href="https://arxiv.org/pdf/1301.3781.pdf">[1]</a></td>
+      <td>Mikolov, Tomas & Corrado, G.s & Chen, Kai & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. 1-12.</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://arxiv.org/pdf/1607.04606.pdf">[2]</a></td>
+      <td>P. Bojanowski, E. Grave, A. Joulin, T. Mikolov. (2016) Enriching Word Vectors with Subword Information.</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://openreview.net/pdf?id=SyK00v5xx">[3]</a></td>
+      <td>Arora, S., Liang, Y., & Ma, T. (2016). A simple but tough-to-beat baseline for sentence embeddings. Paper presented at 5th International Conference on Learning Representations.</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://www.aclweb.org/anthology/S17-2100.pdf">[4]</a></td>
+      <td>Edilson Anselmo Correa Junior, Vanessa Marinho, and Leandro Santos. (2017). NILC-USP at SemEval-2017 Task 4: A Multi-view Ensemble for Twitter Sentiment Analysis. In Proceedings of the 11th International Workshop on Semantic Evaluation. Vancouver, Canada, SemEval ’17, pages 610–614.</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://www.aclweb.org/anthology/S15-2021.pdf">[5]</a></td>
+      <td>Zhao, Jiang & Lan, Man & Tian, Jun. (2015). ECNU: Using Traditional Similarity Measurements and Word Embedding for Semantic Textual Similarity Estimation.</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://dl.acm.org/doi/10.1145/2684822.2685324">[6]</a></td>
+      <td>M. Röder, A. Both, A. Hinneburg, 2015. Exploring the Space of Topic Coherence Measures</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://www.genetics.org/content/155/2/945">[7]</a></td>
+      <td>J. K. Pritchard, M. Stephens and P. Donnelly, 2000. Inference of Population Structure Using Multilocus Genotype Data</td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="http://www.bioinf.jku.at/publications/older/2604.pdf">[8]</a></td>
+      <td>S. Hochreiter, P. Schmidhuber, 1997. Long short-term memory.</td>
+    </tr>
+  </table>
