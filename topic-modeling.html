@@ -177,8 +177,6 @@ tr:nth-child(even) {
     </i>
   </p>
 
-<!-- CURRENT POSITION -->
-
 <p>
  LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.[8]
  LSTMs are designed to solve traditional RNNs vanishing gradient problems and allow them to retain information for long periods. In addition,
@@ -239,7 +237,7 @@ Having access to more data may help in this situation, but running more epochs u
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/pipeline-topics.png" alt="...">
   <i>
-    Figure 4: Diagram of Topic Modeling Pipeline
+    Figure 5: Diagram of Topic Modeling Pipeline
   </i>
 </p>
 <p>
@@ -267,7 +265,7 @@ Having access to more data may help in this situation, but running more epochs u
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/graph-badclusters.png" alt="..." width="500", class="center">
   <i>
-    Figure 5: Cluster analysis with average word vectors.
+    Figure 6: Cluster analysis with average word vectors.
   </i>
 </p>
 <p>
@@ -313,25 +311,46 @@ Having access to more data may help in this situation, but running more epochs u
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/graph-goodclusters.png" alt="..." width="500" class="center">
   <i>
-    Figure 6: Cluster analysis with smooth-inverse-tfidf vectors.
+    Figure 7: Cluster analysis with smooth-inverse-tfidf vectors.
   </i>
 </p>
 
+<!-- CURRENT POSITION -->
+
 <p>
 <h3> Dimensionality Reduction </h3>
-<h5> Dealing with High Dimensional Datasets </h5>
+<p>
+  <h5> Dealing with High Dimensional Datasets </h5>
+  When we work with natural language, we often have to deal with a large amount of data.
+  If such a dataset also contains many different variables, we speak of a so-called high dimensional dataset.
+  For a lot of scientific tasks such high dimensional datasets are a welcome basis, but as Spiderman's uncle might say <i>„with high dimensional datasets comes the great curse of dimensionality"</I>.
+  Working with large data sets entails problems, such that it requires a lot of time and space complexity, it often leads to overfitting, not all the features in the given data set might be relevant to our problem and,
+  due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomena that occurs when working with high dimensional data.
+  With the curse of dimensionality we’re facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
+</p>
+<p>
+  <b>Data Sparsity</b>
+  The volume of the represented space grows quicker than the data and thus becomes sparse. This is a problem if we want to derive some statistical significance from the data
+</p>
+<p>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center">
+</p>
+<p>
+  <i>
+   Figure 8: Demonstration of data sparsity. <a href="https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality">Source</a>
+  </i>
+</p>
 
-When we work with natural language, we often have to deal with a large amount of data. If such a dataset also contains many different variables, we speak of a so-called high dimensional dataset. For a lot of scientific tasks such high dimensional datasets are a welcome basis, but as Spiderman's uncle might say <i>„with high dimensional datasets comes the great curse of dimensionality"</I>. Working with large data sets entails problems, such that it requires a lot of time and space complexity, it often leads to overfitting, not all the features in the given data set might be relevant to our problem and, due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomena that occurs when working with high dimensional data. With the curse of dimensionality we’re facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
+
 <br><br>
-<ul>
+<!-- <ul>
 <li><b>Data Sparsity </b><br>
-the volume of the represented space grows quicker than the data and thus becomes sparse
-<br><a>&#8594;</a> this is a problem if we want to derive some statistical significance from the data <br><br>
-<img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Data_Sparsity.png" alt="..." width="500" class="center">
+
+<br><a>&#8594;</a>  <br><br>
 <i>
-  Figure 7: Demonstration of data sparsity. <a href="https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality">Source</a>
 </i>
-<br><br></li>
+<br><br></li> -->
+
 <li><b>Closeness of the data </b><br>
 in low dimensional spaces, data may seem very close but the higher the dimension the further these data points may seem to be
 <br><br>
@@ -339,7 +358,7 @@ in low dimensional spaces, data may seem very close but the higher the dimension
 <br>
 <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/Dimensionality_Reduction-Closeness_Data.png" alt="..." width="300" class="center">
 <i>
-  Figure 8: Objects appear differently from different perspectives. <a href="https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality">Source</a>
+  Figure 9: Objects appear differently from different perspectives. <a href="https://deepai.org/machine-learning-glossary-and-terms/curse-of-dimensionality">Source</a>
 </i>
 <br><br></li>
 </ul>
@@ -349,14 +368,14 @@ In other words: when the number of features or dimensions grow, the amount of da
 <h5> Dimensionality Reduction Techniques </h5>
 There is a trick that helps us to organize, reduce and visualize such large amounts of data: it’s called dimensionality reduction. Dimensionality reduction is about discovering non-linear and non-local relationship in a given high dimensional data set. By reducing the dimensions we can reduce noise in the data which in turn makes it easier to apply simple learning algorithms. In our project, we are applying the following two dimensionality reduction techniques:
 
-<br><br><br>
+<br><br>
 <ul>
 <li><b> Principle Component Analysis (PCA) </b><br>
 PCA is the most tried linear dimensionality reduction technique. It transforms existing variables into a new set of variables, which are a linear combination of the original variables and finally converts the correlations among all of the features into a 2D-Graph. What we can see after applying PCA is that features that are highly correlated cluster together whereas the differences along the first principal component axis are more important than the differences along the second principal component.  <br><br></li>
 
 <li><b> Uniform - Manifold Approximation and Projection (UMAP)</b><br>
 UMAP is a non-linear dimensionality reduction technique with a solid mathematical background. Its algorithm balances between emphasizing local versus global structure. After first modeling a blurry topological structure of the high dimensional set it is searching for a low dimensional projection that is closest to it.  <br></li>
-</ul><br>
+</ul>
 
 
 <h5> Results </h5>
