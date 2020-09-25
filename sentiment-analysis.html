@@ -75,9 +75,9 @@ When it comes to neural-network approaches, there are many to choose from: for t
 
 It is worth mentioning that there are multiple BERT-like architectures that offer either less computational cost while retaining most of BERTs language understanding capabilities (e.g. DistilBERT (Sanh et. al, 2019), ALBERT (Lan et. al, 2019)), or improved performance for increases in computational demand (e.g. XLNet (Yang et. al 2019), RoBERTa (Liu et. al, 2019)). We selected the BERT architecture over the other options as it represents a middle ground between speed and accuracy.
 </p>
-<h4>
+<h5>
     Labeling the dataset
-</h4>
+</h5>
 
 <p>
     Most machine learning SA approaches are supervised, which means that a labeled dataset is needed in order to train the model. NN approaches need large amounts of data so often, they use datasets in which the labels are already contained and don’t have to be manually created. For instance, review corpora contain the user’s rating of a product, movie, service, etc., in addition to the review text. This way, the ratings can be used as labels, in order to predict what the user’s sentiment towards what they are reviewing.
@@ -104,11 +104,11 @@ This bias is obvious in the data as well: the answers are highly contextual, and
 </p>
 
 <h3>Bidirectional Encoder Representations from Transformers - BERT</h3>
-<h4>Background</h4>
+<h5>Background</h5>
 <p>
 When the BERT architecture was first introduced (Devlin et. al, 2018), it improved the (uni-directional) Transformer architecture (Vaswani et. al 2017) with a masked-language model pre-training objective, where random tokens from the input are masked and the objective is to “predict” the correct lexical item through its context. By fine-tuning pre-trained “general-purpose” models on fairly small training data sets for a fairly limited amount of time, BERT models perform very well on diverse NLP tasks with very little task-specific modifications. BERT has been shown to outperform multiple other approaches in a sentiment analysis task. (Munikar et. al, 2019)
 </p>
-<h4>Technical Aspects and Implementation</h4>
+<h5>Technical Aspects and Implementation</h5>
 <p>
 For the project, the classification code from the <a href="https://github.com/google-research/bert">Bert repository</a>
  was modified to be able to perform in a classification task using three labels (as the original code was developed for a binary classification task). We generated models for two approaches; <b> (1) a generalized model </b> (i.e. one model for both questions) and <b>(2) one model per question</b>. For approach 1, we split the dataset into 500 sentences for training and 100 for testing; for approach 2, we split the 300 sentences for each question into 250 for training and 50 for testing, respectively. For training, we used the following parameters.
@@ -136,7 +136,7 @@ As a result, they have been used as state-of-the-art models in numerous sequence
 </p>
 <figure>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_cell.png" alt="LSTM cell" style="width:100%">
-  <figcaption>Fig.1 - the structure of an LSTM cell</figcaption>
+  <figcaption>Fig.2 - the structure of an LSTM cell</figcaption>
 </figure>
 
 <p>
@@ -144,8 +144,8 @@ However, one issue with the typical LSTM structure is that it considers all inpu
 </p>
 
 <figure>
-  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/architecture.png" alt="LSTM architecture" style="width:100%">
-  <figcaption>Fig.2 - the model architecture </figcaption>
+  <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/architecture.png" alt="LSTM architecture" style="width:50%">
+  <figcaption>Fig.3 - the model architecture </figcaption>
 </figure>
 
 <p>
@@ -154,7 +154,7 @@ The right-hand side is a simple neural network architecture with a couple of den
 </p>
 
 
-<h4>Sentiment Lexicon</h4>
+<h5>Sentiment Lexicon</h5>
 <p>
 The most promising numerical feature we implemented was based on a sentiment lexicon. We mention lexicon-based approaches previously, as we point out that they lag behind machine learning approaches in perfomance by themselves. However, we found lexicon-driven features to be an excellent way to augment our model.
 </p>
