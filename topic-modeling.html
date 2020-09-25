@@ -416,6 +416,11 @@ Having access to more data may help in this situation, but running more epochs u
 </p>
 <br>
 <img src="https://github.com/PNLPUOS/PNLPUOS.github.io/blob/master/images/clustering.png?raw=true" alt="..." width="300" class="center">
+<p>
+  <i>
+    Figure 12: Overview of cluster algorithms.
+  </i>
+</p>
 <br>
 <p>
     The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
@@ -470,8 +475,10 @@ Having access to more data may help in this situation, but running more epochs u
 	bunch of input parameters, which then make the grid: <br><br>
         <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/pipeline.png" alt="..." width="300" class="center">
         <br>
-        Image 1: Adding normalization, dimensionality reduction and clustering
+        <i>
+        Figure 13: Adding normalization, dimensionality reduction and clustering
         algorithm to the pipeline.
+        </i>
         <br><br>
         The actual grid search was implemented in a highly dynamic way fitting the
 	pipeline structure. This allows a component to be integrated into the
@@ -547,13 +554,8 @@ table, th, td {
 	Adjusted R² = 0.6729). According to these results, the best parameter
 	combination is the Cosine metric, an increased number of neighbors, and larger
 	cluster size for UMAP, as well as a smaller number of samples for
-	hdbscan (<I>Table 1</I>).
+	hdbscan (<I>Table 2</I>).
 <br><br>
-	<I>Table 1: Results of the multiple regression analysis of the grid search
-	logs based on fasttext embeddings.<br>
-	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
-	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
-	R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729, AIC = -2532.875 </I><br>
         <table>
   		<tr>
     			<th> </th>
@@ -600,6 +602,13 @@ table, th, td {
 	</table>
 </p>
 <p>
+    <I>Table 2: Results of the multiple regression analysis of the grid search
+  logs based on fasttext embeddings.<br>
+  Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
+  &nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+  R&sup2 = 0.6755, Adjusted R&sup2 = 0.6729, AIC = -2532.875 </I>
+</p>
+<p>
 	<h5>Results with BERT embeddings</h5>
 	The results look different for the grid search logs generated using the
 	pipeline with BERT embeddings. As the precondition of homoscedasticity was not
@@ -607,13 +616,8 @@ table, th, td {
 	technique (GLS). The best model here comprises three predictors and one
 	interaction. The implied advice here is to use the Euclidean metric for both
 	algorithms and increase the minimum cluster size for the hdbscan algorithm
-	(<I>Table 2</I>).
+	(<I>Table 3</I>).
 	<br><br>
-	<I>Table 2: Results of the multiple regression analysis of the grid search logs
-	based on BERT embeddings.<br>
-	Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
-	&nbsp;&nbsp;&nbsp;'*' 0.05 <br>
-	AIC = -1186.359 BIC = -1147.218 logLik = 601.1795 </I><br>
         <table>
   		<tr>
     			<th> </th>
@@ -664,6 +668,13 @@ table, th, td {
 			<td>8.195 &nbsp&nbsp***</td>
   		</tr>
 	</table>
+</p>
+<p>
+    <I>Table 3: Results of the multiple regression analysis of the grid search logs
+  based on BERT embeddings.<br>
+  Significance codes: '***' 0.001 &nbsp;&nbsp;&nbsp;'**' 0.01
+  &nbsp;&nbsp;&nbsp;'*' 0.05 <br>
+  AIC = -1186.359 BIC = -1147.218 logLik = 601.1795 </I><br>
 </p>
 <p>
 	<h5>Conclusion</h5>
