@@ -62,13 +62,17 @@ permalink: topic-modeling
 </p>
 <p>
   <h3>Digression: Statistical Topic Modeling Approach</h3>
-  Statistical topic modeling is a form of unsupervised technique based statistical modeling used to unveil the core
-  “latent topics” of a large volume of documents. There are three types of models typically employed: Latent Semantic
-  Analysis (LSA),  Probabilistic Latent Semantic Analysis (PLSA) and Latent Dirichlet allocation (LDA). LDA, proposed
-  by J. K. Pritchard, M. Stephens, and P. Donnelly [7], generates topics based on word frequency from a set of given documents.
-  It is based upon two assumptions: First, documents with similar words belong to the same topic. Second, documents with groups
-  of words together appear in different documents belongs to the same topic. LDA generalizes well to other documents because of
-  its general approach.
+  Statistical topic modeling approaches assume generative language models and aim to
+  identify the "latent" or hidden topic correlations between corpus documents via
+  statistical inference. The most commonly employed statistical topic model, which we also
+  explored for our use-case, is Latent Dirichlet Allocation (LDA), originally proposed
+  by Blei et al. (2003) [2]. Figure 1 demonstrates the generative model informing the
+  LDA topic model, where a per-document topic distribution <i>α</i> and per-document
+  word distribution <i>β</i> generate, respectively and in conjunction, the distribution of
+  topics in a document and ultimately a single word <i>w</i> as an outcome
+  of the distribution of words in a latent topic. In other words, by assuming a set of topics
+  each constituted by a distribution of words, documents are interpreted as an outcome of
+  a distribution of topics for a number of words <i>N</i>.
 </p>
 <br><br>
 <div style="width: 100%; overflow: hidden;">
@@ -79,9 +83,10 @@ permalink: topic-modeling
 			<li>α is the per-document topic distributions</li>
 			<li>β is the per-topic word distribution</li>
 			<li>θ is the topic distribution for document m</li>
-			<li>φ is the word distribution for topic k</li>
 			<li>z is the topic for the n-th word in document m</li>
 			<li>w is the specific word</li>
+      <li>N is the number of words in a given document</li>
+      <li>M is the number of documents</li>
 		</ul>
 	</div>
 </div>
@@ -90,25 +95,24 @@ permalink: topic-modeling
     Figure 1: Plate diagram of LDA model.
   </i>
 </p>
-
-<p>The dataset consists of 17672 documents with 343549 words where 20% are used as test data and 80 % as training data.
-Data preprocessing is the most important aspect needed to ensure a good result of the LDA topic modeling. Below,
-the preprocessing steps taken to prepare the dataset are explained. </p>
-		<ul>
-			<li>Tokenization: Split the text into sentences and the sentences into words.</li>
-			<li>Lowercase the words and remove punctuation.</li>
-			<li>Words that have fewer than 3 characters are removed.</li>
-			<li>All stopwords are removed.</li>
-			<li>Words are lemmatized</li>
-		</ul>
-<p>For LDA topic modeling, we created a dictionary and a corpus using  the Gensim library. Gensim assigns a unique id
-to each word (i.e.. (0,1) means word id 0 occurs 1 in the first document).  Then we trained the LDA model. </p>
-
-<p>After getting an LDA trained model, we don’t know for how many topics the trained model will perform best.
-So topic coherence is one of the main techniques used to estimate the number of topics. We used UMass and c_v
-measures to get the coherence score[6] where c_v best fit for our dataset.  Figure shows the coherence score
-in relation to the number of topics. We choose 8 topics (coherence score 0.37) as optimal for our purposes.
-Then we label each  topic numerically (i.e 0, 1, 2 ...) like in the below figure.
+<p>
+  Under this model, the words <i>w</i> are the only observable features of documents used to infer
+  the other parameters for a given corpus. There exist various approaches to this statistical inference
+  problem, e.g. Monte Carlo simulation.
+</p>
+<p>
+  We employ an <a href="https://radimrehurek.com/gensim/models/ldamodel.html">out-of-the-box library</a> for LDA analysis on our dataset. The dataset consists of 17672 documents with 343549 words where 20% are used as test data and 80% as training data.
+  For a comprehensive list of the preprocessing steps employed, please refer to the <a href="https://pnlpuos.github.io/data-preparation">Data Preparation</a> section of this report.
+</p>
+<p>
+  One challenge with LDA is that the number of topics for a given dataset is a free parameter. This means that one must
+  train the model with an arbitrary number of expected topics <i>k</i>. However, by training on the same dataset for
+  different <i>k</i> values and observing the values of certain inferred parameters, one can make informed guesses as to
+  the most-suitable number of topics. The <i>c_v</i> and <i>UMass</i> <a href="http://qpleple.com/topic-coherence-to-evaluate-topic-models/"></a>coherence scores
+  both provide a quantitative measure of the 'quality' of inferred topics. For both scores, a higher value is preferable, with a
+  <i>c_v</i> score above 0 indicating a good topic modeling. Figure 2 shows the <i>c_v</i> coherence scores for a variety
+  of <i>k</i> values, and word clouds of the inferred topics for the highest value of <i>k = 8</i> (c_v = 0.37).
+</p>
 <head>
 <style>
 table {
@@ -176,45 +180,12 @@ tr:nth-child(even) {
       Table 1 : Coherence measures the distance between words within a topic. The c_v and u_mass metrics are 0.37 and -5.84 for 8 topics respectively.
     </i>
   </p>
-
 <p>
- LSTM stands for long short-term memory network, introduced by the German scientist Sepp Hochreiter and Jürgen Schmidhuber in 1997.[8]
- LSTMs are designed to solve traditional RNNs vanishing gradient problems and allow them to retain information for long periods. In addition,
- LSTM maintains a constant error to continue the learning process over the time and backpropagate through time and layers. Applications
- of LSTM’s is text generation, handwriting generation, image captioning, translating languages etc.
+  In sum, the LDA statistical topic model approach yields reasonable results for our dataset, even considering the challenge of
+  determining the free parameter <i>k</i>. In later sections, we describe our alternative approach to the topic analysis task, which
+  leverages pretrained word vectors and document clustering. The <a href="https://pnlpuos.github.io/outcome">Outcome</a> section of this report documents the
+  resulting topics identified under this alternative methodology.
 </p>
-
-<img align='middle' style="display: block; margin-left: auto; margin-right: auto; width: 50%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_architecture.png'>
-<p>
-  <i>
-    Figure 3: LSTM architecture which has 3 gates. Input get - adding information to the cells, output get - selects and outputs necessary information, forget gate—removes information that is not needed to perform the task. This step is very important for performance of the network.
-  </i>
-</p>
-<div style="width: 100%; overflow: hidden;">
-    <div style="width: 50%; float: left;"><img class='center' style="width: 80%; height:auto;" src='https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/lstm_model.png'> </div>
-    <div style="float:left; width:50%;">
-		<!-- <p><i></i></p> -->
-		<ul>
-			<li>Vocabulary size = 50000</li>
-			<li>Max sequence length = 100</li>
-			<li>Embedding dimension = 100</li>
-			<li>Number of epochs = 5</li>
-			<li>Batch size = 64</li>
-			<li>Learning Rate = 0.001</li>
-			<li>Accuracy rate = 64%</li>
-		</ul>
-	</div>
-</div>
-<p>
-  <i>
-    Figure 4: LSTM Parameters
-  </i>
-</p>
-
-<p>Finally, topic modeling using LDA generates same keyword in diffirent topics. And the LSTM model does not perform well on our dataset, which is likely due to overfitting on a small dataset.
-Having access to more data may help in this situation, but running more epochs using the current data would not solve this problem.
-</p>
-
 <p>
   <h3>Document Clustering Pipeline</h3>
   Nevertheless, we employ a document clustering approach given our academic interest in
@@ -731,31 +702,35 @@ table, th, td {
       <td>Mikolov, Tomas & Corrado, G.s & Chen, Kai & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. 1-12.</td>
     </tr>
     <tr>
-      <td valign="top"><a href="https://arxiv.org/pdf/1607.04606.pdf">[2]</a></td>
+      <td valign="top"><a href="https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf">[2]</a></td>
+      <td>Blei, David & Ng, Andrew & Jordan, Michael. (2001). Latent Dirichlet Allocation. The Journal of Machine Learning Research. 3. 601-608. </td>
+    </tr>
+    <tr>
+      <td valign="top"><a href="https://arxiv.org/pdf/1607.04606.pdf">[3]</a></td>
       <td>P. Bojanowski, E. Grave, A. Joulin, T. Mikolov. (2016) Enriching Word Vectors with Subword Information.</td>
     </tr>
     <tr>
-      <td valign="top"><a href="https://openreview.net/pdf?id=SyK00v5xx">[3]</a></td>
+      <td valign="top"><a href="https://openreview.net/pdf?id=SyK00v5xx">[4]</a></td>
       <td>Arora, S., Liang, Y., & Ma, T. (2016). A simple but tough-to-beat baseline for sentence embeddings. Paper presented at 5th International Conference on Learning Representations.</td>
     </tr>
     <tr>
-      <td valign="top"><a href="https://www.aclweb.org/anthology/S17-2100.pdf">[4]</a></td>
+      <td valign="top"><a href="https://www.aclweb.org/anthology/S17-2100.pdf">[5]</a></td>
       <td>Edilson Anselmo Correa Junior, Vanessa Marinho, and Leandro Santos. (2017). NILC-USP at SemEval-2017 Task 4: A Multi-view Ensemble for Twitter Sentiment Analysis. In Proceedings of the 11th International Workshop on Semantic Evaluation. Vancouver, Canada, SemEval ’17, pages 610–614.</td>
     </tr>
     <tr>
-      <td valign="top"><a href="https://www.aclweb.org/anthology/S15-2021.pdf">[5]</a></td>
+      <td valign="top"><a href="https://www.aclweb.org/anthology/S15-2021.pdf">[6]</a></td>
       <td>Zhao, Jiang & Lan, Man & Tian, Jun. (2015). ECNU: Using Traditional Similarity Measurements and Word Embedding for Semantic Textual Similarity Estimation.</td>
     </tr>
     <tr>
-      <td valign="top"><a href="https://dl.acm.org/doi/10.1145/2684822.2685324">[6]</a></td>
+      <td valign="top"><a href="https://dl.acm.org/doi/10.1145/2684822.2685324">[7]</a></td>
       <td>M. Röder, A. Both, A. Hinneburg, 2015. Exploring the Space of Topic Coherence Measures</td>
     </tr>
     <tr>
-      <td valign="top"><a href="https://www.genetics.org/content/155/2/945">[7]</a></td>
+      <td valign="top"><a href="https://www.genetics.org/content/155/2/945">[8]</a></td>
       <td>J. K. Pritchard, M. Stephens and P. Donnelly, 2000. Inference of Population Structure Using Multilocus Genotype Data</td>
     </tr>
     <tr>
-      <td valign="top"><a href="http://www.bioinf.jku.at/publications/older/2604.pdf">[8]</a></td>
+      <td valign="top"><a href="http://www.bioinf.jku.at/publications/older/2604.pdf">[9]</a></td>
       <td>S. Hochreiter, P. Schmidhuber, 1997. Long short-term memory.</td>
     </tr>
   </table>
