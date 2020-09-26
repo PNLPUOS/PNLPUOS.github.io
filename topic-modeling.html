@@ -692,7 +692,29 @@ table, th, td {
 </p>
 <p>
   <h3>Discussion</h3>
-  [Anna]
+  Our topic modeling approach is only one of several possible approaches, and was primarily chosen given our interest
+  in utilizing new, state-of-the-art technologies such as pretrained neural word embeddings. Due to the unsupervised nature
+  of our approach and the data's features (short comments, spelling and grammar errors), our approach remained difficult to
+  optimize and is open to several areas for improvement.
+</p>
+<p>
+  The disadvantage of using pretrained language embeddings is that there currently exists little literature regarding the
+  behaviour of these models in novel use-cases. For example, it is unclear how the assumptions of the document vectorization
+  methodology we employ can extend to both the FastText and BERT vectors. Given that our approach leverages the
+  <a href="https://thijs.ai/papers/scheepers-gavves-kanoulas-analyzing-compositional-properties.pdf">compositionality</a> of
+  static word vectors and is designed to compensate for a lack of contextual information in these constituents, it may be that the
+  weighted-TFIDF schema is inappropriate for contextual BERT vectors, and rather introduces unnecessary noise which problematizes the
+  analysis when using these pretrained vectors. Further investigation into the effects of the TFIDF-weighting schema on BERT vectors
+  would help to elucidate this concern.
+</p>
+<p>
+  A further difficulty is the large number of tunable parameters producing demanding computation times when running the grid search. As
+  demonstrated through regression analysis, many of these parameter ranges can be trimmed. Additionally, counter to our intentions the pipeline
+  may produce different results even when configured with consistent parameters. This behaviour is a result of the uncontrollable stochasticity
+  inherent to some off-the-shelf machine learning methods we employ. For example, the HDBSCAN algorithm is not entirely
+  <a href="https://en.wikipedia.org/wiki/DBSCAN#:~:text=DBSCAN%20is%20not%20entirely%20deterministic,order%20the%20data%20are%20processed.">deterministic</a>,
+  rendering efforts to control for randomness elsewhere in the pipeline effectively moot, and the results of the grid search
+  questionable under these circumstances.
 </p>
   <style type="text/css">
     .container .btn{display:block;width:100%;margin-bottom:1rem;color:rgba(63,129,92,0.7);background-color:rgba(63,129,92,0.08);border-color:rgba(63,129,92,0.2);border-style:solid;border-width:1px;border-radius:0.3rem;transition:color 0.2s, background-color 0.2s, border-color 0.2s}.container .btn:hover{color:rgba(63,129,92,0.8);text-decoration:none;background-color:rgba(63,129,92,0.2);border-color:rgba(63,129,92,0.3)}.container .btn+.btn{margin-left:1rem}@media screen and (min-width: 64em){.container .btn{padding:0.75rem 1rem}}@media screen and (min-width: 42em) and (max-width: 64em){.container .btn{padding:0.6rem 0.9rem;font-size:0.9rem}}@media screen and (max-width: 42em){.container .btn{display:block;width:100%;padding:0.75rem;font-size:0.9rem}.container .btn+.btn{margin-top:1rem;margin-left:0}}
