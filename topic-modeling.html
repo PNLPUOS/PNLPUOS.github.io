@@ -208,7 +208,7 @@ tr:nth-child(even) {
 <p>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/pipeline-topics.png" alt="...">
   <i>
-    Figure 3: Diagram of Topic Modeling Pipeline
+    Figure 3: Diagram of Topic Modeling Pipeline.
   </i>
 </p>
 <p>
@@ -256,7 +256,7 @@ tr:nth-child(even) {
   vectors which performed effectively for document clustering.
 </p>
 <p>
-  Inspired by reseerch into effective document representations for twitter sentiment
+  Inspired by research into effective document representations for twitter sentiment
   analysis, a domain which is somewhat comparable to ours given similarities between twitter
   texts and our short, focused comments, we opted to integrate into the SIF weighted average the
   Term-Frequency-Inverse-Document-Frequency (TFIDF) measure as a replacement for the value <i>p(w)</i>,
@@ -294,8 +294,8 @@ tr:nth-child(even) {
   If such a dataset also contains many different variables, we speak of a so-called high dimensional dataset.
   For a lot of scientific tasks such high dimensional datasets are a welcome basis, but as Spiderman's uncle might say <i>„with high dimensional datasets comes the great curse of dimensionality"</I>.
   Working with large data sets entails problems, such that it requires a lot of time and space complexity, it often leads to overfitting, not all the features in the given data set might be relevant to our problem and,
-  due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomena that occurs when working with high dimensional data.
-  With the curse of dimensionality we’re facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
+  due to the many dimensions, we are unable to visualize our data set. And finally the curse of dimensionality hits us. <br> <br> The curse of dimensionality refers to a phenomenon that occurs when working with high dimensional data.
+  With the curse of dimensionality we facing two kinds of problems: one is the data sparsity and the other one is the closeness of the data.
 </p>
 <p>
   <b>Data Sparsity</b>
@@ -328,7 +328,7 @@ tr:nth-child(even) {
 
 <p>
   <h5> Dimensionality Reduction Techniques </h5>
-  There is a trick that helps us to organize, reduce and visualize such large amounts of data: it’s called dimensionality reduction. Dimensionality reduction is about discovering non-linear and non-local relationship in a given high dimensional data set. By reducing the dimensions we can reduce noise in the data which in turn makes it easier to apply simple learning algorithms. In our project, we are applying the following two dimensionality reduction techniques:
+  There is a trick that helps us to organize, reduce and visualize such large amounts of data: it’s called dimensionality reduction. Dimensionality reduction is about discovering non-linear and non-local relationships in a given high dimensional data set. By reducing the dimensions we can reduce noise in the data which in turn makes it easier to apply simple learning algorithms. In our project, we are applying the following two dimensionality reduction techniques:
 
   <br><br>
   <ul>
@@ -373,11 +373,11 @@ tr:nth-child(even) {
 <h5>Introduction</h5>
 <p>
 		Clustering is a method where similar or similar properties of data points are group together
-		Given a set of dataset points, we can just use a clustering algorithm to search for pattern in the
+		Given a set of data points, we can just use a clustering algorithm to search for patterns in the
 		given scenario, finding similarities within the data and group them together.
 </p>
 <p>
-		Clustering Algorithm can be divided into Four types :
+		Clustering Algorithms can be divided into Four types :
 		<ul>
 		  <li>Flat and Centroid based</li>
 		  <li>Flat and Density based</li>
@@ -394,7 +394,7 @@ tr:nth-child(even) {
 </p>
 <br>
 <p>
-    The above picture shows overall idea of clustering types. Flat and Centroid based alogorithm such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> has prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
+    The above picture shows the overall idea of clustering types. Flat and Centroid based alogorithms such as <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a> enforce prior assumptions on the shape of the clusters. It works very well on defined shapes of clusters such as circular, rectangular, etc also works best when we have small amount, low dimensional data. But when we have higher dimensional data and also no prior knowledge of shapes of cluster, then k-means performs very poorly, and in such case we prefer to use Flat and Density based such as <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN clustering</a> which is short form of Density Based Spatial Clustering. DBSCAN works very best on for clusters of different shapes, variable densities, variable sizes and datasets have noises in data. It's very difficult to judge the number of clusters in a dataset, what can be the best parameter settings for number of clusters? Hierarchical based algorithms solve this problem, Hierarchical and Centroid based algorithm such as <a href="https://jbhender.github.io/Stats506/F18/GP/Group10.html">Agglomertive Hierarchical clustering</a> which splits all the data points and make a dendogram and then clusters are fromed from the branches. Since we are dealing with very high dimensional data with lots of noise, we chose to use <a href = https://hdbscan.readthedocs.io/en/latest/how_hdbscan_works.html> HDBSCAN </a> which is mixture of DBSCAN and Hierarchical based algorithm.
 </p>
 <h5>HDBSCAN</h5>
 <p>
@@ -406,9 +406,9 @@ tr:nth-child(even) {
 
 <p>
   <h3>Topic Labeling</h3>
-  <p> The aim of this pipeline step is to find suitable labels for each previously identified cluster. The topic labelling is performed on the pre-processed data. Importantly, the comments no longer contain stop-words and the words are lemmatized (e.g. <i> talk </i> instead of <i> talks </i> or <i> talked </i>). Generally, finding an appropriate label for a document is a difficult task for computational automation, because no one unique solution exists. Typically, a range of possible labels are appropriate for the document and humans prefer abstract labels which will likely consist of words not found in the text of the document. For this reason the approach presented here focusses on easy methods on the basis of words occurring in the comments, because this makes the process faster and less resource-intense. </p>
-  <p> As a basis for labelling and a brief characterisation of the cluster a set of keywords is determined for each cluster. This is done using either the unaltered word frequency or TFIDF. TFIDF takes into account besides the frequency of the word in question itself also the rarity of this word across different comments in the cluster. This technique is typically employed to counteract the effect of very frequent words which have a high frequency across all inspected documents. In this case, as common stop-words are already removed in the data preparation, word frequency and TFIDF perform similarly. </p>
-  <p> The label is then chosen by projecting the keywords back into embedding space and selecting the mean as a label for the cluster. Alternatively, a simpler method takes the five most common keywords in the cluster and uses this list as a label for the cluster. The advantage of the mean projection is that a single-word label instead of a list of words is better aligned with how a person might chose a cluster label. </p>
+  <p> The aim of this pipeline step is to find suitable labels for each previously identified cluster. The topic labeling is performed on the pre-processed data. Importantly, the comments no longer contain stop-words and the words are lemmatized (e.g. <i> talk </i> instead of <i> talks </i> or <i> talked </i>). Generally, finding an appropriate label for a document is a difficult task for computational automation, because no one unique solution exists. Typically, a range of possible labels are appropriate for the document and humans prefer abstract labels which will likely consist of words not found in the text of the document. For this reason the approach presented here focuses on easy methods on the basis of words occurring in the comments, because this makes the process faster and less resource-intense. </p>
+  <p> As a basis for labeling and a brief characterisation of the cluster a set of keywords is determined for each cluster. This is done using either the unaltered word frequency or TFIDF. TFIDF takes into account besides the frequency of the word in question itself also the rarity of this word across different comments in the cluster. This technique is typically employed to counteract the effect of very frequent words which have a high frequency across all inspected documents. In this case, as common stop-words are already removed in the data preparation, word frequency and TFIDF perform similarly. </p>
+  <p> The label is then chosen by projecting the keywords back into embedding space and selecting the mean as a label for the cluster. Alternatively, a simpler method takes the five most common keywords in the cluster and uses this list as a label for the cluster. The advantage of the mean projection is that a single-word label instead of a list of words is better aligned with how a person might choose a cluster label. </p>
   <p> For additional insight into the content of the identified clusters we attempted to select a few representative comments for each cluster. We implemented two different approaches for this task: a statistical approach and an embedding-focused approach. The statistical approach utilizes the frequency distribution of all words in the cluster. This frequency distribution is calculated and then normalized by dividing it through the frequency of the most frequent word. Each comment is assigned a weight which is the sum of all normalized frequencies of the words in the comment. The comments with the highest weights are taken as most representative of the cluster. This approach as described above introduces a bias toward longer comments, because the weight is not normalized by the number of words in the comment. In the embedding-focused approach we calculate the centroid embedding of all embeddings representing the comments in the cluster by taking the mean of each dimension. This centroid embedding then forms a reference point and we determine the cosine distance of each comment embedding to the centroid embedding. The comments with the smallest cosine distance are taken as representative of the cluster. The quality of representative comments selected with this approach depends on the structure of the underlying cluster. If a few comments in the cluster are very different from the rest these “outliers” will skew the resulting mean. </p>
   <p> In conclusion, the simple methods presented here can provide some insights into the contents of the clusters and are applicable to all contents, but do not reach the quality of human-like annotation. Additionally, the resulting labels highly depend on the quality of the underlying data and clustering especially the degree to which clusters form coherent groups and are separated from each other. </p>
 </p>
@@ -440,7 +440,7 @@ tr:nth-child(even) {
 	configuration. With this structure, it is easy to switch or drop out specific
 	components, or for our case, it was straightforward to call the functions in
 	sequence for the grid search.<br>
-        We implemented a <b> pipeline </b> variable (Image 1) for the actual process,
+        We implemented a <b> pipeline </b> variable (Figure 11) for the actual process,
         which is basically a python dictionary that contains all information about the
 	grid search components. So it is built with all different functions and a
 	bunch of input parameters, which then make the grid: <br><br>
@@ -459,7 +459,7 @@ tr:nth-child(even) {
 	enable simple iterating through these successive components. Surely, they have
 	to be designed in a way that the previous functions' output suits the input of
 	the upcoming one.<br>
-        Our grid search aims to optimize the so-called <b>silhouette score</b>, which
+        Our grid search aims to optimize the so-called <a href="https://en.wikipedia.org/wiki/Silhouette_(clustering)"><b>silhouette score</b></a>, which
 	measures how close the points of one cluster are compared to the distance
 	between the different clusters. We found the best parameter configuration by
 	optimizing this score, which we then set as default for our topic modeling
@@ -473,8 +473,8 @@ tr:nth-child(even) {
 	process is pointless. Therefore, we paired each configuration with the
 	associated scores. The pairs were sent to our Mongo database to ensure saving
 	even if the grid search stopped prematurely. Simultaneously, this step
-	enabled access from remote working stations. With the python library
-	<b>pymongo</b>, a connection to the database was set up by creating a python
+	enabled access from remote working stations. With the python library <a href="https://pypi.org/project/pymongo/"><b>pymongo</b></a>
+	, a connection to the database was set up by creating a python
 	dictionary with all critical information and storing it in a grid search
 	collection. The library automatically converts the python dictionary to a
 	MongoDB object. Additionally, we implemented some sort of wrapper for smoother
