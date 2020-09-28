@@ -46,7 +46,7 @@ Sentiment analysis is a text classification task, in which the goal is to analyz
 <p>
 
 
-As described in the <a href="https://pnlpuos.github.io/data-preparation">Data Preparation</a> section, our dataset contains open answers to an employee survey about what goes well and not so well at a company. Looking at the comments we could derive a set of criteria that was necessary for the approach we chose:
+As described in the <a href="https://pnlpuos.github.io/overview">Overview</a> section, our dataset contains open answers to an employee survey about what goes well and not so well at a company. Looking at the comments we could derive a set of criteria that was necessary for the approach we chose:
 <ul>
 
 <li><b>scalability</b> - while the current dataset only contained 17,672 comments, we want our approach to be able to handle much larger amounts of data as well</li>
@@ -96,7 +96,7 @@ The manual labeling was performed by three of the group members, who annotated 3
     The comments proved to be highly ambiguous, making it difficult to decide whether a text was positive, negative or neutral. In the end the annotators chose the same labels in 73% of the cases, with a Cohen’s kappa score of 0.34. The resulting dataset was fairly balanced, containing 226 instances of negative sentiment, 189 instances of neutral sentiment, and 184 instances of positive sentiment. The polarity of sentiments was correlated with the questions, however. Only 16 instances of negative sentiment occurred in question 1 and only 4 instances of positive sentiment occurred in question 2.
     </p>
     <p>
-This bias is obvious in the data as well: the answers are highly contextual, and the sentiment can hardly be identified without considering the question. For examask into sentiment recognition (identifying a set of emotion tags in a text e.g. sadness, angeple, an answer like “customer support“ could be either positive if given to question 1(<i></i>“What is working well?”</i>), or negative if given to question 2 (<i>“What needs to be improved?</i>”).
+This bias is obvious in the data as well: the answers are highly contextual, and the sentiment can hardly be identified without considering the question. With sentiment recognition (identifying a set of emotion tags in a text e.g. sadness, anger, an answer like “customer support“ could be either positive if given to question 1 (<i></i>“What is working well?”</i>), or negative if given to question 2 (<i>“What needs to be improved?</i>”).
 </p>
 <figure>
   <img src="https://raw.githubusercontent.com/PNLPUOS/PNLPUOS.github.io/master/images/label_dist.png" alt="Label distribution" style="width:100%">
