@@ -125,8 +125,7 @@ permalink: data-preparation
       candidates with which to replace the detected error.
     </p>
     <p>
-      When pre-processing answers to survey questions, the answers’ semantic information should/must be preserved. Out-
-      of-the-box spelling correction solutions have failed us at this in two ways. Firstly, they occasionally considered
+      When pre-processing answers to survey questions, the answers’ semantic information should/must be preserved. Out-of-the-box spelling correction solutions have failed us at this in two ways. Firstly, they occasionally considered
       correctly spelled words as incorrect and attempted to correct them, changing them into a different word in the
       process. Secondly, the generated (and selected) candidates for an incorrect word were often completely different
       words, e.g. “bark” instead of “book”.
@@ -209,7 +208,7 @@ permalink: data-preparation
         <p>
           If none of these conditions were met, consider the word an error. Please note that the second criterion
           requires the spelling corrector to have information regarding the content of the corpus and the corpus itself
-          to be of a certain size for the measure to be effective).
+          to be of a certain size for the measure to be effective.
         </p>
 
     <h3>Candidate Generation</h3>
@@ -225,8 +224,8 @@ permalink: data-preparation
       </p>
       <h5>A Note on the Implementation</h5>
         <p>
-          As a description of the BERT architecture and its derivates far exceeds the scope of this documentation,
-          please refer to <a href="https://arxiv.org/abs/1810.04805">the original paper</a> for more information [4]. For
+          As a description of the BERT architecture and its derivates far exceeds the scope of this section,
+          please refer to <a href="https://arxiv.org/abs/1810.04805">the original paper</a> or the <a href="https://pnlpuos.github.io/sentiment-analysis">Sentiment Analysis</a> section for more information [4]. For
           TransSpell, we use a pretrained distillated version of a RoBERTa model (i.e. a more lightweight model based on
           a more complex BERT architecture) with 82M parameters. The model itself is a pyTorch-based implementation
           through <a href="https://huggingface.co/transformers/">HuggingFace’s transformers library</a>.
@@ -273,7 +272,7 @@ permalink: data-preparation
 
   <h2>Part-of-Speech Tagging and Chunking with NLTK</h2>
   <p>
-    Before proceeding with NER, we need to process part-of-speech (POS) tagging and chunking based on POS-tags. POS
+    Before proceeding with NER, we need to process <a href="https://en.wikipedia.org/wiki/Part-of-speech_tagging">part-of-speech</a> (POS) tagging and chunking based on POS-tags. A POS
     tagger is used to label grammar information corresponding to each word in a sentence using information like front
     and back words and shape features, such as upper and lower case, capitalization, etc. Chunking takes as input
     POS-tags, it extracts phrases composed of different tokens from the text. Especially, noun phrase (NP) chunking is
@@ -281,22 +280,21 @@ permalink: data-preparation
     named entity consists of multiple words.
   </p>
   <p>
-    As a first approach to POS tagging and chunking, Python’s NLTK library has been mainly used for data preparation in
+    As a first approach to POS tagging and chunking, Python’s <a href="https://www.nltk.org/">NLTK library</a> has been mainly used for data preparation in
     this project, also features a solid sentence tokenizer and POS tagger. First, NLTK tokenizes sentences based on
     words and punctuation, then the tagging is done by a trained model of the NLTK library. A chunk grammar can be
-    defined using regular expression and works on top of POS-tags. As such, the performance was improved by modifying
+    defined using regular expressions and works on top of POS-tags. As such, the performance was improved by modifying
     the chunk grammar based on the early result following POS-tagging, but NER using its default model still gave us
     inaccurate labeling.
   </p>
 
   <h2>Named Entity Recognition with spaCy</h2>
   <p>
-    So, the next method with a pre-trained model for general entities like people, location, and date is Python’s spaCy
+    So, the next method with a pre-trained model for general entities like people, location, and dates is Python’s <a href="https://spacy.io/">spaCy</a>
     library. SpaCy performs a highly efficient statistical processing for NER. It has not only similar features provided
     by NLTK such as tokenization, part-of-speech tagging, and named entity recognition, but also supports other
     functionalities, e.g. neural network models (multi-task CNN), integrated word vectors, and dependency parsing. But
-    most of all, spaCy is optimized for production use, namely integrated and opinionated providing limited options
-    selected based on functionality among other algorithms. This makes spaCy deliver better performance and usability
+    most of all, spaCy is optimized for production use. This makes spaCy deliver better performance and usability
     with intuitive visualizations as well. Apart from its default model, spaCy also enables us to train and update the
     NER model with new examples, though it doesn’t support different neural network architectures.
   </p>
@@ -312,7 +310,7 @@ permalink: data-preparation
 
   <h2>Discussion</h2>
   <p>
-    Those results might be due to the fact that our data is unstructured texts collected from an employee survey which
+    Those results might be due to the fact that our data consists of unstructured texts collected from an employee survey which
     usually includes company-related words such as the name of its project, product, or system. So, if we tried to
     annotate it manually, we still had to get further information to set the criteria for what categories
     company-specific names belong to. This is one of the general challenges in the field of entity recognition that NER
@@ -324,14 +322,14 @@ permalink: data-preparation
 <h1>Classification Model for NER detection </h1>
 <h2>Introduction</h2>
 <p>
-Classification models are supervised learning models. Where the model learns from a pre-existing dataset. We have an
-input and a set output. The output are   finite or discrete variables making them a class. So, for every input the model
+Classification models are supervised learning models, where the model learns from a pre-existing dataset. We have an
+input and a set output. The output are finite or discrete variables making them a class. So, for every input the model
 learns to have an output class. We have a multi class output in the NER detection. For every given word input its output
 is a class output. The class output are categories of NER like person, location, organization.
 </p>
 <h2>Aim and Objective</h2>
 <p>
-The aim of creating a pipeline was to try to classify words to labeled entities. The objective were: </p>
+The aim of creating a pipeline was to try to classify words to labeled entities. The objectives were: </p>
 <ul>
 <li>To have a model to identify entities from the data provided to us. </li>
 <li>To have a classification model with pre-defined labels. </li>
@@ -339,8 +337,8 @@ The aim of creating a pipeline was to try to classify words to labeled entities.
 </ul>
 <h2>The Dataset</h2>
 <p>
-Taking an already existing GMB(Groningen Meaning Bank) corpus for entity classification which is pre annotated for NER.
-The dataset is tokenized at white spacing basically making it one-word token. Except for labels where multiple words are
+We used an already existing GMB (Groningen Meaning Bank) corpus for entity classification which is pre annotated for NER.
+The dataset is tokenized at white spacing basically making it one-word tokens. Except for labels where multiple words are
 essential for an entity like organizations. Let’s take a list of entities in the training data with their corresponding
 description:
 </p>
@@ -412,10 +410,10 @@ tr:nth-child(even) {
 
 <h2>The Packages </h2>
 <p>
-  The major two packages used for the classification model were Keras and Scikit-learn. Scikit learn is a machine
+  The major two packages used for the classification model were <a href="https://keras.io/">Keras</a> and <a href="https://scikit-learn.org/stable/">Scikit-learn</a>. Scikit-learn is a machine
   learning library for the Python programming language. We used functions like count vectorizer, tf-idf and data
   splitting functions. Count vectorizer and tf-idf are basically used to convert the words to a numeric vector which can
-  be fed to a neural network for processing. Data splitting function basically helps in splitting the data into a
+  be fed to a neural network for processing. The data splitting function basically helps in splitting the data into a
   training, testing and blind dataset. Keras is a neural network package in Python. We use it to create a sequential
   dense model. “A Sequential model is appropriate for a plain stack of layers where each layer has exactly one input
   tensor and one output tensor.”
@@ -424,12 +422,11 @@ tr:nth-child(even) {
 <h2>The Model </h2>
 <ul>
 <li>We create a basic sequential model of Recurrent Neural Network Layers. </li>
-<li>We run all the Labels into the learning together. </li>
 <li>The model predicts the probability of the word for each label trained. </li>
 <li>The label with the highest probability is taken to be the classified label for the token. </li>
 </ul>
 
-<h2> Results and Output. </h2>
+<h2> Results and Output</h2>
 <p>
   The following image shows the partial output accuracy of 3 classes number 0,1 and 2. Where 0 stands for geo, 1 for org
   and 2 for per.
@@ -477,7 +474,7 @@ tr:nth-child(even) {
   </tr>
 </tbody>
 </table>
-<p>The second image shows how the output looks like and the corresponding pre-annotated correct labels </p>
+<p>The second image shows how the output looks like and the corresponding pre-annotated correct labels.</p>
 <style type="text/css">
   .tg  {border-collapse:collapse;border-spacing:0;}
   .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
@@ -546,7 +543,7 @@ tr:nth-child(even) {
   </table>
 <h2>Discussion</h2>
 <p>
-  Seeing the results and the code one can see that the classification model works better in terms of accuracy compared
+  Seeing the results one can see that the classification model works better in terms of accuracy compared
   to the NLTK and the spacy model. However, we ran into a problem which we couldn’t solve. Once we used the pre existing
   annotated dataset we could test that data. But when we wanted to test the data on our dataset which is a blind dataset
   we weren’t able to run the model. The model is compatible to a certain input matrix. The blind data when vectorized
